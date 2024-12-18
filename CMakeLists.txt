@@ -8,6 +8,16 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6")
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
 
+include(FetchContent)
+
+FetchContent_Declare (
+    raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib.git
+    GIT_TAG 5.5
+)
+
+FetchContent_MakeAvailable(raylib)
+
 qt_standard_project_setup()
 
 qt_add_executable(Unlimited-Games-But-Not_Games src/main.cpp 
