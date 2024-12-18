@@ -8,10 +8,10 @@
  ****************************************************************************/
 
 
-#include <iostream>
+#include "snake.h"
 
 
-int snakeGame(){
+int Snake::snakeGame(){
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;

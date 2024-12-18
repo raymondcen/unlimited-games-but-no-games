@@ -15,10 +15,13 @@
 
 #include <iostream>
 
+#include "../games/snake/snake.h"
+
 
 int main(int argc, char** argv) {
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
+    Snake snake;
+    // QGuiApplication app(argc, argv);
+    // QQmlApplicationEngine engine;
 
     // const QUrl url(QStringLiteral("qrc:/resources/qml/mainWindow.qml"));
 
@@ -34,6 +37,7 @@ int main(int argc, char** argv) {
 
     // // Run app
     // return app.exec();
+    snake.snakeGame();
 
     return 0;
 }
