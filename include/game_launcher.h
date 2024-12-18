@@ -13,9 +13,16 @@
 
 #pragma once
 
-
+// Qt Libs
 #include <QObject>
 #include <QString>
+
+
+// Game Libs
+#include "game_launcher.h"
+#include "game.h"
+#include "snake.h"
+#include "tetris.h"
 
 
 class GameLauncher : public QObject {

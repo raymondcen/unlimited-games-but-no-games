@@ -8,8 +8,8 @@
  ****************************************************************************/
 
 
-#include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QGuiApplication>
 #include <QQmlContext>
 #include <QObject>
 
