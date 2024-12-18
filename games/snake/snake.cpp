@@ -14,10 +14,12 @@
 int Snake::snakeGame(){
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1600;
+    const int screenHeight = 800;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(screenWidth, screenHeight, "Ekans");
+    int cellSize = 40;
+
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -25,21 +27,23 @@ int Snake::snakeGame(){
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update
-        //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
-        //----------------------------------------------------------------------------------
-
-        // Draw
-        //----------------------------------------------------------------------------------
+        
         BeginDrawing();
 
+            
             ClearBackground(RAYWHITE);
 
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+            //DrawGrid but 2D
+            for(int x = 0; x < screenWidth; x += cellSize){
+                DrawLine(x, 0, x, screenHeight, BLACK);
+                for(int y=0; y < screenHeight; y += cellSize){
+                    DrawLine(x, y, screenWidth, y, BLACK);
+                }
+            }
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
+
+
     }
 
     // De-Initialization
