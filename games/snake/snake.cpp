@@ -14,11 +14,11 @@
 int Snake::snakeGame(){
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1600;
+    const int screenHeight = 800;
 
     InitWindow(screenWidth, screenHeight, "Ekans");
-    int cellSize = 10;
+    int cellSize = 40;
 
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -42,6 +42,8 @@ int Snake::snakeGame(){
             }
 
         EndDrawing();
+
+
     }
 
     // De-Initialization
