@@ -15,8 +15,6 @@
 
 // Qt Libs
 #include <QObject>
-#include <QString>
-
 
 // Game Libs
 #include "game_launcher.h"
@@ -27,4 +25,10 @@
 
 class GameLauncher : public QObject {
     Q_OBJECT
-}
+
+private:
+public:
+public slots:
+signals:
+
+};
