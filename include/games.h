@@ -7,18 +7,3 @@
  *            Ivan Wong
  ****************************************************************************/
 
-
-#pragma once
-
-
-#include <iostream>
-#include <raylib.h>
-
-
-class Snake {
-private:
-
-public:
-    int snakeGame();
-
-};
