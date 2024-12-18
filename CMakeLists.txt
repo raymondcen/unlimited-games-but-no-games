@@ -9,6 +9,10 @@ set(CMAKE_PREFIX_PATH "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6")
 
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
 
+set(CMAKE_AUTOMOC ON)
+
+# qt_wrap_cpp(MOC_SOURCES include/game_launcher.h)
+
 include(FetchContent)
 
 # Fetch raylib library from GitHub
@@ -31,8 +35,11 @@ add_executable(Unlimited-Games-But-Not_Games
 # Header files needed
 target_include_directories(Unlimited-Games-But-Not_Games 
     PRIVATE raylib ${PROJECT_SOURCE_DIR}/include
+    PRIVATE ${PROJECT_SOURCE_DIR}/include
+    PRIVATE ${PROJECT_SOURCE_DIR}/games/snake
 )
 
+# Libraries needed
 target_link_libraries(Unlimited-Games-But-Not_Games 
     PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml
     PRIVATE raylib

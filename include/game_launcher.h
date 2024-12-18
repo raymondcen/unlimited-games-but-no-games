@@ -7,17 +7,17 @@
  *            Ivan Wong
  ****************************************************************************/
 
+// Has an linked list of games
+// include games header file and game.h
+// Qt object
 
 #pragma once
 
 
-#include "game.h"
+#include <QObject>
+#include <QString>
 
 
-class Snake {
-private:
-
-public:
-    int snakeGame();
-
-};
+class GameLauncher : public QObject {
+    Q_OBJECT
+}

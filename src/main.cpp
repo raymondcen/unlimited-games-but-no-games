@@ -15,7 +15,7 @@
 
 #include <iostream>
 
-#include "../games/snake/snake.h"
+#include "snake.h"
 
 
 int main(int argc, char** argv) {

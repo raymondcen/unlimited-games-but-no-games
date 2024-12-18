@@ -7,17 +7,25 @@
  *            Ivan Wong
  ****************************************************************************/
 
+// Has a run game function the game launcher can call,
+// Doesnt need to know what game it is
+
 
 #pragma once
 
 
-#include "game.h"
+#include <iostream>
+#include <stdlib.h>
+#include <raylib.h>
 
 
-class Snake {
-private:
+class Game {
+
 
 public:
-    int snakeGame();
+// Game();
+// ~Game();
+
+virtual void run_game() = 0;
 
 };
