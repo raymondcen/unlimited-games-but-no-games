@@ -10,6 +10,6 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
 
 add_executable(Unlimited-Games-But-Not_Games src/main.cpp)
 
-target_include_directories(poker PRIVATE ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(Unlimited-Games-But-Not_Games PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-target_link_libraries(poker PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml)
+target_link_libraries(Unlimited-Games-But-Not_Games PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml)
