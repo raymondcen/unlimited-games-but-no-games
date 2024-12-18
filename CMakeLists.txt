@@ -10,7 +10,8 @@ find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
 
 qt_standard_project_setup()
 
-qt_add_executable(Unlimited-Games-But-Not_Games src/main.cpp src/games/snake/snake.cpp)
+qt_add_executable(Unlimited-Games-But-Not_Games src/main.cpp 
+                                                src/games/snake/snake.cpp)
 
 target_include_directories(Unlimited-Games-But-Not_Games PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
