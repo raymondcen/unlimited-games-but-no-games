@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
     // // Run app
     // return app.exec();
-    snake_game.snakeGame();
+    snake_game.run_game();
 
     return 0;
 }

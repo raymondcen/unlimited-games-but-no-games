@@ -11,7 +11,7 @@
 #include "snake.h"
 
 
-int Snake::snakeGame(){
+void Snake::run_game(){
     
     const int screenWidth = 1920;
     const int screenHeight = 1080;
@@ -23,19 +23,15 @@ int Snake::snakeGame(){
 
     //size of grid
     int smallGrid=120;
-    int medGrid=60; //idk
+    int medGrid=90; //idk
     int largeGrid=60;
 
-    int cellSize = smallGrid;
+    int cellSize = largeGrid;
 
-    int border= cellSize;
-
-    
-
+    int border = cellSize;
 
     //init snake object
     //Snake snake(screenWidth/2, screenHeight/2, 1);
-
 
     SetTargetFPS(60);              
 
@@ -46,7 +42,7 @@ int Snake::snakeGame(){
         BeginDrawing();
 
             ClearBackground(BLACK);
-
+            
             //draw border
             DrawRectangle(0, 0, screenWidth, border, BLUE); //top
             DrawRectangle(0, 0, border, screenHeight, BLUE); //left
@@ -63,12 +59,13 @@ int Snake::snakeGame(){
             }
             
             //draw snake
-            //DrawRectangle(1, 1, cellSize, cellSize, GREEN); 
+            DrawRectangle(border-1, border, cellSize, cellSize, GREEN); 
+            
 
         EndDrawing();
 
     }
-
+    
     CloseWindow();
 }
 
