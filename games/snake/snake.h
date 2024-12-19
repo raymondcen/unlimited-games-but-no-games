@@ -16,8 +16,16 @@
 
 class Snake {
 private:
-
+    int posx;
+    int posy;
+    int length;
+    
 public:
+
     int snakeGame();
+
+    Snake(int, int, int);
+    Snake();
+    ~Snake();
 
 };
