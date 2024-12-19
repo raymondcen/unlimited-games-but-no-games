@@ -13,10 +13,13 @@
 
 #pragma once
 
-// Qt Libs
+// Qt Libraries
 #include <QObject>
 
-// Game Libs
+// Standard Libraries
+
+
+// Custom Libraries
 #include "game_launcher.h"
 #include "game.h"
 #include "snake.h"
