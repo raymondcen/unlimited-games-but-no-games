@@ -19,7 +19,7 @@
 
 
 int main(int argc, char** argv) {
-    Snake snake;
+    Snake snake_game;
     // QGuiApplication app(argc, argv);
     // QQmlApplicationEngine engine;
 
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
 
     // // Run app
     // return app.exec();
-    snake.snakeGame();
+    snake_game.snakeGame();
 
     return 0;
 }
