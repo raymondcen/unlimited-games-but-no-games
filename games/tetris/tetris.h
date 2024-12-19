@@ -18,3 +18,17 @@
 
 // Custom Libraries
 #include "game.h"
+#include "grid.h"
+
+
+class Tetris : public Game {
+private:
+
+
+public:
+Tetris();
+~Tetris();
+
+void run_game();
+
+};

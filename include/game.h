@@ -15,11 +15,10 @@
 
 
 class Game {
-
-
+private:
 public:
-// Game();
-// ~Game();
+Game();
+~Game();
 
 virtual void run_game() = 0;
 

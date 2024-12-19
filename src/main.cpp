@@ -19,6 +19,7 @@
 
 // Custom Libraries
 #include "snake.h"
+#include "tetris.h"
 
 
 int main(int argc, char** argv) {
@@ -41,7 +42,11 @@ int main(int argc, char** argv) {
     // return app.exec();
 
     Snake snake_game;
-    snake_game.run_game();
+    Tetris tetris_game;
+
+
+    //snake_game.run_game();
+    tetris_game.run_game();
 
     return 0;
 }

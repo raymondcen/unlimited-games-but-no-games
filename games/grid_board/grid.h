@@ -15,23 +15,25 @@
 #include <raylib.h>
 
 // Standard Libraries
-
-// Custom Libraries
-#include "game.h"
+#include <vector>
 
 
-class Snake : public Game{
+class Grid {
 private:
-int posx;
-int posy;
-int length;
 
+std::vector<std::vector<int>> grid;
+
+int num_rows;
+int num_columns;
+int cell_size;
 
 public:
-Snake(int, int, int);
-Snake();
-~Snake();
 
-void run_game();
+Grid(int rows, int cols, int cell_size);
+~Grid();
+
+void initialize_grid();
+void draw_grid();
+
 
 };

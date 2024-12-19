@@ -28,17 +28,25 @@ qt_standard_project_setup()
 
 # Cpp files to be compiled
 add_executable(Unlimited-Games-But-Not_Games
+    # Application files
     src/main.cpp
     src/game.cpp
     src/game_launcher.cpp
+
+    # Utility files
+    games/grid_board/grid.cpp
+
+    # Game files
     games/snake/snake.cpp
+    games/tetris/tetris.cpp
 )
 
 # Header files needed
 target_include_directories(Unlimited-Games-But-Not_Games
     PRIVATE ${PROJECT_SOURCE_DIR}/include
+    PRIVATE ${PROJECT_SOURCE_DIR}/games/grid_board
     PRIVATE ${PROJECT_SOURCE_DIR}/games/snake
-    #PRIVATE ${PROJECT_SOURCE_DIR}/games/tetris
+    PRIVATE ${PROJECT_SOURCE_DIR}/games/tetris
 )
 
 # Libraries needed
