@@ -14,7 +14,7 @@
 #include "game.h"
 
 
-class Snake {
+class Snake : public Game{
 private:
 
 int posx;
@@ -23,8 +23,10 @@ int length;
     
 public:
 
-Snake(int xpos, int ypos, int len);
+Snake(int, int, int);
+Snake();
 ~Snake();
-int snakeGame();
+
+void run_game();
 
 };
