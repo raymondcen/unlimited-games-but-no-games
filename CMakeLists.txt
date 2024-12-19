@@ -28,20 +28,21 @@ qt_standard_project_setup()
 
 # Cpp files to be compiled
 add_executable(Unlimited-Games-But-Not_Games
-    src/main.cpp 
+    src/main.cpp
+    src/game.cpp
+    src/game_launcher.cpp
     games/snake/snake.cpp
 )
 
 # Header files needed
-target_include_directories(Unlimited-Games-But-Not_Games 
-    PRIVATE raylib ${PROJECT_SOURCE_DIR}/include
+target_include_directories(Unlimited-Games-But-Not_Games
     PRIVATE ${PROJECT_SOURCE_DIR}/include
     PRIVATE ${PROJECT_SOURCE_DIR}/games/snake
     #PRIVATE ${PROJECT_SOURCE_DIR}/games/tetris
 )
 
 # Libraries needed
-target_link_libraries(Unlimited-Games-But-Not_Games 
+target_link_libraries(Unlimited-Games-But-Not_Games
     PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml
     PRIVATE raylib
 )

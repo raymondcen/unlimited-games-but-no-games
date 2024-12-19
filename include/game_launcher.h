@@ -22,8 +22,7 @@
 // Custom Libraries
 #include "game_launcher.h"
 #include "game.h"
-#include "snake.h"
-#include "tetris.h"
+
 
 
 class GameLauncher : public QObject {

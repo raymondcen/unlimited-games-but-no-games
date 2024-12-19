@@ -8,18 +8,20 @@
  ****************************************************************************/
 
 
+// Qt Libraries
 #include <QQmlApplicationEngine>
 #include <QGuiApplication>
 #include <QQmlContext>
 #include <QObject>
 
+// Standard Libraries
 #include <iostream>
 
+// Custom Libraries
 #include "snake.h"
 
 
 int main(int argc, char** argv) {
-    Snake snake_game;
     // QGuiApplication app(argc, argv);
     // QQmlApplicationEngine engine;
 
@@ -37,6 +39,8 @@ int main(int argc, char** argv) {
 
     // // Run app
     // return app.exec();
+
+    Snake snake_game;
     snake_game.run_game();
 
     return 0;

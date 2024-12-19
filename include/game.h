@@ -14,13 +14,6 @@
 #pragma once
 
 
-#include <iostream>
-#include <stdlib.h>
-#include <raylib.h>
-#include <vector>
-#include <time.h>
-
-
 class Game {
 
 

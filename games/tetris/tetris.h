@@ -10,5 +10,11 @@
 
 #pragma once
 
-#include "game.h"
 
+// Raylib Libraries
+#include <raylib.h>
+
+// Standard Libraries
+
+// Custom Libraries
+#include "game.h"
