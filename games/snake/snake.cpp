@@ -11,7 +11,17 @@
 #include "snake.h"
 
 
-int Snake::snakeGame(){
+Snake::Snake(int xpos, int ypos, int len){
+    posx = xpos;
+    posy= ypos;
+    length = len;
+}
+
+
+Snake::~Snake() {}
+
+
+int Snake::snakeGame() {
     
     const int screenWidth = 1920;
     const int screenHeight = 1080;
@@ -66,19 +76,4 @@ int Snake::snakeGame(){
     }
 
     CloseWindow();
-}
-
-
-Snake::Snake(int xpos, int ypos, int len){
-    posx = xpos;
-    posy= ypos;
-    length = len;
-}
-
-Snake::Snake(){
-
-}
-
-Snake::~Snake(){
-    
 }

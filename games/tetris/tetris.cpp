@@ -9,3 +9,15 @@
 
 
 #include "tetris.h"
+
+
+class Tetris : public Game {
+private:
+
+public:
+Tetris();
+~Tetris();
+
+void run_game();
+
+};
