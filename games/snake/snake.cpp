@@ -12,7 +12,7 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{16,9}};
+    body_pos = {Vector2{16,9}, Vector2{15,9}};
     direction = {0,1};
 }
 
@@ -70,13 +70,13 @@ void Snake::run_game() {
             draw_apple(grid, apple_color, apple);
 
             //draw snake
+        
             draw_snake(grid, snake_color);
 
         EndDrawing();
     }
     CloseWindow();
 }
-
 
 
 void Snake::draw_snake(Board grid, Color snake_color){
@@ -108,13 +108,35 @@ void Snake::updateSnake() {
 }
 
 
+void Snake::addSegment(Board grid){
+
+    Vector2 endDirection = Vector2Subtract(body_pos.back(), body_pos[body_pos.size()-2]);
+    Vector2 add = Vector2Add(body_pos.back(), endDirection);
+    
+    if (add.x < 0){
+        add.x = grid.boardLong - 1; //add right
+    } else if (add.x >= grid.boardLong) {
+        add.x = 0;                  //add left
+    } else if (add.y < 0){
+        add.y = grid.boardTall - 1; //add bottom
+    } else if (add.y >= grid.boardTall){
+        add.y = 0;                  //add top
+    }
+    body_pos.push_back(add);
+}
+
+
+
+
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
        apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)};
+       addSegment(grid);
     }
-
+    
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
+
 }
 
 
