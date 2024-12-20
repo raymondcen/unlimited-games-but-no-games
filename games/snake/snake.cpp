@@ -12,7 +12,7 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{2,3}, Vector2{3,3}};
+    body_pos = {Vector2{16,9}};
     direction = {0,1};
 }
 
@@ -20,7 +20,8 @@ Snake::~Snake() {}
 
 
 void Snake::run_game() {
-    
+
+    srand(time(0));
     const int screenWidth = 1920;
     const int screenHeight = 1080;
  
@@ -32,13 +33,19 @@ void Snake::run_game() {
     ToggleFullscreen();
 
     //init grid
-    int cell_size = 59;
-    Grid small = Grid(18, 32, cell_size);
+    Board grid;
+    grid.boardTall = 18;
+    grid.boardLong = 32;
+    grid.cell_size = 59;
+    Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
-
-    //init snake
+    //snake stuff
     Color snake_color = GREEN;
 
+    //make apple stuff
+    Color apple_color = RED;
+    Vector2 apple = {(float)(rand() % grid.boardLong + 1), (float)(rand() % grid.boardTall + 1)}; //random position of apple
+    
 
     SetTargetFPS(60);              
     double lastTime = GetTime();
@@ -52,7 +59,6 @@ void Snake::run_game() {
             updateSnake();
             lastTime = currTime;
         }
-
         BeginDrawing();
 
             ClearBackground(BLUE);
@@ -60,21 +66,24 @@ void Snake::run_game() {
             //draw grid 
             small.draw_grid();
 
-            //draw snake
-            draw_snake(cell_size, snake_color);
-            
-        EndDrawing();
+            //draw apple
+            draw_apple(grid, apple_color, apple);
 
+            //draw snake
+            draw_snake(grid, snake_color);
+
+        EndDrawing();
     }
-    
     CloseWindow();
 }
 
-void Snake::draw_snake(int cell_size, Color snake_color){
+
+
+void Snake::draw_snake(Board grid, Color snake_color){
     for(int i = 0; i < body_pos.size(); i++){
         float x = body_pos[i].x;
         float y = body_pos[i].y;
-        DrawRectangle(x * cell_size+1, y*cell_size+1, cell_size- 1, cell_size- 1, snake_color);
+        DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, snake_color);
     }
 
 }
@@ -92,8 +101,20 @@ void Snake::updateSnake() {
     }else if((IsKeyPressed(KEY_DOWN) || IsKeyDown(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) && direction.y != -1){
         direction = {0,1};
     }
+
     body_pos.pop_back();
     body_pos.push_front(Vector2Add(body_pos[0], direction));
+
+}
+
+
+void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
+
+    if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
+       apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)};
+    }
+
+    DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
 }
 
 

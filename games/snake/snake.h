@@ -15,6 +15,8 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <deque>
+#include <ctime>
+#include <cstdlib>
 // Standard Libraries
 
 // Custom Libraries
@@ -33,10 +35,18 @@ public:
 Snake();
 ~Snake();
 
+// grid/board data
+struct Board{
+    int boardLong;
+    int boardTall;
+    int cell_size;
+};
+
+
 void run_game();
 
-
-void draw_snake(int, Color);
+void draw_snake(Board, Color);
+void draw_apple(Board, Color, Vector2&);
 
 void updateSnake();
 
