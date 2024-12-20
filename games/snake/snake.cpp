@@ -12,8 +12,8 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{2,3}, Vector2{3,3}, Vector2{4,3}};
-    direction = {1,0};
+    body_pos = {Vector2{2,3}, Vector2{3,3}};
+    direction = {0,1};
 }
 
 Snake::~Snake() {}
@@ -39,18 +39,21 @@ void Snake::run_game() {
     //init snake
     Color snake_color = GREEN;
 
-    double speed = 0.2;
 
     SetTargetFPS(60);              
-
+    double lastTime = GetTime();
+    double move_interval = 0.2; 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        double currTime = GetTime();
+        if (currTime - lastTime >= move_interval) {
+            //update snake to move and add segments
+            updateSnake();
+            lastTime = currTime;
+        }
 
         BeginDrawing();
-            //update snake to move and add segments
-            WaitTime(speed);
-            updateSnake();
 
             ClearBackground(BLUE);
 
@@ -68,7 +71,6 @@ void Snake::run_game() {
 }
 
 void Snake::draw_snake(int cell_size, Color snake_color){
-
     for(int i = 0; i < body_pos.size(); i++){
         float x = body_pos[i].x;
         float y = body_pos[i].y;
@@ -78,6 +80,18 @@ void Snake::draw_snake(int cell_size, Color snake_color){
 }
 
 void Snake::updateSnake() {
+    if((IsKeyPressed(KEY_RIGHT) || IsKeyDown(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) && direction.x != -1){
+        direction = {1,0};
+
+    }else if((IsKeyPressed(KEY_LEFT) || IsKeyDown(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) && direction.x != 1){
+        direction = {-1,0};
+    
+    }else if((IsKeyPressed(KEY_UP) || IsKeyDown(KEY_UP) || IsKeyReleased(KEY_UP)) && direction.y != 1){
+        direction = {0,-1};
+    
+    }else if((IsKeyPressed(KEY_DOWN) || IsKeyDown(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) && direction.y != -1){
+        direction = {0,1};
+    }
     body_pos.pop_back();
     body_pos.push_front(Vector2Add(body_pos[0], direction));
 }
