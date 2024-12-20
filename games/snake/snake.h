@@ -13,7 +13,8 @@
 
 // Raylib Libraries
 #include <raylib.h>
-
+#include <raymath.h>
+#include <deque>
 // Standard Libraries
 
 // Custom Libraries
@@ -23,16 +24,20 @@
 
 class Snake : public Game{
 private:
-int posx;
-int posy;
+
+std::deque<Vector2> body_pos;
+Vector2 direction;
 int length;
 
-
 public:
-Snake(int, int, int);
 Snake();
 ~Snake();
 
 void run_game();
+
+
+void draw_snake(int, Color);
+
+void updateSnake();
 
 };
