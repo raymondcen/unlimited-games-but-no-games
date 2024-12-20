@@ -49,7 +49,3 @@ void Grid::draw_grid() {
     }
 }
 
-
-void Grid:: draw_square(int row, int col, Color color){
-    DrawRectangle(col * this->cell_size + 1, row * this->cell_size + 1, this->cell_size - 1, this->cell_size - 1, color);
-}

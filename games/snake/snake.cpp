@@ -11,11 +11,8 @@
 #include "snake.h"
 
 
-
-int lastUpTime = 0;
-
 Snake::Snake() {
-    body_pos = {Vector2{2,3}};
+    body_pos = {Vector2{2,3}, Vector2{3,3}, Vector2{4,3}};
     direction = {1,0};
 }
 
@@ -42,6 +39,8 @@ void Snake::run_game() {
     //init snake
     Color snake_color = GREEN;
 
+    double speed = 0.2;
+
     SetTargetFPS(60);              
 
     // Main game loop
@@ -50,6 +49,7 @@ void Snake::run_game() {
 
         BeginDrawing();
             //update snake to move and add segments
+            WaitTime(speed);
             updateSnake();
 
             ClearBackground(BLUE);
