@@ -16,7 +16,7 @@
 
 // Standard Libraries
 #include <vector>
-
+#include <iostream>
 
 class Grid {
 private:

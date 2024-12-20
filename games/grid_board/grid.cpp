@@ -26,10 +26,10 @@ void Grid::initialize_grid() {
     this->grid.resize(this->num_rows);
 
     for (int i = 0 ; i < this->num_rows; i++)
-        this->grid.at(i).resize(num_columns);
+        this->grid[i].resize(num_columns);
 
     for (int i = 0; i < this->num_rows; i++) {
-        for (int j = 0; j < this->num_columns; i++) {
+        for (int j = 0; j < this->num_columns; j++) {
             this->grid[i][j] = 0;
         }
     }
@@ -38,8 +38,8 @@ void Grid::initialize_grid() {
 
 void Grid::draw_grid() {
     for (int i = 0; i < this->num_rows; i++) {
-        for (int j = 0; j < this->num_columns; i++) {
-            DrawRectangle(j * cell_size + 1, i * cell_size + 1, cell_size - 1, cell_size - 1, BLUE);
+        for (int j = 0; j < this->num_columns; j++) {
+            DrawRectangle(j * this->cell_size + 1, i * this->cell_size + 1, this->cell_size - 1, this->cell_size - 1, BLACK);
         }
     }
 }

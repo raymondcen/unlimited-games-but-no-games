@@ -43,14 +43,14 @@ void Tetris::run_game() {
 
     Color dark_blue = {44, 44, 127, 255};
 
-    //Grid grid = Grid(rows, columns, 20);
+    Grid grid = Grid(rows, columns, 30);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
 
         ClearBackground(dark_blue);
 
-        //grid.draw_grid();
+        grid.draw_grid();
 
         EndDrawing();
     }
