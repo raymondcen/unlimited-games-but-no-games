@@ -11,15 +11,13 @@
 #include "snake.h"
 
 
-Snake::Snake(int xpos, int ypos, int len) {
-    posx = xpos;
-    posy= ypos;
-    length = len;
+
+int lastUpTime = 0;
+
+Snake::Snake() {
+    body_pos = {Vector2{2,3}};
+    direction = {1,0};
 }
-
-
-Snake::Snake() {}
-
 
 Snake::~Snake() {}
 
@@ -34,19 +32,15 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
     
     // Comment out for now b/c theres no exit button
-    // ToggleFullscreen();
+    ToggleFullscreen();
 
-    //size of grid
-    int smallGrid=120;
-    int medGrid=90; //idk
-    int largeGrid=60;
+    //init grid
+    int cell_size = 59;
+    Grid small = Grid(18, 32, cell_size);
 
-    int cellSize = largeGrid;
 
-    int border = cellSize;
-
-    //init snake object
-    //Snake snake(screenWidth/2, screenHeight/2, 1);
+    //init snake
+    Color snake_color = GREEN;
 
     SetTargetFPS(60);              
 
@@ -55,31 +49,37 @@ void Snake::run_game() {
     {
 
         BeginDrawing();
+            //update snake to move and add segments
+            updateSnake();
 
-            ClearBackground(BLACK);
-            
-            //draw border
-            DrawRectangle(0, 0, screenWidth, border, BLUE); //top
-            DrawRectangle(0, 0, border, screenHeight, BLUE); //left
-            DrawRectangle(screenWidth-border, 0, screenWidth, screenHeight, BLUE); //right
-            DrawRectangle(0, screenHeight-border, screenWidth, screenHeight, BLUE); //bottom
+            ClearBackground(BLUE);
 
-            //DrawGrid but 2D
-            for (int x = border;x <= screenHeight- border;x += cellSize) {
-                DrawLine(border, x, screenWidth - border, x, RED);
-            }
+            //draw grid 
+            small.draw_grid();
 
-            for (int y = border;y <= screenWidth- border;y += cellSize) {
-                DrawLine(y, border, y, screenHeight -border, RED);
-            }
-            
             //draw snake
-            DrawRectangle(border-1, border, cellSize, cellSize, GREEN); 
+            draw_snake(cell_size, snake_color);
             
-
         EndDrawing();
 
     }
     
     CloseWindow();
 }
+
+void Snake::draw_snake(int cell_size, Color snake_color){
+
+    for(int i = 0; i < body_pos.size(); i++){
+        float x = body_pos[i].x;
+        float y = body_pos[i].y;
+        DrawRectangle(x * cell_size+1, y*cell_size+1, cell_size- 1, cell_size- 1, snake_color);
+    }
+
+}
+
+void Snake::updateSnake() {
+    body_pos.pop_back();
+    body_pos.push_front(Vector2Add(body_pos[0], direction));
+}
+
+

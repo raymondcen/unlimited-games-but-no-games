@@ -45,8 +45,8 @@ int main(int argc, char** argv) {
     Tetris tetris_game;
 
 
-    //snake_game.run_game();
-    tetris_game.run_game();
+    snake_game.run_game();
+    //tetris_game.run_game();
 
     return 0;
 }
