@@ -35,5 +35,7 @@ Grid(int rows, int cols, int cell_size);
 void initialize_grid();
 void draw_grid();
 
+void draw_square(int, int, Color);
+
 
 };

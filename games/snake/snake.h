@@ -18,6 +18,7 @@
 
 // Custom Libraries
 #include "game.h"
+#include "grid.h"
 
 
 class Snake : public Game{
