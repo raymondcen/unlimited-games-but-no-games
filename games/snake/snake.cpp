@@ -14,6 +14,7 @@
 Snake::Snake() {
     body_pos = {Vector2{16,9}, Vector2{15,9}};
     direction = {0,1};
+    movement = true;
 }
 
 Snake::~Snake() {}
@@ -36,7 +37,7 @@ void Snake::run_game() {
     Board grid;
     grid.boardTall = 18;
     grid.boardLong = 32;
-    grid.cell_size = 59;
+    grid.cell_size = 60;
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
     //snake stuff
@@ -47,20 +48,25 @@ void Snake::run_game() {
     Vector2 apple = {(float)(rand() % grid.boardLong + 1), (float)(rand() % grid.boardTall + 1)}; //random position of apple
     
 
-    SetTargetFPS(60);              
+    SetTargetFPS(140);              
     double lastTime = GetTime();
-    double move_interval = 0.2; 
+    double move_interval = 0.2; //speed
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
+    {   
+        movement = true;
+        move_snake();
+
+        //fps of snake (movement)
         double currTime = GetTime();
         if (currTime - lastTime >= move_interval) {
             //update snake to move and add segments
             updateSnake();
             lastTime = currTime;
         }
-        BeginDrawing();
 
+
+        BeginDrawing();
             ClearBackground(BLUE);
 
             //draw grid 
@@ -70,7 +76,6 @@ void Snake::run_game() {
             draw_apple(grid, apple_color, apple);
 
             //draw snake
-        
             draw_snake(grid, snake_color);
 
         EndDrawing();
@@ -85,23 +90,9 @@ void Snake::draw_snake(Board grid, Color snake_color){
         float y = body_pos[i].y;
         DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, snake_color);
     }
-
 }
 
 void Snake::updateSnake() {
-    if((IsKeyPressed(KEY_RIGHT) || IsKeyDown(KEY_RIGHT) || IsKeyReleased(KEY_RIGHT)) && direction.x != -1){
-        direction = {1,0};
-
-    }else if((IsKeyPressed(KEY_LEFT) || IsKeyDown(KEY_LEFT) || IsKeyReleased(KEY_LEFT)) && direction.x != 1){
-        direction = {-1,0};
-    
-    }else if((IsKeyPressed(KEY_UP) || IsKeyDown(KEY_UP) || IsKeyReleased(KEY_UP)) && direction.y != 1){
-        direction = {0,-1};
-    
-    }else if((IsKeyPressed(KEY_DOWN) || IsKeyDown(KEY_DOWN) || IsKeyReleased(KEY_DOWN)) && direction.y != -1){
-        direction = {0,1};
-    }
-
     body_pos.pop_back();
     body_pos.push_front(Vector2Add(body_pos[0], direction));
 
@@ -125,7 +116,21 @@ void Snake::addSegment(Board grid){
     body_pos.push_back(add);
 }
 
-
+void Snake::move_snake(){
+    if((IsKeyPressed(KEY_RIGHT)) && direction.x != -1 && movement == true){
+        direction = {1,0};
+        movement=false;
+    }else if((IsKeyPressed(KEY_LEFT)) && direction.x != 1&& movement == true){
+        direction = {-1,0};
+        movement=false;
+    }else if((IsKeyPressed(KEY_UP)) && direction.y != 1&& movement == true){
+        direction = {0,-1};
+        movement=false;
+    }else if((IsKeyPressed(KEY_DOWN)) && direction.y != -1&& movement == true){
+        direction = {0,1};
+        movement=false;
+    }
+}
 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){

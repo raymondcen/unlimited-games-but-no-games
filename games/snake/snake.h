@@ -29,6 +29,7 @@ private:
 
 std::deque<Vector2> body_pos;
 Vector2 direction;
+bool movement;
 
 public:
 Snake();
@@ -47,7 +48,7 @@ void run_game();
 void draw_snake(Board, Color);
 void draw_apple(Board, Color, Vector2&);
 void addSegment(Board);
-
+void move_snake();
 void updateSnake();
 
 };
