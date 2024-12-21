@@ -31,6 +31,8 @@ std::deque<Vector2> body_pos;
 Vector2 direction;
 bool movement;
 
+int frames;
+
 public:
 Snake();
 ~Snake();
@@ -50,6 +52,9 @@ void draw_apple(Board, Color, Vector2&);
 void addSegment(Board);
 void get_input();
 void move_snake();
+
+void check_bounds(Board);
+
 
 
 };

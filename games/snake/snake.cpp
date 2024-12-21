@@ -12,9 +12,11 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{16,9}, Vector2{15,9}};
+    body_pos = {Vector2{8,4}, Vector2{7,4}};
     direction = {0,1};
     movement = true;
+
+    frames = 0;
 }
 
 Snake::~Snake() {}
@@ -33,11 +35,25 @@ void Snake::run_game() {
     // Comment out for now b/c theres no exit button
     ToggleFullscreen();
 
+    //small grid
+        //tall = 9
+        //long = 16
+        //cell size = 120
+    //med grid
+        //tall = 18
+        //long = 32
+        //cell size = 60
+    //large grid
+        //tall = 27
+        //long = 48
+        //cell size = 40
+
+
     //init grid
     Board grid;
-    grid.boardTall = 18;
-    grid.boardLong = 32;
-    grid.cell_size = 60;
+        grid.boardTall = 18;
+        grid.boardLong = 32;
+        grid.cell_size = 60;
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
     //snake stuff
@@ -45,32 +61,33 @@ void Snake::run_game() {
 
     //make apple stuff
     Color apple_color = RED;
-    Vector2 apple = {(float)(rand() % grid.boardLong + 1), (float)(rand() % grid.boardTall + 1)}; //random position of apple
+    Vector2 apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)}; //random position of apple
     
 
-    SetTargetFPS(144);              
+    SetTargetFPS(60);              
     double lastTime = GetTime();
-    double move_interval = 0.13;
+    double move_interval = 0.1;
 
-
+    int per_sec = 6;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {   
         get_input();
-        //fps of snake (movement)
-        double currTime = GetTime();
-        if (currTime - lastTime >= move_interval) {
-            //update snake to move and add segments
+   
+        //move every x frames
+        if(frames%per_sec == 0){
             movement = true;
             move_snake();
-            lastTime = currTime;
         }
+        
 
-  
+        check_bounds(grid);
+
+        //Draw everything
         BeginDrawing();
             ClearBackground(BLUE);
-            
+
             //draw grid 
             small.draw_grid();
 
@@ -81,13 +98,18 @@ void Snake::run_game() {
             draw_apple(grid, apple_color, apple);
             
         EndDrawing();
+        frames++;
     }
     CloseWindow();
 }
 
 
 
+void Snake::move_snake() {
+    body_pos.pop_back();
+    body_pos.push_front(Vector2Add(body_pos[0], direction));
 
+}
 
 
 void Snake::draw_snake(Board grid, Color snake_color){
@@ -98,12 +120,6 @@ void Snake::draw_snake(Board grid, Color snake_color){
     }
 }
 
-
-void Snake::move_snake() {
-    body_pos.pop_back();
-    body_pos.push_front(Vector2Add(body_pos[0], direction));
-
-}
 
 
 void Snake::addSegment(Board grid){
@@ -121,6 +137,7 @@ void Snake::addSegment(Board grid){
     }
     body_pos.push_back(add);
 }
+
 
 void Snake::get_input(){
     if((IsKeyDown(KEY_RIGHT)) && direction.x != -1 && movement){
@@ -144,7 +161,7 @@ void Snake::get_input(){
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
-       apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)};
+       apple = {((float)(rand() % grid.boardLong)), (float)(rand() % grid.boardTall)};
        addSegment(grid);
     }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
@@ -152,3 +169,9 @@ void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 }
 
 
+
+
+
+void Snake:: check_bounds(Board grid){
+
+}
