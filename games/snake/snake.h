@@ -48,7 +48,7 @@ void run_game();
 void draw_snake(Board, Color);
 void draw_apple(Board, Color, Vector2&);
 void addSegment(Board);
-void move_snake();
+void get_input();
 void updateSnake();
 
 };

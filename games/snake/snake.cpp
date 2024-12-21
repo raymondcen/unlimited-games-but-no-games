@@ -51,21 +51,21 @@ void Snake::run_game() {
     SetTargetFPS(140);              
     double lastTime = GetTime();
     double move_interval = 0.2; //speed
+
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {   
-        movement = true;
-        move_snake();
 
         //fps of snake (movement)
         double currTime = GetTime();
         if (currTime - lastTime >= move_interval) {
             //update snake to move and add segments
+            movement = true;
             updateSnake();
             lastTime = currTime;
         }
 
-
+  
         BeginDrawing();
             ClearBackground(BLUE);
 
@@ -77,6 +77,7 @@ void Snake::run_game() {
 
             //draw snake
             draw_snake(grid, snake_color);
+            get_input();
 
         EndDrawing();
     }
@@ -91,6 +92,7 @@ void Snake::draw_snake(Board grid, Color snake_color){
         DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, snake_color);
     }
 }
+
 
 void Snake::updateSnake() {
     body_pos.pop_back();
@@ -116,17 +118,20 @@ void Snake::addSegment(Board grid){
     body_pos.push_back(add);
 }
 
-void Snake::move_snake(){
-    if((IsKeyPressed(KEY_RIGHT)) && direction.x != -1 && movement == true){
+void Snake::get_input(){
+    if((IsKeyDown(KEY_RIGHT)) && direction.x != -1 && movement){
         direction = {1,0};
         movement=false;
-    }else if((IsKeyPressed(KEY_LEFT)) && direction.x != 1&& movement == true){
+    }
+    if((IsKeyDown(KEY_LEFT)) && direction.x != 1 && movement){
         direction = {-1,0};
         movement=false;
-    }else if((IsKeyPressed(KEY_UP)) && direction.y != 1&& movement == true){
+    }
+    if((IsKeyDown(KEY_UP)) && direction.y != 1 && movement){
         direction = {0,-1};
         movement=false;
-    }else if((IsKeyPressed(KEY_DOWN)) && direction.y != -1&& movement == true){
+    }
+    if((IsKeyDown(KEY_DOWN)) && direction.y != -1 && movement){
         direction = {0,1};
         movement=false;
     }
