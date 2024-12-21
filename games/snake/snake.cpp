@@ -48,41 +48,46 @@ void Snake::run_game() {
     Vector2 apple = {(float)(rand() % grid.boardLong + 1), (float)(rand() % grid.boardTall + 1)}; //random position of apple
     
 
-    SetTargetFPS(140);              
+    SetTargetFPS(144);              
     double lastTime = GetTime();
-    double move_interval = 0.2; //speed
+    double move_interval = 0.13;
+
+
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {   
-
+        get_input();
         //fps of snake (movement)
         double currTime = GetTime();
         if (currTime - lastTime >= move_interval) {
             //update snake to move and add segments
             movement = true;
-            updateSnake();
+            move_snake();
             lastTime = currTime;
         }
 
   
         BeginDrawing();
             ClearBackground(BLUE);
-
+            
             //draw grid 
             small.draw_grid();
 
-            //draw apple
-            draw_apple(grid, apple_color, apple);
-
             //draw snake
             draw_snake(grid, snake_color);
-            get_input();
 
+            //draw apple
+            draw_apple(grid, apple_color, apple);
+            
         EndDrawing();
     }
     CloseWindow();
 }
+
+
+
+
 
 
 void Snake::draw_snake(Board grid, Color snake_color){
@@ -94,7 +99,7 @@ void Snake::draw_snake(Board grid, Color snake_color){
 }
 
 
-void Snake::updateSnake() {
+void Snake::move_snake() {
     body_pos.pop_back();
     body_pos.push_front(Vector2Add(body_pos[0], direction));
 
@@ -102,7 +107,6 @@ void Snake::updateSnake() {
 
 
 void Snake::addSegment(Board grid){
-
     Vector2 endDirection = Vector2Subtract(body_pos.back(), body_pos[body_pos.size()-2]);
     Vector2 add = Vector2Add(body_pos.back(), endDirection);
     
@@ -139,12 +143,10 @@ void Snake::get_input(){
 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
-
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
        apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)};
        addSegment(grid);
-    }
-    
+    }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
 
 }
