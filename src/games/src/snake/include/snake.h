@@ -43,6 +43,8 @@ struct Board{
     int boardLong;
     int boardTall;
     int cell_size;
+    int border;
+
 };
 
 
@@ -53,6 +55,10 @@ void draw_apple(Board, Color, Vector2&);
 void addSegment(Board);
 void get_input();
 void move_snake();
+
+
+
+void draw_borders(Board);
 
 void check_bounds(Board);
 
