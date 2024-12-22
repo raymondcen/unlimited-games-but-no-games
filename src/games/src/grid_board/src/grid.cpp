@@ -48,4 +48,3 @@ void Grid::draw_grid(Color color) {
         }
     }
 }
-

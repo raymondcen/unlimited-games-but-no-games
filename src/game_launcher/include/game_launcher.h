@@ -29,7 +29,11 @@ class GameLauncher : public QObject {
     Q_OBJECT
 
 private:
+
 public:
+
+GameLauncher();
+
 public slots:
 signals:
 
