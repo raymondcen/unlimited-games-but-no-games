@@ -35,9 +35,4 @@ Grid(int rows, int cols, int cell_size);
 void initialize_grid();
 void draw_grid(Color);
 
-<<<<<<< HEAD:games/grid_board/grid.h
-
-
-=======
->>>>>>> 69bee60dd606201a59c841f3756ec0304007c1e8:src/games/src/grid_board/include/grid.h
 };
