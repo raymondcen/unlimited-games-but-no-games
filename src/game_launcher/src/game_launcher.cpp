@@ -19,7 +19,7 @@ GameLauncher::~GameLauncher() {}
 
 
 int GameLauncher::run_launcher(int argc, char** argv) {
-        // QGuiApplication app(argc, argv);
+    // QGuiApplication app(argc, argv);
     // QQmlApplicationEngine engine;
 
     // const QUrl url(QStringLiteral("qrc:/resources/qml/mainWindow.qml"));

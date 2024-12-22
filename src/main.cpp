@@ -18,12 +18,16 @@
 
 
 int main(int argc, char** argv) {
+    // GameLauncher game_launcher;
     Snake snake_game;
     Tetris tetris_game;
 
+    // init launcher
+    // add games to launcher
+    // game_launcher.run_launcher();
 
-    // snake_game.run_game();
-    tetris_game.run_game();
+    snake_game.run_game();
+    //tetris_game.run_game();
 
     return 0;
 }
