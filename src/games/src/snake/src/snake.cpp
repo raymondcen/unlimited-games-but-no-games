@@ -12,8 +12,8 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{1,1}};
-
+    body_pos = {Vector2{2,2}};
+    direction = {1,0};
     movement = true;
 
     frames = 0;
@@ -23,7 +23,6 @@ Snake::~Snake() {}
 
 
 void Snake::run_game() {
-
     srand(time(0));
     const int screenWidth = 1920;
     const int screenHeight = 1080;
@@ -33,10 +32,10 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
     
     // Comment out for now b/c theres no exit button
-    // ToggleFullscreen();
+    ToggleFullscreen();
 
     //choose board size
-    int mode = 3;
+    int mode = 1;
 
     //init grid
     Board grid;
@@ -46,24 +45,19 @@ void Snake::run_game() {
         grid.boardTall = 9;
         grid.boardLong = 16;
         grid.cell_size = 120;
-        grid.border = grid.cell_size;
     }
     if(mode == 2){  
         //med board
         grid.boardTall = 18;
         grid.boardLong = 32;
         grid.cell_size = 60;
-        grid.border = grid.cell_size;
     }
     if(mode==3){
         //large board
         grid.boardTall = 27;
         grid.boardLong = 48;
         grid.cell_size = 40;
-        grid.border = 2 * grid.cell_size;
     }
-
-
 
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
@@ -72,12 +66,11 @@ void Snake::run_game() {
 
     //make apple stuff
     Color apple_color = RED;
-    Vector2 apple = {(float)(rand() % grid.boardLong), (float)(rand() % grid.boardTall)}; //random position of apple
+    Vector2 apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                        (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
     
 
-    SetTargetFPS(60);              
-    double lastTime = GetTime();
-    double move_interval = 0.1;
+    SetTargetFPS(30);              
 
     int per_sec = 6;
 
@@ -110,11 +103,12 @@ void Snake::run_game() {
 
             //draw apple
             draw_apple(grid, apple_color, apple);
+
             
         EndDrawing();
         frames++;
     }
-    //CloseWindow();
+    CloseWindow();
 }
 
 
@@ -173,12 +167,12 @@ void Snake::get_input(){
 
 
 
-
 //rand()%(max-min + 1) + min; 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
-       apple = {((float)(rand() % grid.boardLong)), (float)(rand() % grid.boardTall)};
+       apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                        (float)(rand() % (grid.boardTall - 2)+ 1)};
        addSegment(grid);
     }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
@@ -186,18 +180,15 @@ void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 }
 
 
-
-
-
 void Snake::draw_borders(Board grid){
     //top
-    DrawRectangle(0, 0, 1920, grid.border, GRAY);
+    DrawRectangle(0, 0, 1920, grid.cell_size, GRAY);
     //bottom
-    DrawRectangle(0, 1080 - grid.border , 1920, 1080, GRAY);
+    DrawRectangle(0, 1080 - grid.cell_size , 1920, 1080, GRAY);
     //right
-    DrawRectangle(0, 0, grid.border , 1080, GRAY);
+    DrawRectangle(0, 0, grid.cell_size , 1080, GRAY);
     //left
-    DrawRectangle(1920 - grid.border, 0, 1920, 1080, GRAY);
+    DrawRectangle(1920 - grid.cell_size, 0, 1920, 1080, GRAY);
 }
 
 

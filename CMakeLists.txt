@@ -55,7 +55,7 @@ target_include_directories(UnlimitedGames
 
 
 target_link_libraries(UnlimitedGames
-    PRIVATE raylib
     PRIVATE GameLauncher
     PRIVATE Snake
+    PRIVATE raylib
 )
