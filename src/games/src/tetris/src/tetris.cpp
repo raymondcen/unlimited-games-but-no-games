@@ -52,6 +52,7 @@ void Tetris::run_game() {
 
         grid.draw_grid(BLACK);
 
+
         EndDrawing();
     }
     CloseWindow();

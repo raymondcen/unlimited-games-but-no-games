@@ -13,7 +13,7 @@
 
 Snake::Snake() {
     body_pos = {Vector2{1,1}};
-    direction = {1,0};
+
     movement = true;
 
     frames = 0;
@@ -64,6 +64,7 @@ void Snake::run_game() {
     }
 
 
+
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
     //snake stuff
@@ -102,6 +103,7 @@ void Snake::run_game() {
             
             small.draw_grid(BLACK);
             draw_borders(grid);
+
 
             //draw snake
             draw_snake(grid, snake_color);
@@ -171,6 +173,7 @@ void Snake::get_input(){
 
 
 
+
 //rand()%(max-min + 1) + min; 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
@@ -196,3 +199,5 @@ void Snake::draw_borders(Board grid){
     //left
     DrawRectangle(1920 - grid.border, 0, 1920, 1080, GRAY);
 }
+
+
