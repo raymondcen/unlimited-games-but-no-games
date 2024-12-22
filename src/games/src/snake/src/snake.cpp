@@ -13,9 +13,8 @@
 
 Snake::Snake() {
     body_pos = {Vector2{1,1}};
-
+    direction = {0,1};
     movement = true;
-
     frames = 0;
 }
 
@@ -36,7 +35,7 @@ void Snake::run_game() {
     // ToggleFullscreen();
 
     //choose board size
-    int mode = 3;
+    int mode = 2;
 
     //init grid
     Board grid;
@@ -114,9 +113,8 @@ void Snake::run_game() {
         EndDrawing();
         frames++;
     }
-    // CloseWindow();
+    CloseWindow();
 }
-
 
 
 void Snake::move_snake() {

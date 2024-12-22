@@ -24,7 +24,6 @@
 #include "game.h"
 
 
-
 class GameLauncher : public QObject {
     Q_OBJECT
 
@@ -33,6 +32,10 @@ private:
 public:
 
 GameLauncher();
+~GameLauncher();
+
+int run_launcher(int argc, char** argv);
+
 
 public slots:
 signals:
