@@ -50,7 +50,8 @@ void Tetris::run_game() {
 
         ClearBackground(dark_blue);
 
-        grid.draw_grid();
+        grid.draw_grid(BLACK);
+
 
         EndDrawing();
     }

@@ -33,6 +33,9 @@ public:
 Grid(int rows, int cols, int cell_size);
 ~Grid();
 void initialize_grid();
-void draw_grid();
+  
+void draw_grid(Color);
+
+
 
 };

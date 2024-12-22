@@ -12,8 +12,8 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{8,4}, Vector2{7,4}};
-    direction = {0,1};
+    body_pos = {Vector2{1,1}};
+
     movement = true;
 
     frames = 0;
@@ -35,25 +35,36 @@ void Snake::run_game() {
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
 
-    //small grid
-        //tall = 9
-        //long = 16
-        //cell size = 120
-    //med grid
-        //tall = 18
-        //long = 32
-        //cell size = 60
-    //large grid
-        //tall = 27
-        //long = 48
-        //cell size = 40
-
+    //choose board size
+    int mode = 3;
 
     //init grid
     Board grid;
+
+    if(mode == 1){
+        //small board
+        grid.boardTall = 9;
+        grid.boardLong = 16;
+        grid.cell_size = 120;
+        grid.border = grid.cell_size;
+    }
+    if(mode == 2){  
+        //med board
         grid.boardTall = 18;
         grid.boardLong = 32;
         grid.cell_size = 60;
+        grid.border = grid.cell_size;
+    }
+    if(mode==3){
+        //large board
+        grid.boardTall = 27;
+        grid.boardLong = 48;
+        grid.cell_size = 40;
+        grid.border = 2 * grid.cell_size;
+    }
+
+
+
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
     //snake stuff
@@ -82,14 +93,17 @@ void Snake::run_game() {
         }
         
 
-        check_bounds(grid);
+       //check_bounds(grid);
 
         //Draw everything
         BeginDrawing();
-            ClearBackground(BLUE);
+            ClearBackground(GRAY);
 
             //draw grid 
-            small.draw_grid();
+            
+            small.draw_grid(BLACK);
+            draw_borders(grid);
+
 
             //draw snake
             draw_snake(grid, snake_color);
@@ -158,6 +172,10 @@ void Snake::get_input(){
 }
 
 
+
+
+//rand()%(max-min + 1) + min; 
+
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
        apple = {((float)(rand() % grid.boardLong)), (float)(rand() % grid.boardTall)};
@@ -171,6 +189,15 @@ void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 
 
 
-void Snake:: check_bounds(Board grid){
-
+void Snake::draw_borders(Board grid){
+    //top
+    DrawRectangle(0, 0, 1920, grid.border, GRAY);
+    //bottom
+    DrawRectangle(0, 1080 - grid.border , 1920, 1080, GRAY);
+    //right
+    DrawRectangle(0, 0, grid.border , 1080, GRAY);
+    //left
+    DrawRectangle(1920 - grid.border, 0, 1920, 1080, GRAY);
 }
+
+
