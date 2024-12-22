@@ -7,16 +7,15 @@
  *            Ivan Wong
  ****************************************************************************/
 
-// Has a run game function the game launcher can call,
-// Doesnt need to know what game it is
-
 
 #pragma once
 
 
 class Game {
 private:
+
 public:
+
 Game();
 ~Game();
 

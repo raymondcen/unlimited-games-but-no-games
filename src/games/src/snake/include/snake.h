@@ -14,14 +14,15 @@
 // Raylib Libraries
 #include <raylib.h>
 #include <raymath.h>
+
+// Standard Libraries
 #include <deque>
 #include <ctime>
 #include <cstdlib>
-// Standard Libraries
 
 // Custom Libraries
-#include "game.h"
 #include "grid.h"
+#include "game.h"
 
 
 class Snake : public Game{
@@ -45,7 +46,7 @@ struct Board{
 };
 
 
-void run_game();
+void run_game() override;
 
 void draw_snake(Board, Color);
 void draw_apple(Board, Color, Vector2&);

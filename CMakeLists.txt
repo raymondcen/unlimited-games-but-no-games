@@ -1,17 +1,24 @@
-cmake_minimum_required(VERSION 3.31)
-project(Unlimited-Games-But-Not_Games VERSION 1.0.0 LANGUAGES CXX)
+#-------------------------------------#
+# CMake file for Main app project     #
+#-------------------------------------#
+
+
+cmake_minimum_required(VERSION 3.25)
+project(UnlimitedGames VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Qt path
+
+if(MSVC)
+  add_compile_options(/Zc:__cplusplus)
+endif()
+
+
+# Find Qt
 set(CMAKE_PREFIX_PATH "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6")
-
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
-
 set(CMAKE_AUTOMOC ON)
-
-# qt_wrap_cpp(MOC_SOURCES include/game_launcher.h)
 
 include(FetchContent)
 
@@ -21,36 +28,34 @@ FetchContent_Declare (
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG 5.5
 )
-
 FetchContent_MakeAvailable(raylib)
 
 qt_standard_project_setup()
 
-# Cpp files to be compiled
-add_executable(Unlimited-Games-But-Not_Games
-    # Application files
+
+# Utility libraries
+add_subdirectory(src/games/src/grid_board)
+
+# Main llibraries
+add_subdirectory(src/game_launcher)
+add_subdirectory(src/games/src/snake)
+
+
+# File to be compiled
+add_executable(UnlimitedGames
+    src/games/src/game.cpp
     src/main.cpp
-    src/game.cpp
-    src/game_launcher.cpp
-
-    # Utility files
-    games/grid_board/grid.cpp
-
-    # Game files
-    games/snake/snake.cpp
-    games/tetris/tetris.cpp
 )
 
-# Header files needed
-target_include_directories(Unlimited-Games-But-Not_Games
-    PRIVATE ${PROJECT_SOURCE_DIR}/include
-    PRIVATE ${PROJECT_SOURCE_DIR}/games/grid_board
-    PRIVATE ${PROJECT_SOURCE_DIR}/games/snake
-    PRIVATE ${PROJECT_SOURCE_DIR}/games/tetris
+
+target_include_directories(UnlimitedGames
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/game_launcher/include
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/games/src/snake/include
 )
 
-# Libraries needed
-target_link_libraries(Unlimited-Games-But-Not_Games
-    PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml
+
+target_link_libraries(UnlimitedGames
     PRIVATE raylib
+    PRIVATE GameLauncher
+    PRIVATE Snake
 )

@@ -33,7 +33,7 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
     
     // Comment out for now b/c theres no exit button
-    ToggleFullscreen();
+    // ToggleFullscreen();
 
     //small grid
         //tall = 9
@@ -100,7 +100,7 @@ void Snake::run_game() {
         EndDrawing();
         frames++;
     }
-    CloseWindow();
+    //CloseWindow();
 }
 
 
@@ -112,7 +112,7 @@ void Snake::move_snake() {
 }
 
 
-void Snake::draw_snake(Board grid, Color snake_color){
+void Snake::draw_snake(Board grid, Color snake_color) {
     for(int i = 0; i < body_pos.size(); i++){
         float x = body_pos[i].x;
         float y = body_pos[i].y;
@@ -121,8 +121,7 @@ void Snake::draw_snake(Board grid, Color snake_color){
 }
 
 
-
-void Snake::addSegment(Board grid){
+void Snake::addSegment(Board grid) {
     Vector2 endDirection = Vector2Subtract(body_pos.back(), body_pos[body_pos.size()-2]);
     Vector2 add = Vector2Add(body_pos.back(), endDirection);
     
