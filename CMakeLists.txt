@@ -23,6 +23,7 @@ FetchContent_Declare (
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG 5.5
 )
+
 FetchContent_MakeAvailable(raylib)
 
 qt_standard_project_setup()

@@ -92,17 +92,15 @@ void Snake::run_game() {
         }
         
 
-       //check_bounds(grid);
+        //check_bounds(grid);
 
         //Draw everything
         BeginDrawing();
             ClearBackground(GRAY);
 
-            //draw grid 
-            
+            //draw grid  
             small.draw_grid(BLACK);
             draw_borders(grid);
-
 
             //draw snake
             draw_snake(grid, snake_color);
