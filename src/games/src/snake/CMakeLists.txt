@@ -18,5 +18,5 @@ target_include_directories(Snake
 
 target_link_libraries(Snake
     PRIVATE raylib
-    PRIVATE GridBoard   
+    PRIVATE GridBoard
 )

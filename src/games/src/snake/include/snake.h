@@ -56,6 +56,4 @@ void move_snake();
 
 void check_bounds(Board);
 
-
-
 };

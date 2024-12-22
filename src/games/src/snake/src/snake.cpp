@@ -100,7 +100,7 @@ void Snake::run_game() {
         EndDrawing();
         frames++;
     }
-    //CloseWindow();
+    // CloseWindow();
 }
 
 
