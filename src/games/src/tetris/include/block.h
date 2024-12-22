@@ -7,37 +7,31 @@
  *            Ivan Wong
  ****************************************************************************/
 
-// Has an linked list of games
-// include games header file and game.h
-// Qt object
 
 #pragma once
 
-// Qt Libraries
-#include <QObject>
 
 // Standard Libraries
-
+#include <vector>
+#include <map>
 
 // Custom Libraries
-#include "game_launcher.h"
-#include "game.h"
+#include "position.h"
 
 
-class GameLauncher : public QObject {
-    Q_OBJECT
-
+class Block {
 private:
+
+int id;
+std::map<int, std::vector<Position>> cells;
 
 public:
 
-GameLauncher();
-~GameLauncher();
+Block();
+~Block();
 
-int run_launcher(int argc, char** argv);
+int get_id();
 
 
-public slots:
-signals:
 
 };

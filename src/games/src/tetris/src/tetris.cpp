@@ -29,12 +29,11 @@ Tetris::~Tetris() {}
     - Collision detection
 */
 void Tetris::run_game() {
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
+    const int screenWidth = 750;
+    const int screenHeight = 900;
+    const int cell_size = 40;
     const int rows = 20;
     const int columns = 10;
-
-    // make grid with 20 and 10
 
     // Setup window
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -43,7 +42,7 @@ void Tetris::run_game() {
 
     Color dark_blue = {44, 44, 127, 255};
 
-    Grid grid = Grid(rows, columns, 30);
+    Grid grid = Grid(rows, columns, cell_size);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -51,7 +50,6 @@ void Tetris::run_game() {
         ClearBackground(dark_blue);
 
         grid.draw_grid(BLACK);
-
 
         EndDrawing();
     }

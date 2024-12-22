@@ -12,10 +12,9 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{2,2}};
+    body_pos = {Vector2{1,1}};
     direction = {1,0};
     movement = true;
-
     frames = 0;
 }
 
@@ -32,10 +31,10 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
     
     // Comment out for now b/c theres no exit button
-    ToggleFullscreen();
+    //ToggleFullscreen();
 
     //choose board size
-    int mode = 1;
+    int mode = 2;
 
     //init grid
     Board grid;
@@ -86,17 +85,15 @@ void Snake::run_game() {
         }
         
 
-       //check_bounds(grid);
+        //check_bounds(grid);
 
         //Draw everything
         BeginDrawing();
             ClearBackground(GRAY);
 
-            //draw grid 
-            
+            //draw grid  
             small.draw_grid(BLACK);
             draw_borders(grid);
-
 
             //draw snake
             draw_snake(grid, snake_color);
@@ -110,7 +107,6 @@ void Snake::run_game() {
     }
     CloseWindow();
 }
-
 
 
 void Snake::move_snake() {

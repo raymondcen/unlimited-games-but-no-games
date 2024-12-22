@@ -31,7 +31,6 @@ private:
 std::deque<Vector2> body_pos;
 Vector2 direction;
 bool movement;
-
 int frames;
 
 public:
