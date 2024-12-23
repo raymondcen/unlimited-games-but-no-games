@@ -15,7 +15,12 @@ Snake::Snake() {
     body_pos = {Vector2{1,1}};
     direction = {1,0};
     movement = true;
+
+
     frames = 0;
+    end_game = false;
+    out_bounds = false;
+
 }
 
 Snake::~Snake() {}
@@ -31,10 +36,10 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
     
     // Comment out for now b/c theres no exit button
-    //ToggleFullscreen();
+    ToggleFullscreen();
 
     //choose board size
-    int mode = 2;
+    mode = 2;
 
     //init grid
     Board grid;
@@ -69,9 +74,11 @@ void Snake::run_game() {
                         (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
     
 
-    SetTargetFPS(30);              
+    SetTargetFPS(60);              
 
-    int per_sec = 6;
+    int per_sec = 8;
+
+    //out of bounds
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -82,25 +89,29 @@ void Snake::run_game() {
         if(frames%per_sec == 0){
             movement = true;
             move_snake();
+            out_bounds = check_bounds(grid);
         }
-        
 
-        //check_bounds(grid);
 
         //Draw everything
         BeginDrawing();
-            ClearBackground(GRAY);
 
-            //draw grid  
-            small.draw_grid(BLACK);
-            draw_borders(grid);
+            if(out_bounds == true){
+                end_screen();
+                end_game=true;
+            } else{
+                ClearBackground(GRAY);
 
-            //draw snake
-            draw_snake(grid, snake_color);
+                 //draw grid  
+                small.draw_grid(BLACK);
+                draw_borders(grid);
 
-            //draw apple
-            draw_apple(grid, apple_color, apple);
+                //draw snake
+                draw_snake(grid, snake_color);
 
+                //draw apple
+                draw_apple(grid, apple_color, apple);
+            }
             
         EndDrawing();
         frames++;
@@ -112,7 +123,6 @@ void Snake::run_game() {
 void Snake::move_snake() {
     body_pos.pop_back();
     body_pos.push_front(Vector2Add(body_pos[0], direction));
-
 }
 
 
@@ -188,3 +198,18 @@ void Snake::draw_borders(Board grid){
 }
 
 
+bool Snake::check_bounds(Board grid){
+    if(body_pos[0].x <= 0 || body_pos[0].x >= grid.boardLong - 1 || body_pos[0].y <= 0 || body_pos[0].y >= grid.boardTall - 1){
+        return true;
+    }
+    return false;
+}
+
+
+void Snake::end_screen(){
+    //draw base 
+    DrawRectangle(480, 100, 960, 880, RED);
+    DrawRectangle(500, 120, 920, 840, BLUE);
+
+
+}

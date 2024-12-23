@@ -31,7 +31,12 @@ private:
 std::deque<Vector2> body_pos;
 Vector2 direction;
 bool movement;
+
 int frames;
+bool end_game;
+bool out_bounds;
+
+int mode;
 
 public:
 Snake();
@@ -59,6 +64,7 @@ void move_snake();
 
 void draw_borders(Board);
 
-void check_bounds(Board);
+bool check_bounds(Board);
 
+void end_screen();
 };
