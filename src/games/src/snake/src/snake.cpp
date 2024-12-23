@@ -36,7 +36,9 @@ void Snake::run_game() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
 
-    Texture2D paButton = LoadTexture("paButton.png");
+    //play again button/image
+    Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
+
 
     
     // Comment out for now b/c theres no exit button
@@ -212,28 +214,46 @@ bool Snake::check_bounds(Board grid){
 
 
 void Snake::end_screen(Texture2D paButton){
-
+    bool playAgain = false;
+    
     const char *playAgainText = "PLAY AGAIN?";
     int paWid = MeasureText(playAgainText, 120);
-
+    int paScale = 4;
+    Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640};
+    Rectangle paRec = {0,0, (float)paButton.width, (float)paButton.height};
+    
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);
+    Vector2 mousePoint= {0.0f, 0.0f};
     
-    //draw base 
-    DrawRectangle(480, 100, 960, 880, RED); //border of base
-    //
-    DrawRectangle(500, 120, 920, 840, BLUE); //inner base
+    //get mouse pos
+    while(!playAgain){
+        mousePoint= GetMousePosition();
+        
+        //draw base 
+        DrawRectangle(480, 100, 960, 880, RED); //border of base
+        DrawRectangle(500, 120, 920, 840, BLUE); //inner base
 
-    //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
 
-    // Draw centered text
-    DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
-    DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
+        //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+        DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
+        DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
+        
 
-    if (!IsTextureValid(paButton)) {
-        printf("no pic\n");
-    }   
-    DrawTexture(paButton, 460, 500, WHITE);
+        //DrawTexture(Texture2D texture, int posX, int posY, Color tint);     
+            //DrawTexture(paButton, 460, 500, WHITE);
+
+        //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
+        DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
+
+        if(CheckCollisionPointRec(mousePoint, paRec)){
+            std::cout<<"YUHHHHHHHH" << std::endl;
+        }
+    }
+
+    
+    
+    
 
 
 }
