@@ -68,5 +68,5 @@ void draw_borders(Board);
 
 bool check_bounds(Board);
 
-void end_screen();
+void end_screen(Texture2D);
 };

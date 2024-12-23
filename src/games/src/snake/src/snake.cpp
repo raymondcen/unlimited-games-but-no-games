@@ -35,6 +35,9 @@ void Snake::run_game() {
     //resize window
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
+
+    Texture2D paButton = LoadTexture("paButton.png");
+
     
     // Comment out for now b/c theres no exit button
     ToggleFullscreen();
@@ -79,7 +82,6 @@ void Snake::run_game() {
 
     int per_sec = 8;
 
-    //out of bounds
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -98,7 +100,7 @@ void Snake::run_game() {
         BeginDrawing();
 
             if(out_bounds == true){
-                end_screen();
+                end_screen(paButton);
                 end_game=true;
             } else{
                 ClearBackground(GRAY);
@@ -118,6 +120,7 @@ void Snake::run_game() {
         frames++;
     }
     CloseWindow();
+    UnloadTexture(paButton);
 }
 
 
@@ -208,15 +211,14 @@ bool Snake::check_bounds(Board grid){
 }
 
 
-void Snake::end_screen(){
+void Snake::end_screen(Texture2D paButton){
 
     const char *playAgainText = "PLAY AGAIN?";
     int paWid = MeasureText(playAgainText, 120);
 
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);
-
-
+    
     //draw base 
     DrawRectangle(480, 100, 960, 880, RED); //border of base
     //
@@ -227,6 +229,11 @@ void Snake::end_screen(){
     // Draw centered text
     DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
     DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
+
+    if (!IsTextureValid(paButton)) {
+        printf("no pic\n");
+    }   
+    DrawTexture(paButton, 460, 500, WHITE);
 
 
 }
