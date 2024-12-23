@@ -21,6 +21,7 @@ Snake::Snake() {
     end_game = false;
     out_bounds = false;
 
+    score = 0;
 }
 
 Snake::~Snake() {}
@@ -180,6 +181,7 @@ void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
        apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                         (float)(rand() % (grid.boardTall - 2)+ 1)};
        addSegment(grid);
+       score++;
     }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
 
@@ -207,9 +209,24 @@ bool Snake::check_bounds(Board grid){
 
 
 void Snake::end_screen(){
+
+    const char *playAgainText = "PLAY AGAIN?";
+    int paWid = MeasureText(playAgainText, 120);
+
+    const char *scoreText = "SCORE: %04i";
+    int sWid = MeasureText(scoreText, 100);
+
+
     //draw base 
-    DrawRectangle(480, 100, 960, 880, RED);
-    DrawRectangle(500, 120, 920, 840, BLUE);
+    DrawRectangle(480, 100, 960, 880, RED); //border of base
+    //
+    DrawRectangle(500, 120, 920, 840, BLUE); //inner base
+
+    //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+
+    // Draw centered text
+    DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
+    DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
 
 
 }

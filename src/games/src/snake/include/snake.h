@@ -38,6 +38,8 @@ bool out_bounds;
 
 int mode;
 
+int score;
+
 public:
 Snake();
 ~Snake();
