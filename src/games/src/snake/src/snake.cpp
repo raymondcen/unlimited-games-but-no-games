@@ -18,7 +18,6 @@ Snake::Snake() {
 
 
     frames = 0;
-    end_game = false;
     out_bounds = false;
 
     score = 0;
@@ -29,6 +28,7 @@ Snake::~Snake() {}
 
 void Snake::run_game() {
     srand(time(0));
+    //resolution
     const int screenWidth = 1920;
     const int screenHeight = 1080;
  
@@ -38,8 +38,6 @@ void Snake::run_game() {
 
     //play again button/image
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
-
-
     
     // Comment out for now b/c theres no exit button
     ToggleFullscreen();
@@ -78,10 +76,21 @@ void Snake::run_game() {
     Color apple_color = RED;
     Vector2 apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                         (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
+
+
+    //end screen variables
+    const char *playAgainText = "PLAY AGAIN?";
+    int paWid = MeasureText(playAgainText, 120);
+    int paScale = 4;
+    Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640};
+    Rectangle paRec = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640, (float)paButton.width*paScale, (float)paButton.height*paScale};
     
+    const char *scoreText = "SCORE: %04i";
+    int sWid = MeasureText(scoreText, 100);
+    Vector2 mousePoint= {0.0f, 0.0f};
+
 
     SetTargetFPS(60);              
-
     int per_sec = 8;
 
 
@@ -89,7 +98,7 @@ void Snake::run_game() {
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {   
         get_input();
-   
+
         //move every x frames
         if(frames%per_sec == 0){
             movement = true;
@@ -97,16 +106,39 @@ void Snake::run_game() {
             out_bounds = check_bounds(grid);
         }
 
-
         //Draw everything
         BeginDrawing();
 
-            if(out_bounds == true){
-                end_screen(paButton);
-                end_game=true;
-            } else{
-                ClearBackground(GRAY);
+            //HOME SCREEN?
 
+            if(out_bounds == true){
+                mousePoint = GetMousePosition();
+                //draw base 
+                DrawRectangle(480, 100, 960, 880, RED); //border of base
+                DrawRectangle(500, 120, 920, 840, BLUE); //inner base
+
+                //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+                DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
+                DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
+
+
+                //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
+                DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
+
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
+                    out_bounds = false;
+                    body_pos = {Vector2{1,1}};
+                    direction = {1,0};
+                    score = 0;
+                    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                             (float)(rand() % (grid.boardTall - 2)+ 1)};
+                }
+
+                //EXIT BUTTON?
+
+
+            } else if(out_bounds == false){
+                ClearBackground(GRAY);
                  //draw grid  
                 small.draw_grid(BLACK);
                 draw_borders(grid);
@@ -117,7 +149,6 @@ void Snake::run_game() {
                 //draw apple
                 draw_apple(grid, apple_color, apple);
             }
-            
         EndDrawing();
         frames++;
     }
@@ -177,11 +208,13 @@ void Snake::get_input(){
     }
 }
 
-
-
 //rand()%(max-min + 1) + min; 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
+
+
+    //MAKE SURE APPLE DOESNT SPAWN IN SNAKE
+
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
        apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                         (float)(rand() % (grid.boardTall - 2)+ 1)};
@@ -189,7 +222,6 @@ void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
        score++;
     }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
-
 }
 
 
@@ -213,40 +245,3 @@ bool Snake::check_bounds(Board grid){
 }
 
 
-void Snake::end_screen(Texture2D paButton){
-    bool playAgain = false;
-
-    const char *playAgainText = "PLAY AGAIN?";
-    int paWid = MeasureText(playAgainText, 120);
-    int paScale = 4;
-    Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640};
-    Rectangle paRec = {0,0, (float)paButton.width, (float)paButton.height};
-    
-    const char *scoreText = "SCORE: %04i";
-    int sWid = MeasureText(scoreText, 100);
-    Vector2 mousePoint= {0.0f, 0.0f};
-
-     //draw base 
-    DrawRectangle(480, 100, 960, 880, RED); //border of base
-    DrawRectangle(500, 120, 920, 840, BLUE); //inner base
-
-
-    //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
-    DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
-    DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
-    
-
-    //DrawTexture(Texture2D texture, int posX, int posY, Color tint);     
-        //DrawTexture(paButton, 460, 500, WHITE);
-
-    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
-    DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
-
-    //mouse and paButton collision
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
-        std::cout << "YUHHHHHHHHHHHHH" << std::endl;
-    }
-    
-    
-
-}
