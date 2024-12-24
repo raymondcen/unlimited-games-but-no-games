@@ -215,7 +215,7 @@ bool Snake::check_bounds(Board grid){
 
 void Snake::end_screen(Texture2D paButton){
     bool playAgain = false;
-    
+
     const char *playAgainText = "PLAY AGAIN?";
     int paWid = MeasureText(playAgainText, 120);
     int paScale = 4;
@@ -225,35 +225,28 @@ void Snake::end_screen(Texture2D paButton){
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);
     Vector2 mousePoint= {0.0f, 0.0f};
+
+     //draw base 
+    DrawRectangle(480, 100, 960, 880, RED); //border of base
+    DrawRectangle(500, 120, 920, 840, BLUE); //inner base
+
+
+    //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+    DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
+    DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
     
-    //get mouse pos
-    while(!playAgain){
-        mousePoint= GetMousePosition();
-        
-        //draw base 
-        DrawRectangle(480, 100, 960, 880, RED); //border of base
-        DrawRectangle(500, 120, 920, 840, BLUE); //inner base
 
+    //DrawTexture(Texture2D texture, int posX, int posY, Color tint);     
+        //DrawTexture(paButton, 460, 500, WHITE);
 
-        //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
-        DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
-        DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
-        
+    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
+    DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
 
-        //DrawTexture(Texture2D texture, int posX, int posY, Color tint);     
-            //DrawTexture(paButton, 460, 500, WHITE);
-
-        //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
-        DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
-
-        if(CheckCollisionPointRec(mousePoint, paRec)){
-            std::cout<<"YUHHHHHHHH" << std::endl;
-        }
+    //mouse and paButton collision
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
+        std::cout << "YUHHHHHHHHHHHHH" << std::endl;
     }
-
     
     
-    
-
 
 }
