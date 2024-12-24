@@ -104,9 +104,9 @@ void Snake::run_game() {
         if(frames%per_sec == 0){
             movement = true;
             move_snake();
-            // out_bounds = check_bounds(grid);
-            // if(snake_coll == false)
-            //     snake_coll = check_snake_coll();
+            out_bounds = check_bounds(grid);
+            if(snake_coll == false)
+                snake_coll = check_snake_coll();
         }
 
         //Draw everything
@@ -222,8 +222,7 @@ void Snake::get_input(){
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 
     bool apple_snake = true;
-    //MAKE SURE APPLE DOESNT SPAWN IN SNAKE
-
+    
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
         while(apple_snake == true){
             apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
