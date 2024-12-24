@@ -12,7 +12,7 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{1,1},Vector2{1,2},Vector2{1,3},Vector2{1,4},Vector2{1,5},Vector2{1,6},Vector2{1,7}};
+    body_pos = {Vector2{1,1}};
     direction = {1,0};
     movement = true;
 
@@ -44,7 +44,7 @@ void Snake::run_game() {
     // ToggleFullscreen();
 
     //choose board size
-    mode = 2;
+    mode = 1;
 
     //init grid
     Board grid;
@@ -104,9 +104,9 @@ void Snake::run_game() {
         if(frames%per_sec == 0){
             movement = true;
             move_snake();
-            out_bounds = check_bounds(grid);
-            if(snake_coll == false)
-                snake_coll = check_snake_coll();
+            // out_bounds = check_bounds(grid);
+            // if(snake_coll == false)
+            //     snake_coll = check_snake_coll();
         }
 
         //Draw everything
@@ -216,21 +216,36 @@ void Snake::get_input(){
     }
 }
 
+
 //rand()%(max-min + 1) + min; 
 
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 
-
+    bool apple_snake = true;
     //MAKE SURE APPLE DOESNT SPAWN IN SNAKE
 
     if((body_pos[0].x == apple.x) && (body_pos[0].y == apple.y)){
-       apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
-                        (float)(rand() % (grid.boardTall - 2)+ 1)};
-       addSegment(grid);
-       score++;
+        while(apple_snake == true){
+            apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                    (float)(rand() % (grid.boardTall - 2)+ 1)};
+
+            apple_snake = apple_in_snake(apple);
+        }
+        addSegment(grid);
+        score++;
     }  
     DrawRectangle(apple.x * grid.cell_size+1, apple.y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, apple_color);
 }
+
+bool Snake::apple_in_snake(Vector2 apple){
+    for(int i = 0; i < body_pos.size(); i++){
+        if(Vector2Equals(body_pos[i], apple)){
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 void Snake::draw_borders(Board grid){
@@ -258,7 +273,6 @@ bool Snake::check_snake_coll(){
             return true;
         }
     }
-    
     return false;   
 }
 

@@ -66,6 +66,7 @@ void draw_borders(Board);
 bool check_bounds(Board);
 void end_screen(Texture2D);
 bool check_snake_coll();
+bool apple_in_snake(Vector2);
 
 
 };
