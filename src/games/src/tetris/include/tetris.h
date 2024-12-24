@@ -19,6 +19,8 @@
 // Custom Libraries
 #include "game.h"
 #include "grid.h"
+#include "settings.h"
+#include "block.h"
 
 
 class Tetris : public Game {

@@ -20,5 +20,9 @@ int column;
 public:
 
 Position(int row, int column);
+~Position();
+
+int get_row();
+int get_column();
 
 };
