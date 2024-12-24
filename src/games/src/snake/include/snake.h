@@ -33,7 +33,6 @@ Vector2 direction;
 bool movement;
 
 int frames;
-bool end_game;
 bool out_bounds;
 
 int mode;
