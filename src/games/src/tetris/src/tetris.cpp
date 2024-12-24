@@ -11,7 +11,10 @@
 #include "tetris.h"
 
 
-Tetris::Tetris() {}
+Tetris::Tetris() {
+    this->score = 0;
+    this->high_score = 0;
+}
 
 
 Tetris::~Tetris() {}
@@ -28,9 +31,10 @@ Tetris::~Tetris() {}
     - Clear full line
     - Collision detection
 */
+
 void Tetris::run_game() {
-    const int screenWidth = 750;
-    const int screenHeight = 900;
+    const int screenWidth = 700;
+    const int screenHeight = 850;
     const int cell_size = 40;
     const int rows = 20;
     const int columns = 10;
@@ -40,8 +44,8 @@ void Tetris::run_game() {
     InitWindow(screenWidth, screenHeight, "Sirtet");
     SetTargetFPS(60);
 
+    // Grid setup
     Color dark_blue = {44, 44, 127, 255};
-
     Grid grid = Grid(rows, columns, cell_size);
 
     while (!WindowShouldClose()) {
@@ -49,7 +53,7 @@ void Tetris::run_game() {
 
         ClearBackground(dark_blue);
 
-        grid.draw_grid(BLACK);
+        grid.draw_grid(25, 25, BLACK);
 
         EndDrawing();
     }

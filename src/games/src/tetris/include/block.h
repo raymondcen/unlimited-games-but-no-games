@@ -11,6 +11,9 @@
 #pragma once
 
 
+// Raylib Libraries
+#include <raylib.h>
+
 // Standard Libraries
 #include <vector>
 #include <map>
@@ -19,19 +22,34 @@
 #include "position.h"
 
 
+// Parent class for blocks
 class Block {
-private:
+protected:
 
 int id;
 std::map<int, std::vector<Position>> cells;
+int cell_size;
+int rotate_state;
+Color color;
 
 public:
 
 Block();
+Block(Color color);
 ~Block();
 
-int get_id();
+virtual void draw_block() = 0;
 
+};
+
+
+class L_Block : public Block {
+private:
+
+public:
+
+L_Block(Color color);
+void draw_block() override;
 
 
 };

@@ -36,4 +36,5 @@ int GameLauncher::run_launcher(int argc, char** argv) {
 
     // // Run app
     // return app.exec();
+    return 0;
 }

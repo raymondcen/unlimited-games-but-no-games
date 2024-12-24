@@ -39,14 +39,12 @@ void Grid::initialize_grid() {
 }
 
 
-void Grid::draw_grid(Color color) {
-
+void Grid::draw_grid(int start_x, int start_y, Color color) {
     // Draw each square for the grid
     for (int i = 0; i < this->num_rows; i++) {
         for (int j = 0; j < this->num_columns; j++) {
-            DrawRectangle(j * this->cell_size + 1, i * this->cell_size + 1, 
+            DrawRectangle(j * this->cell_size + start_x + 1, i * this->cell_size + start_y + 1, 
                           this->cell_size - 1, this->cell_size - 1, color);
-
         }
     }
 }

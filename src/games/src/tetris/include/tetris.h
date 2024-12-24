@@ -24,8 +24,11 @@
 class Tetris : public Game {
 private:
 
+int score;
+int high_score;
 
 public:
+
 Tetris();
 ~Tetris();
 

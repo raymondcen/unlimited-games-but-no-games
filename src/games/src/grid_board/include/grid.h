@@ -34,7 +34,7 @@ Grid(int rows, int cols, int cell_size);
 ~Grid();
 void initialize_grid();
   
-void draw_grid(Color);
+void draw_grid(int start_x, int start_y, Color color);
 
 
 

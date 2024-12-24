@@ -61,12 +61,8 @@ void draw_apple(Board, Color, Vector2&);
 void addSegment(Board);
 void get_input();
 void move_snake();
-
-
-
 void draw_borders(Board);
-
 bool check_bounds(Board);
-
 void end_screen(Texture2D);
+
 };

@@ -39,10 +39,8 @@ void Snake::run_game() {
     //play again button/image
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
 
-
-    
     // Comment out for now b/c theres no exit button
-    ToggleFullscreen();
+    // ToggleFullscreen();
 
     //choose board size
     mode = 2;
@@ -108,7 +106,7 @@ void Snake::run_game() {
                 ClearBackground(GRAY);
 
                  //draw grid  
-                small.draw_grid(BLACK);
+                small.draw_grid(0, 0, BLACK);
                 draw_borders(grid);
 
                 //draw snake

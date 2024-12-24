@@ -4,7 +4,11 @@
 
 
 add_library(Tetris STATIC
+    include/position.h
+    include/block.h
     include/tetris.h
+    src/position.cpp
+    src/block.cpp
     src/tetris.cpp
 )
 
