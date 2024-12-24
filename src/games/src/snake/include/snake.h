@@ -33,7 +33,9 @@ Vector2 direction;
 bool movement;
 
 int frames;
+
 bool out_bounds;
+bool snake_coll;
 
 int mode;
 
@@ -63,5 +65,7 @@ void move_snake();
 void draw_borders(Board);
 bool check_bounds(Board);
 void end_screen(Texture2D);
+bool check_snake_coll();
+
 
 };

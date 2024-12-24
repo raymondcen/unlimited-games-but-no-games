@@ -12,13 +12,14 @@
 
 
 Snake::Snake() {
-    body_pos = {Vector2{1,1}};
+    body_pos = {Vector2{1,1},Vector2{1,2},Vector2{1,3},Vector2{1,4},Vector2{1,5},Vector2{1,6},Vector2{1,7}};
     direction = {1,0};
     movement = true;
 
 
     frames = 0;
     out_bounds = false;
+    snake_coll = false;
 
     score = 0;
 }
@@ -104,14 +105,18 @@ void Snake::run_game() {
             movement = true;
             move_snake();
             out_bounds = check_bounds(grid);
+            if(snake_coll == false)
+                snake_coll = check_snake_coll();
         }
 
         //Draw everything
         BeginDrawing();
 
             //HOME SCREEN?
+            //COLLISION WITH SNAKE
 
-            if(out_bounds == true){
+            if(out_bounds == true || snake_coll == true){   //end game screen
+                
                 mousePoint = GetMousePosition();
                 //draw base 
                 DrawRectangle(480, 100, 960, 880, RED); //border of base
@@ -127,6 +132,7 @@ void Snake::run_game() {
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
                     out_bounds = false;
+                    snake_coll = false;
                     body_pos = {Vector2{1,1}};
                     direction = {1,0};
                     score = 0;
@@ -136,8 +142,7 @@ void Snake::run_game() {
 
                 //EXIT BUTTON?
 
-
-            } else if(out_bounds == false){
+            } else if(out_bounds == false && snake_coll == false){
                 ClearBackground(GRAY);
                  //draw grid  
                 small.draw_grid(0, 0, BLACK);
@@ -167,7 +172,10 @@ void Snake::draw_snake(Board grid, Color snake_color) {
     for(int i = 0; i < body_pos.size(); i++){
         float x = body_pos[i].x;
         float y = body_pos[i].y;
-        DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, snake_color);
+        if(i == 0){
+            DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, DARKGREEN);  
+        } else
+            DrawRectangle(x * grid.cell_size+1, y*grid.cell_size+1, grid.cell_size- 1, grid.cell_size- 1, snake_color);
     }
 }
 
@@ -244,4 +252,13 @@ bool Snake::check_bounds(Board grid){
     return false;
 }
 
+bool Snake::check_snake_coll(){
+    for(int i = 1; i < body_pos.size(); i++){
+        if(Vector2Equals(body_pos[0], body_pos[i])){
+            return true;
+        }
+    }
+    
+    return false;   
+}
 
