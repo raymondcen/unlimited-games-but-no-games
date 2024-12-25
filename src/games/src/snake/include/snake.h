@@ -48,7 +48,7 @@ private:
     int mode;
 
     int score;
-    bool home_screen
+    bool home_screen;
 
 public:
     Snake();
