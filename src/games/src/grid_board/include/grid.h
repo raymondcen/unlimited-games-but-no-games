@@ -32,5 +32,6 @@ public:
     ~Grid();
     void initialize_grid();
     void draw_grid(int start_x, int start_y, Color color);
+    bool outside_grid(int row, int column);
 
 };

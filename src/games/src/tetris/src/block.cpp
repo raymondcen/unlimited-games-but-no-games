@@ -43,6 +43,11 @@ std::vector<Position> Block::get_cell_positions() {
 }
 
 
+void Block::update_rotate_state(int rotates) {
+    this->rotate_state = (this->rotate_state + rotates) % 4;
+}
+
+
 void Block::draw_block() {
     std::vector<Position> cell_positions = get_cell_positions();
 
@@ -80,7 +85,7 @@ J_Block::J_Block(Color color) {
 
     // Rotation states
     this->cells[0] = {Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)};
-    this->cells[1] = {Position(0, 1), Position(0, 1), Position(1, 1), Position(2, 1)};
+    this->cells[1] = {Position(0, 1), Position(0, 2), Position(1, 1), Position(2, 1)};
     this->cells[2] = {Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 2)};
     this->cells[3] = {Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)};
 
