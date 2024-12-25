@@ -13,7 +13,7 @@
 
 Snake::Snake() {
     body_pos = {Vector2{1,1}};
-    direction = {1,0};
+    direction = {0,0};
     movement = true;
 
 
@@ -39,6 +39,7 @@ void Snake::run_game() {
 
     //play again button/image
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
+    Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
@@ -82,9 +83,14 @@ void Snake::run_game() {
     //end screen variables
     const char *playAgainText = "PLAY AGAIN?";
     int paWid = MeasureText(playAgainText, 120);
+
     int paScale = 4;
     Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640};
-    Rectangle paRec = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640, (float)paButton.width*paScale, (float)paButton.height*paScale};
+    Rectangle paRec = {paPos.x, paPos.y, (float)paButton.width*paScale, (float)paButton.height*paScale};
+
+    int exitScale = 4;
+    Vector2 exitPos = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)680};
+    Rectangle exitRec = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)680, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale};
     
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);
@@ -113,7 +119,6 @@ void Snake::run_game() {
         BeginDrawing();
 
             //HOME SCREEN?
-            //COLLISION WITH SNAKE
 
             if(out_bounds == true || snake_coll == true){   //end game screen
                 
@@ -129,12 +134,13 @@ void Snake::run_game() {
 
                 //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
                 DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
+                //DrawTextureEx(exitButton, exitPos, (float)0, (float)exitScale, WHITE);
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
                     out_bounds = false;
                     snake_coll = false;
                     body_pos = {Vector2{1,1}};
-                    direction = {1,0};
+                    direction = {0,0};
                     score = 0;
                     apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                              (float)(rand() % (grid.boardTall - 2)+ 1)};
