@@ -18,6 +18,8 @@
 
 
 int main(int argc, char** argv) {
+    srand(time(NULL));
+
     // GameLauncher game_launcher;
     Snake snake_game;
     Tetris tetris_game;

@@ -15,23 +15,29 @@
 #include <raylib.h>
 
 // Standard Libraries
+#include <stdlib.h>
 
 // Custom Libraries
 #include "game.h"
 #include "grid.h"
+#include "settings.h"
+#include "block.h"
 
 
 class Tetris : public Game {
 private:
-
-int score;
-int high_score;
+    Color background_color;
+    Grid grid;
+    std::vector<Block> blocks;
+    int score;
+    int high_score;
 
 public:
+    Tetris();
+    ~Tetris();
+    void setup_game();
+    Block get_random_block();
 
-Tetris();
-~Tetris();
-
-void run_game();
+    void run_game();
 
 };
