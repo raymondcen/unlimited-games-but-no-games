@@ -43,19 +43,27 @@ void Grid::initialize_grid() {
 }
 
 
-void Grid::draw_grid(int start_x, int start_y, Color color) {
+void Grid::update_grid_cell(int x, int y, int value) { grid[x][y] = value; }
+
+
+void Grid::draw_grid(int start_x, int start_y) {
+    std::vector<Color> colors = get_colors();
+    int color_val = 0;
+
     // Draw each square for the grid
     for (int i = 0; i < this->num_rows; i++) {
         for (int j = 0; j < this->num_columns; j++) {
+            color_val = this->grid[i][j];
+
             DrawRectangle(j * this->cell_size + start_x + 1, i * this->cell_size + start_y + 1, 
-                          this->cell_size - 1, this->cell_size - 1, color);
+                          this->cell_size - 1, this->cell_size - 1, colors[color_val]);
         }
     }
     return;
 }
 
 
-bool Grid::outside_grid(int row, int column) {
+bool Grid::outside_grid(int row, int column) const {
     if (row < 0 || row >= this->num_rows || column < 0 || column >= this->num_columns)
         return true;
     

@@ -8,18 +8,14 @@
  ****************************************************************************/
 
 
-#include "position.h"
+#pragma once
 
 
-Position::Position(int row, int column) {
-    this->row = row;
-    this->column = column;
-}
+// Raylib Libraries
+#include <raylib.h>
 
-Position::~Position() {}
-
-
-int Position::get_row() const { return this->row; }
+// Standard Libraries
+#include <vector>
 
 
-int Position::get_column() const { return this->column; }
+std::vector<Color> get_colors();

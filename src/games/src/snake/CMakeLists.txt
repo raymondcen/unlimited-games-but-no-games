@@ -12,7 +12,8 @@ add_library(Snake STATIC
 target_include_directories(Snake
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
     PUBLIC ${PROJECT_SOURCE_DIR}/src/games/include
-    PUBLIC ${PROJECT_SOURCE_DIR}/src/games/src/grid_board/include
+    PUBLIC ${PROJECT_SOURCE_DIR}/src/games/src/utilities/colors/include
+    PUBLIC ${PROJECT_SOURCE_DIR}/src/games/src/utilities/grid_board/include
 )
 
 

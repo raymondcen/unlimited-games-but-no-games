@@ -21,6 +21,7 @@
 // Custom Libraries
 #include "position.h"
 #include "settings.h"
+#include "colors.h"
 
 
 // Parent class for blocks
@@ -30,13 +31,13 @@ protected:
     std::map<int, std::vector<Position>> cells;
     int cell_size;
     int rotate_state;
-    Color color;
     int row_offset;
     int column_offset;
 
 public:
     Block();
     ~Block();
+    int get_id() const;
     void move_block(int rows, int columns);
     std::vector<Position> get_cell_positions();
     void update_rotate_state(int rotates);
@@ -47,47 +48,47 @@ public:
 
 class L_Block : public Block {
 public:
-    L_Block(Color color);
+    L_Block();
 
 };
 
 
 class J_Block : public Block {
 public:
-    J_Block(Color color);
+    J_Block();
 
 };
 
 
 class I_Block : public Block {
 public:
-    I_Block(Color color);
+    I_Block();
 
 };
 
 class O_Block : public Block {
 public:
-    O_Block(Color color);
+    O_Block();
 
 };
 
 
 class S_Block : public Block {
 public:
-    S_Block(Color color);
+    S_Block();
 
 };
 
 
 class Z_Block : public Block {
 public:
-    Z_Block(Color color);
+    Z_Block();
 
 };
 
 
 class T_Block : public Block {
 public:
-    T_Block(Color color);
+    T_Block();
 
 };

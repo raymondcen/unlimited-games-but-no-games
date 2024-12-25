@@ -18,6 +18,9 @@
 #include <iostream>
 #include <vector>
 
+// Custom Libraries
+#include "colors.h"
+
 
 class Grid {
 private:
@@ -31,7 +34,8 @@ public:
     Grid(int rows, int cols, int cell_size);
     ~Grid();
     void initialize_grid();
-    void draw_grid(int start_x, int start_y, Color color);
-    bool outside_grid(int row, int column);
+    void update_grid_cell(int x, int y, int value);
+    void draw_grid(int start_x, int start_y);
+    bool outside_grid(int row, int column) const;
 
 };

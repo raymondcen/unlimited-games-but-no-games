@@ -163,7 +163,7 @@ void Snake::run_game() {
             } else if(out_bounds == false && snake_coll == false && home_screen == false){
                 ClearBackground(GRAY);
                  //draw grid  
-                small.draw_grid(0, 0, BLACK);
+                small.draw_grid(0, 0);
                 draw_borders(grid);
 
                 //draw snake

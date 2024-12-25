@@ -18,12 +18,14 @@ Tetris::~Tetris() {}
 
 
 std::vector<Block> Tetris::get_all_blocks() {
-    return {L_Block(ORANGE), J_Block(BLUE), I_Block(SKYBLUE), T_Block(PURPLE),
-            O_Block(YELLOW), S_Block(RED), Z_Block(GREEN)};
+    return {L_Block(), J_Block(), I_Block(), T_Block(),
+            O_Block(), S_Block(), Z_Block()};
 }
 
 
 void Tetris::setup_game(int rows, int columns) {
+    this->current_time = 0;
+    this->last_update_time = 0;
     this->score = 0;
     this->high_score = 0;
 
@@ -31,10 +33,8 @@ void Tetris::setup_game(int rows, int columns) {
     this->grid = Grid(rows, columns, CELL_SIZE);
 
     this->blocks = get_all_blocks();
-    this->current_block = I_Block(BLUE);            // TESTING ONLY, CHANGE BACK WHEN DONE
+    this->current_block = get_random_block();
     this->next_block = get_random_block();
-
-    return;
 }
 
 
@@ -65,8 +65,19 @@ bool Tetris::block_outside() {
 }
 
 
+void Tetris::get_next_block() {
+    std::vector<Position> cell_positions = current_block.get_cell_positions();
+
+    for (Position square : cell_positions) {
+        grid.update_grid_cell(square.get_row(), square.get_column(), current_block.get_id());
+    }
+    current_block = next_block;
+    next_block = get_random_block();
+}
+
+
 void Tetris::draw_game() {
-    this->grid.draw_grid(START_X, START_Y, BLACK);
+    this->grid.draw_grid(START_X, START_Y);
     this->current_block.draw_block();
 }
 
@@ -76,7 +87,6 @@ void Tetris::move_left() {
 
     if (block_outside())
         current_block.move_block(0, 1);
-
 }
 
 
@@ -91,15 +101,23 @@ void Tetris::move_right() {
 void Tetris::move_down() {
     current_block.move_block(1, 0);
 
-    if (block_outside())
+    // Outside grid or collision
+    if (block_outside()) {
         current_block.move_block(-1, 0);
+
+        get_next_block();
+    }
 }
 
 
 //
-// EDIT LATER TO SUPPORT WALL KICKS/SUPER ROTATIONS, ALSO HAS BUG WITH ROTATING OUT OF GRID
+// EDIT LATER TO SUPPORT WALL KICKS/SUPER ROTATIONS
 //
 void Tetris::rotate_block() {
+    // O Block type, no need to rotate
+    if (current_block.get_id() == 4)
+        return;
+
     current_block.update_rotate_state(1);
 
     if (block_outside())
@@ -137,6 +155,19 @@ void Tetris::handle_input() {
 }
 
 
+void Tetris::move_block_down(double interval) {
+    this->current_time = GetTime();
+
+    // Check if time is within interval
+    if (this->current_time - this->last_update_time >= interval) {
+        this->last_update_time = this->current_time;
+
+        // Move current block down one sqaure
+        move_down();
+    }
+}
+
+
 void Tetris::run_game() {
     const int rows = 20;
     const int columns = 10;
@@ -146,11 +177,14 @@ void Tetris::run_game() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sirtet");
     SetTargetFPS(60);
 
-    setup_game(20, 10);
+    setup_game(rows, columns);
 
     while (!WindowShouldClose()) {
         // Get and handle block movement
         handle_input();
+
+        // Move block down given a time interval
+        move_block_down(0.3);
 
         BeginDrawing();
 

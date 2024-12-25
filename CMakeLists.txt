@@ -30,7 +30,8 @@ qt_standard_project_setup()
 
 
 # Utility libraries
-add_subdirectory(src/games/src/grid_board)
+add_subdirectory(src/games/src/utilities/colors)
+add_subdirectory(src/games/src/utilities/grid_board)
 
 # Main libraries
 add_subdirectory(src/game_launcher)

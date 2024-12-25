@@ -15,6 +15,7 @@
  * Parent Block function definitions
  */
 Block::Block() {
+    this->id = -1;
     this->cell_size = CELL_SIZE;
     this->rotate_state = 0;
     this->row_offset = 0;
@@ -23,6 +24,9 @@ Block::Block() {
 
 
 Block::~Block() {}
+
+
+int Block::get_id() const { return this->id; }
 
 
 void Block::move_block(int rows, int columns) {
@@ -44,26 +48,26 @@ std::vector<Position> Block::get_cell_positions() {
 
 
 void Block::update_rotate_state(int rotates) {
-    this->rotate_state = (this->rotate_state + rotates) % 4;
+    this->rotate_state = (this->rotate_state + rotates + 4) % 4;
 }
 
 
 void Block::draw_block() {
     std::vector<Position> cell_positions = get_cell_positions();
+    std::vector<Color> colors = get_colors();
 
     // Draw shape based on grid location
     for (Position square: cell_positions) {
         DrawRectangle(square.get_column() * cell_size + START_X, square.get_row() * cell_size + START_Y,
-                      cell_size - 1, cell_size - 1, this->color);
+                      cell_size - 1, cell_size - 1, colors[this->id]);
     }
 }
 
 /*
  * L Block function definitions
  */
-L_Block::L_Block(Color color) {
+L_Block::L_Block() {
     this->id = 1;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(0, 2), Position(1, 0), Position(1, 1), Position(1, 2)};
@@ -79,9 +83,8 @@ L_Block::L_Block(Color color) {
 /*
  * J Block function definitions
  */
-J_Block::J_Block(Color color) {
+J_Block::J_Block() {
     this->id = 2;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)};
@@ -97,9 +100,8 @@ J_Block::J_Block(Color color) {
 /*
  * I Block function definitions
  */
-I_Block::I_Block(Color color) {
+I_Block::I_Block() {
     this->id = 3;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(1, 0), Position(1, 1), Position(1, 2), Position(1, 3)};
@@ -115,9 +117,8 @@ I_Block::I_Block(Color color) {
 /*
  * O Block function definitions
  */
-O_Block::O_Block(Color color) {
+O_Block::O_Block() {
     this->id = 4;
-    this->color = color;
 
     // Only one rotation state
     this->cells[0] = {Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1)};
@@ -130,9 +131,8 @@ O_Block::O_Block(Color color) {
 /*
  * S Block function definitions
  */
-S_Block::S_Block(Color color) {
+S_Block::S_Block() {
     this->id = 5;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)};
@@ -145,9 +145,8 @@ S_Block::S_Block(Color color) {
 }
 
 
-Z_Block::Z_Block(Color color) {
+Z_Block::Z_Block() {
     this->id = 6;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)};
@@ -163,9 +162,8 @@ Z_Block::Z_Block(Color color) {
 /*
  * T Block function definitions
  */
-T_Block::T_Block(Color color) {
+T_Block::T_Block() {
     this->id = 7;
-    this->color = color;
 
     // Rotation states
     this->cells[0] = {Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)};
