@@ -29,15 +29,25 @@ private:
     Color background_color;
     Grid grid;
     std::vector<Block> blocks;
+    Block current_block;
+    Block next_block;
+
     int score;
     int high_score;
 
 public:
     Tetris();
     ~Tetris();
-    void setup_game();
+    std::vector<Block> get_all_blocks();
+    void setup_game(int rows, int columns);
     Block get_random_block();
-
+    bool block_outside();
+    void draw_game();
+    void move_left();
+    void move_right();
+    void move_down();
+    void rotate_block();
+    void move_to_bottom();
+    void handle_input();
     void run_game();
-
 };

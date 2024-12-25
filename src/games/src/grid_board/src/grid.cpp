@@ -53,3 +53,11 @@ void Grid::draw_grid(int start_x, int start_y, Color color) {
     }
     return;
 }
+
+
+bool Grid::outside_grid(int row, int column) {
+    if (row < 0 || row >= this->num_rows || column < 0 || column >= this->num_columns)
+        return true;
+    
+    return false;
+}

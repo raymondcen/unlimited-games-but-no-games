@@ -24,13 +24,12 @@ int main(int argc, char** argv) {
     Snake snake_game;
     Tetris tetris_game;
 
-    snake_game.run_game();
-    // tetris_game.run_game();
+    // snake_game.run_game();
+    tetris_game.run_game();
 
     // init launcher
     // add games to launcher
     // game_launcher.run_launcher();
-
 
     return 0;
 }
