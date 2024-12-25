@@ -28,7 +28,6 @@ Snake::~Snake() {}
 
 
 void Snake::run_game() {
-    srand(time(0));
     //resolution
     const int screenWidth = 1920;
     const int screenHeight = 1080;

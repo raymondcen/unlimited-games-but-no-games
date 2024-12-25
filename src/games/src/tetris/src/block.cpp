@@ -17,17 +17,37 @@
 Block::Block() {
     this->cell_size = CELL_SIZE;
     this->rotate_state = 0;
+    this->row_offset = 0;
+    this->column_offset = 0;
 }
 
 
 Block::~Block() {}
 
 
+void Block::move_block(int rows, int columns) {
+    this->row_offset += rows;
+    this->column_offset += columns;
+}
+
+
+std::vector<Position> Block::get_cell_positions() {
+    std::vector<Position> new_cells;
+
+    // Add row and column offset to current positions
+    for (Position square: this->cells[rotate_state]) {
+        Position new_position = Position(square.get_row() + row_offset, square.get_column() + column_offset);
+        new_cells.push_back(new_position);
+    }
+    return new_cells;
+}
+
+
 void Block::draw_block() {
-    std::vector<Position> tiles = this->cells[rotate_state];
+    std::vector<Position> cell_positions = get_cell_positions();
 
     // Draw shape based on grid location
-    for (Position square: tiles) {
+    for (Position square: cell_positions) {
         DrawRectangle(square.get_column() * cell_size + START_X, square.get_row() * cell_size + START_Y,
                       cell_size - 1, cell_size - 1, this->color);
     }
@@ -45,6 +65,9 @@ L_Block::L_Block(Color color) {
     this->cells[1] = {Position(0, 1), Position(1, 1), Position(2, 1), Position(2, 2)};
     this->cells[2] = {Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 0)};
     this->cells[3] = {Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)};
+
+    // Move block to top center
+    move_block(0, 3);
 }
 
 
@@ -60,6 +83,9 @@ J_Block::J_Block(Color color) {
     this->cells[1] = {Position(0, 1), Position(0, 1), Position(1, 1), Position(2, 1)};
     this->cells[2] = {Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 2)};
     this->cells[3] = {Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)};
+
+    // Move block to top center
+    move_block(0, 3);
 }
 
 
@@ -75,6 +101,9 @@ I_Block::I_Block(Color color) {
     this->cells[1] = {Position(0, 2), Position(1, 2), Position(2, 2), Position(3, 2)};
     this->cells[2] = {Position(2, 0), Position(2, 1), Position(2, 2), Position(2, 3)};
     this->cells[3] = {Position(0, 1), Position(1, 1), Position(2, 1), Position(3, 1)};
+
+    // Move block to top center
+    move_block(-1, 3);
 }
 
 
@@ -87,6 +116,9 @@ O_Block::O_Block(Color color) {
 
     // Only one rotation state
     this->cells[0] = {Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1)};
+
+    // Move block to top center
+    move_block(0, 4);
 }
 
 
@@ -102,6 +134,9 @@ S_Block::S_Block(Color color) {
     this->cells[1] = {Position(0, 1), Position(1, 1), Position(1, 2), Position(2, 2)};
     this->cells[2] = {Position(1, 1), Position(1, 2), Position(2, 0), Position(2, 1)};
     this->cells[3] = {Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)};
+
+    // Move block to top center
+    move_block(0, 3);
 }
 
 
@@ -114,6 +149,9 @@ Z_Block::Z_Block(Color color) {
     this->cells[1] = {Position(0, 2), Position(1, 1), Position(1, 2), Position(2, 1)};
     this->cells[2] = {Position(1, 0), Position(1, 1), Position(2, 1), Position(2, 2)};
     this->cells[3] = {Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0)};
+
+    // Move block to top center
+    move_block(0, 3);
 }
 
 
@@ -129,4 +167,7 @@ T_Block::T_Block(Color color) {
     this->cells[1] = {Position(0, 1), Position(1, 1), Position(1, 2), Position(2, 1)};
     this->cells[2] = {Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 1)};
     this->cells[3] = {Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)};
+
+    // Move block to top center
+    move_block(0, 3);
 }

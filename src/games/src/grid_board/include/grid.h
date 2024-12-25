@@ -30,6 +30,7 @@ int cell_size;
 
 public:
 
+Grid();
 Grid(int rows, int cols, int cell_size);
 ~Grid();
 

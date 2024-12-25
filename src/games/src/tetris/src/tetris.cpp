@@ -20,17 +20,32 @@ Tetris::Tetris() {
 Tetris::~Tetris() {}
 
 
-/*
-    Needed to run tetris
-    - Game Loop DONE
-    - Game board
-    - Score tracker
-    - Block generation
-    - Rotate blocks
-    - Gravity for blocks to fall
-    - Clear full line
-    - Collision detection
-*/
+void Tetris::setup_game() {
+    const int rows = 20;
+    const int columns = 10;
+
+    this->background_color = {44, 44, 127, 255};
+    this->grid = Grid(rows, columns, CELL_SIZE);
+    this->blocks = {L_Block(ORANGE), J_Block(BLUE), I_Block(SKYBLUE), T_Block(PURPLE),
+                    O_Block(YELLOW), S_Block(RED), Z_Block(GREEN)};
+}
+
+
+Block Tetris::get_random_block() {
+    // Block vector empty, add all blocks again
+    if (blocks.empty())
+        this->blocks = {L_Block(ORANGE), J_Block(BLUE), I_Block(SKYBLUE), T_Block(PURPLE),
+                        O_Block(YELLOW), S_Block(RED), Z_Block(GREEN)};
+        
+    int random_index = rand() % this->blocks.size();
+
+    // Get random block and remove it
+    Block random_block = this->blocks[random_index];
+    this->blocks.erase(blocks.begin() + random_index);
+
+    return random_block;
+}
+
 
 void Tetris::run_game() {
     const int rows = 20;
@@ -41,19 +56,17 @@ void Tetris::run_game() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sirtet");
     SetTargetFPS(60);
 
-    // Grid setup
-    Color dark_blue = {44, 44, 127, 255};
-    Grid grid = Grid(rows, columns, CELL_SIZE);
+    setup_game();
 
 // TEST
-    S_Block test = S_Block(GREEN);
+    T_Block test = T_Block(BLUE);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
 
-        ClearBackground(dark_blue);
+        ClearBackground(this->background_color);
 
-        grid.draw_grid(START_X, START_Y, BLACK);
+        this->grid.draw_grid(START_X, START_Y, BLACK);
 
 // TEST
         test.draw_block();

@@ -32,12 +32,16 @@ std::map<int, std::vector<Position>> cells;
 int cell_size;
 int rotate_state;
 Color color;
+int row_offset;
+int column_offset;
 
 public:
 
 Block();
 ~Block();
 
+void move_block(int rows, int columns);
+std::vector<Position> get_cell_positions();
 void draw_block();
 
 };

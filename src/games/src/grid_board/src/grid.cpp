@@ -11,6 +11,9 @@
 #include "grid.h"
 
 
+Grid::Grid() {}
+
+
 Grid::Grid(int rows, int cols, int cell_size) {
     // Set grid size and initialize grid vector
     this->num_rows = rows;
