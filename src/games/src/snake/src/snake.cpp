@@ -22,6 +22,8 @@ Snake::Snake() {
     snake_coll = false;
 
     score = 0;
+
+    home_screen = false;
 }
 
 Snake::~Snake() {}
@@ -45,7 +47,7 @@ void Snake::run_game() {
     // ToggleFullscreen();
 
     //choose board size
-    mode = 1;
+    mode = 2;
 
     //init grid
     Board grid;
@@ -92,7 +94,7 @@ void Snake::run_game() {
     //exit BUTTON/IMAGE
     int exitScale = 4;
     Vector2 exitPos = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)740};
-    Rectangle exitRec = {exitPos.x, exitPos.y-19, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale};// why is it offset by 19 pixels?????????
+    Rectangle exitRec = {exitPos.x, exitPos.y-19, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale}; //why is it offset by 19 pixels?????????
     
     //score TEXT
     const char *scoreText = "SCORE: %04i";
@@ -121,6 +123,8 @@ void Snake::run_game() {
         BeginDrawing();
 
             //HOME SCREEN?
+            //WIN CONDITION
+            //CHANGE MODE / SETTINGS?
 
             if(out_bounds == true || snake_coll == true){   //end game screen
     
@@ -156,7 +160,7 @@ void Snake::run_game() {
                     CloseWindow();
                 }
  
-            } else if(out_bounds == false && snake_coll == false){
+            } else if(out_bounds == false && snake_coll == false && home_screen == false){
                 ClearBackground(GRAY);
                  //draw grid  
                 small.draw_grid(0, 0, BLACK);
@@ -167,12 +171,16 @@ void Snake::run_game() {
 
                 //draw apple
                 draw_apple(grid, apple_color, apple);
+
+            } else if(home_screen == true){
+
             }
         EndDrawing();
         frames++;
     }
     CloseWindow();
     UnloadTexture(paButton);
+    UnloadTexture(exitButton);
 }
 
 
@@ -257,7 +265,6 @@ bool Snake::apple_in_snake(Vector2 apple){
     }
     return false;
 }
-
 
 
 void Snake::draw_borders(Board grid){
