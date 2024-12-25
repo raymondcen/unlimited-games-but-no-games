@@ -39,7 +39,7 @@ public:
     Tetris();
     ~Tetris();
     std::vector<Block> get_all_blocks();
-    void setup_game();
+    void setup_game(int rows, int columns);
     Block get_random_block();
     bool block_outside();
     void draw_game();

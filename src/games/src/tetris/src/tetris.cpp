@@ -11,7 +11,7 @@
 #include "tetris.h"
 
 
-Tetris::Tetris() { setup_game(); }
+Tetris::Tetris() {}
 
 
 Tetris::~Tetris() {}
@@ -23,17 +23,15 @@ std::vector<Block> Tetris::get_all_blocks() {
 }
 
 
-void Tetris::setup_game() {
-    const int rows = 20;
-    const int columns = 10;
-
+void Tetris::setup_game(int rows, int columns) {
     this->score = 0;
     this->high_score = 0;
 
     this->background_color = {44, 44, 127, 255};
     this->grid = Grid(rows, columns, CELL_SIZE);
+
     this->blocks = get_all_blocks();
-    this->current_block = I_Block(BLUE);
+    this->current_block = I_Block(BLUE);            // TESTING ONLY, CHANGE BACK WHEN DONE
     this->next_block = get_random_block();
 
     return;
@@ -99,7 +97,7 @@ void Tetris::move_down() {
 
 
 //
-// EDIT LATER TO SUPPORT WALL KICKS/SUPER ROTATIONS
+// EDIT LATER TO SUPPORT WALL KICKS/SUPER ROTATIONS, ALSO HAS BUG WITH ROTATING OUT OF GRID
 //
 void Tetris::rotate_block() {
     current_block.update_rotate_state(1);
@@ -148,9 +146,10 @@ void Tetris::run_game() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sirtet");
     SetTargetFPS(60);
 
-    setup_game();
+    setup_game(20, 10);
 
     while (!WindowShouldClose()) {
+        // Get and handle block movement
         handle_input();
 
         BeginDrawing();
