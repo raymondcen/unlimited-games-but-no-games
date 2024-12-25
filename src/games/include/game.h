@@ -12,13 +12,9 @@
 
 
 class Game {
-private:
-
 public:
-
-Game();
-~Game();
-
-virtual void run_game() = 0;
+    Game();
+    ~Game();
+    virtual void run_game() = 0;
 
 };

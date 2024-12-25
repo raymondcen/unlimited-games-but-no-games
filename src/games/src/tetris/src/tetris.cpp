@@ -28,6 +28,7 @@ void Tetris::setup_game() {
     this->grid = Grid(rows, columns, CELL_SIZE);
     this->blocks = {L_Block(ORANGE), J_Block(BLUE), I_Block(SKYBLUE), T_Block(PURPLE),
                     O_Block(YELLOW), S_Block(RED), Z_Block(GREEN)};
+    return;
 }
 
 
@@ -58,9 +59,6 @@ void Tetris::run_game() {
 
     setup_game();
 
-// TEST
-    T_Block test = T_Block(BLUE);
-
     while (!WindowShouldClose()) {
         BeginDrawing();
 
@@ -68,10 +66,9 @@ void Tetris::run_game() {
 
         this->grid.draw_grid(START_X, START_Y, BLACK);
 
-// TEST
-        test.draw_block();
-
         EndDrawing();
     }
     CloseWindow();
+
+    return;
 }

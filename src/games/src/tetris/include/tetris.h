@@ -26,22 +26,18 @@
 
 class Tetris : public Game {
 private:
-
-Color background_color;
-Grid grid;
-std::vector<Block> blocks;
-int score;
-int high_score;
+    Color background_color;
+    Grid grid;
+    std::vector<Block> blocks;
+    int score;
+    int high_score;
 
 public:
+    Tetris();
+    ~Tetris();
+    void setup_game();
+    Block get_random_block();
 
-Tetris();
-~Tetris();
-
-void setup_game();
-Block get_random_block();
-
-
-void run_game();
+    void run_game();
 
 };

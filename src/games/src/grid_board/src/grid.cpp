@@ -39,6 +39,7 @@ void Grid::initialize_grid() {
             this->grid[i][j] = 0;
         }
     }
+    return;
 }
 
 
@@ -50,4 +51,5 @@ void Grid::draw_grid(int start_x, int start_y, Color color) {
                           this->cell_size - 1, this->cell_size - 1, color);
         }
     }
+    return;
 }

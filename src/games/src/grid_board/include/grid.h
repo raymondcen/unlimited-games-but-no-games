@@ -21,20 +21,16 @@
 
 class Grid {
 private:
-
-std::vector<std::vector<int>> grid;
-int num_rows;
-int num_columns;
-int cell_size;
-
+    std::vector<std::vector<int>> grid;
+    int num_rows;
+    int num_columns;
+    int cell_size;
 
 public:
-
-Grid();
-Grid(int rows, int cols, int cell_size);
-~Grid();
-
-void initialize_grid();
-void draw_grid(int start_x, int start_y, Color color);
+    Grid();
+    Grid(int rows, int cols, int cell_size);
+    ~Grid();
+    void initialize_grid();
+    void draw_grid(int start_x, int start_y, Color color);
 
 };

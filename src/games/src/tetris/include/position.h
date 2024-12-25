@@ -13,16 +13,13 @@
 
 class Position {
 private:
-
-int row;
-int column;
+    int row;
+    int column;
 
 public:
-
-Position(int row, int column);
-~Position();
-
-int get_row();
-int get_column();
+    Position(int row, int column);
+    ~Position();
+    int get_row();
+    int get_column();
 
 };
