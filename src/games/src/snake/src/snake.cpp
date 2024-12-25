@@ -28,6 +28,7 @@ Snake::~Snake() {}
 
 
 void Snake::run_game() {
+    SetTraceLogLevel(LOG_ERROR);
     //resolution
     const int screenWidth = 1920;
     const int screenHeight = 1080;
@@ -36,7 +37,7 @@ void Snake::run_game() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
 
-    //play again button/image
+    //load play again and exit button/image
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
     Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
 
@@ -68,37 +69,39 @@ void Snake::run_game() {
         grid.cell_size = 40;
     }
 
+    //grid variable
     Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
-    //snake stuff
+    //snake variables
     Color snake_color = GREEN;
 
-    //make apple stuff
+    //apple variaables
     Color apple_color = RED;
     Vector2 apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                         (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
 
-
-    //end screen variables
+    //play again TEXT
     const char *playAgainText = "PLAY AGAIN?";
     int paWid = MeasureText(playAgainText, 120);
 
+    //play again BUTTON/IMAGE
     int paScale = 4;
-    Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, (float)640};
-    Rectangle paRec = {paPos.x, paPos.y, (float)paButton.width*paScale, (float)paButton.height*paScale};
+    Vector2 paPos = {(float)(GetScreenWidth() - (paButton.width*paScale))/2, 640.0f};
+    Rectangle paRec = {paPos.x, paPos.y-19, (float)paButton.width * paScale, (float)paButton.height * paScale}; //idk why rectangle is offset by 19 pixels compared to the actualy DrawTexture
 
+    //exit BUTTON/IMAGE
     int exitScale = 4;
-    Vector2 exitPos = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)680};
-    Rectangle exitRec = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)680, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale};
+    Vector2 exitPos = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)740};
+    Rectangle exitRec = {exitPos.x, exitPos.y-19, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale};// why is it offset by 19 pixels?????????
     
+    //score TEXT
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);
     Vector2 mousePoint= {0.0f, 0.0f};
 
-
+    //set frames
     SetTargetFPS(60);              
     int per_sec = 8;
-
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -120,21 +123,24 @@ void Snake::run_game() {
             //HOME SCREEN?
 
             if(out_bounds == true || snake_coll == true){   //end game screen
-                
+    
                 mousePoint = GetMousePosition();
+
                 //draw base 
                 DrawRectangle(480, 100, 960, 880, RED); //border of base
                 DrawRectangle(500, 120, 920, 840, BLUE); //inner base
-
+                
                 //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+                //draw play again and score TEXT
                 DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
                 DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
 
+                //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+                //draw play again and exit BUTTON
+                DrawTextureEx(paButton, paPos, 0.0f, (float)paScale, WHITE);
+                DrawTextureEx(exitButton, exitPos, (float)0, (float)exitScale, WHITE);
 
-                //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);         
-                DrawTextureEx(paButton, paPos, (float)0, (float)paScale, WHITE);
-                //DrawTextureEx(exitButton, exitPos, (float)0, (float)exitScale, WHITE);
-
+                //click play again button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
                     out_bounds = false;
                     snake_coll = false;
@@ -144,9 +150,12 @@ void Snake::run_game() {
                     apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                              (float)(rand() % (grid.boardTall - 2)+ 1)};
                 }
-
-                //EXIT BUTTON?
-
+               
+                //click exit button
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)) {
+                    CloseWindow();
+                }
+ 
             } else if(out_bounds == false && snake_coll == false){
                 ClearBackground(GRAY);
                  //draw grid  
@@ -223,7 +232,6 @@ void Snake::get_input(){
 
 
 //rand()%(max-min + 1) + min; 
-
 void Snake::draw_apple(Board grid, Color apple_color, Vector2& apple){
 
     bool apple_snake = true;
