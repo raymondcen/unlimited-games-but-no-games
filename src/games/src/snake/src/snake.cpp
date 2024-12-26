@@ -23,7 +23,7 @@ Snake::Snake() {
 
     score = 0;
 
-    home_screen = false;
+    home_screen = true; 
 }
 
 Snake::~Snake() {}
@@ -42,6 +42,8 @@ void Snake::run_game() {
     //load play again and exit button/image
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
     Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
+    Texture2D titleImg = LoadTexture("../src/games/src/snake/include/title.png");
+
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
@@ -79,8 +81,8 @@ void Snake::run_game() {
 
     //apple variaables
     Color apple_color = RED;
-    Vector2 apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
-                        (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
+    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+            (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
 
     //play again TEXT
     const char *playAgainText = "PLAY AGAIN?";
@@ -103,7 +105,7 @@ void Snake::run_game() {
 
     //set frames
     SetTargetFPS(60);              
-    int per_sec = 8;
+    int per_sec = 7;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -131,8 +133,8 @@ void Snake::run_game() {
                 mousePoint = GetMousePosition();
 
                 //draw base 
-                DrawRectangle(480, 100, 960, 880, RED); //border of base
-                DrawRectangle(500, 120, 920, 840, BLUE); //inner base
+                DrawRectangle(480, 100, 960, 880, DARKGRAY); //border of base
+                DrawRectangle(500, 120, 920, 840, DARKGREEN); //inner base
                 
                 //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
                 //draw play again and score TEXT
@@ -160,7 +162,7 @@ void Snake::run_game() {
                     CloseWindow();
                 }
  
-            } else if(out_bounds == false && snake_coll == false && home_screen == false){
+            } else if(out_bounds == false && snake_coll == false && home_screen == false){ //regular game
                 ClearBackground(GRAY);
                  //draw grid  
                 small.draw_grid(0, 0);
@@ -172,8 +174,8 @@ void Snake::run_game() {
                 //draw apple
                 draw_apple(grid, apple_color, apple);
 
-            } else if(home_screen == true){
-
+            } else if(home_screen == true){ 
+                draw_homescreen(titleImg);
             }
         EndDrawing();
         frames++;
@@ -295,3 +297,12 @@ bool Snake::check_snake_coll(){
     return false;   
 }
 
+
+
+void Snake::draw_homescreen(Texture2D title){
+    ClearBackground(LIME);
+    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+    DrawTextureEx(title, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
+
+
+}

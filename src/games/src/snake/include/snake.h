@@ -50,6 +50,8 @@ private:
     int score;
     bool home_screen;
 
+    Vector2 apple;
+
 public:
     Snake();
     ~Snake();
@@ -65,5 +67,6 @@ public:
     void end_screen(Texture2D);
     bool check_snake_coll();
     bool apple_in_snake(Vector2);
+    void draw_homescreen(Texture2D);
 
 };
