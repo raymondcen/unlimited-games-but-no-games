@@ -39,21 +39,28 @@ private:
     std::deque<Vector2> body_pos;
     Vector2 direction;
     bool movement;
-
     int frames;
-
     bool out_bounds;
     bool snake_coll;
-
     int mode;
-
     int score;
     bool home_screen;
-
+    bool home_screen_drawn;
+    bool play;
     Vector2 apple;
-
     Board grid;
     Grid gridSettings;
+
+
+    //textures
+    Texture2D paButton;
+    Texture2D exitButton;
+    Texture2D title;
+    Texture2D largeGrid;
+    Texture2D medGrid;
+    Texture2D smallGrid;
+    Texture2D playButton;
+    Texture2D gplayButton;
 
 public:
     Snake();
@@ -67,12 +74,13 @@ public:
     void move_snake();
     void draw_borders(Board);
     bool check_bounds(Board);
-    void end_screen(Texture2D);
+    void end_screen();
     bool check_snake_coll();
     bool apple_in_snake(Vector2);
-    void draw_homescreen(Texture2D, Texture2D, Texture2D, Texture2D, Texture2D);
+    void draw_homescreen(Vector2);
     void set_grid();
     void draw_endgame_screen(const char*, const char*, int, int, int);
-    void draw_endgame_button(Texture2D, Texture2D, Vector2, Vector2, int, int);
+    void draw_endgame_button(Vector2, Vector2, int, int);
+    
 
 };

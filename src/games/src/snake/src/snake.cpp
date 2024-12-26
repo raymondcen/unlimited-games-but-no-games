@@ -24,6 +24,8 @@ Snake::Snake() {
     score = 0;
 
     home_screen = true; 
+    home_screen_drawn = false;
+    play = false;
 }
 
 Snake::~Snake() {}
@@ -42,12 +44,14 @@ void Snake::run_game() {
     InitWindow(screenWidth, screenHeight, "Ekans");
 
     //load images
-    Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
-    Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
-    Texture2D titleImg = LoadTexture("../src/games/src/snake/include/title.png");
-    Texture2D gridSizes = LoadTexture("../src/games/src/snake/include/gridSizes.png");
-    Texture2D playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
-    Texture2D gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
+    paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
+    exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
+    title = LoadTexture("../src/games/src/snake/include/title.png");
+    largeGrid = LoadTexture("../src/games/src/snake/include/largeGrid.png");
+    medGrid = LoadTexture("../src/games/src/snake/include/medGrid.png");
+    smallGrid = LoadTexture("../src/games/src/snake/include/smallGrid.png");
+    playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
+    gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
 
 
     // Comment out for now b/c theres no exit button
@@ -112,7 +116,7 @@ void Snake::run_game() {
             if(out_bounds == true || snake_coll == true){                                           //end game screen
                 
                 draw_endgame_screen(playAgainText, scoreText, score, paWid, sWid);
-                draw_endgame_button(paButton, exitButton, paPos, exitPos, paScale, exitScale);
+                draw_endgame_button(paPos, exitPos, paScale, exitScale);
                 mousePoint = GetMousePosition();
 
                 //click play again button
@@ -144,7 +148,7 @@ void Snake::run_game() {
                 draw_apple(grid, apple_color, apple);
 
             } else if(home_screen == true){                                                         //home screen
-                draw_homescreen(titleImg, gridSizes, playButton, exitButton, gplayButton);
+                draw_homescreen(mousePoint);
                 set_grid();
             }
         EndDrawing();
@@ -279,7 +283,7 @@ void Snake::draw_endgame_screen(const char* playAgainText, const char* scoreText
     DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
 }
 
-void Snake::draw_endgame_button(Texture2D paButton, Texture2D exitButton, Vector2 paPos, Vector2 exitPos, int paScale, int exitScale){
+void Snake::draw_endgame_button(Vector2 paPos, Vector2 exitPos, int paScale, int exitScale){
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
     //draw play again and exit BUTTON
     DrawTextureEx(paButton, paPos, 0.0f, (float)paScale, WHITE);
@@ -288,25 +292,43 @@ void Snake::draw_endgame_button(Texture2D paButton, Texture2D exitButton, Vector
 }
 
 
-void Snake::draw_homescreen(Texture2D title,Texture2D gridSizes, Texture2D playButton,Texture2D exitButton, Texture2D gplayButton){
+void Snake::draw_homescreen(Vector2 mousePoint){ 
     ClearBackground(LIME);
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+
     //title
     DrawTextureEx(title, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
 
+    const char *sizeText = "SELECT A GRID SIZE";
+    int sizeTWid = MeasureText(sizeText, 40);
+    DrawText(sizeText, (GetScreenWidth() - sizeTWid)/2, 350, 40, BLACK);
+
+    float x = (((GetScreenWidth() - (medGrid.width*10))/2) - ((GetScreenWidth() - (smallGrid.width*10))/3)) + (1920/2);
+    float medy = ((largeGrid.height*10 - medGrid.height*10)/2)+425;
+    float smally = ((largeGrid.height*10 - smallGrid.height*10)/2)+425;
+
     //grid sizes
-    DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 180.0f}, 0, 8, WHITE);
-    // DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 270.0f}, 0, 8, WHITE);
-    // DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
-
+    DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
+    DrawTextureEx(medGrid, {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy}, 0, 10, WHITE);
+    DrawTextureEx(largeGrid, {x, 425.0f}, 0, 10, WHITE);
     //play button
-    DrawTextureEx(playButton, {(float)(GetScreenWidth() - (title.width*8))/2, 270.0f}, 0, 6, WHITE);
+
     //greyed out play button
-    DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (title.width*8))/2, 370.0f}, 0, 6, WHITE);
+    DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
     //exit button
-    DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (title.width*8))/2, 470.0f}, 0, 6, WHITE);
+    DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (exitButton.width*6))/2, 770.0f}, 0, 6, WHITE);
+    home_screen_drawn = true;
+
+    mousePoint = GetMousePosition();
+    Rectangle smallRec = {(float)(GetScreenWidth() - (smallGrid.width*10))/3, (float)((largeGrid.height*10 - smallGrid.height*10)/2)+425, (float)smallGrid.width*10, (float)smallGrid.height*10};
 
 
+    // if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, smallRec)) {
+
+    //     DrawRectangle(smallRec.x, smallRec.y, smallRec.width, smallRec.height, DARKGREEN);
+    //     DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
+    // }
+    
     //select grid, hit play. call set_grid(), 
 
     //hit play w/o selecting grid, greyed out play button.
