@@ -53,6 +53,7 @@ private:
     Vector2 apple;
 
     Board grid;
+    Grid gridSettings;
 
 public:
     Snake();
@@ -70,7 +71,7 @@ public:
     bool check_snake_coll();
     bool apple_in_snake(Vector2);
     void draw_homescreen(Texture2D, Texture2D, Texture2D, Texture2D, Texture2D);
-    void set_grid(Grid&);
+    void set_grid();
     void draw_endgame_screen(const char*, const char*, int, int, int);
     void draw_endgame_button(Texture2D, Texture2D, Vector2, Vector2, int, int);
 

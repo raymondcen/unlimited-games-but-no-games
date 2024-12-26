@@ -30,7 +30,9 @@ Snake::~Snake() {}
 
 
 void Snake::run_game() {
+    //stop debug terminal
     SetTraceLogLevel(LOG_ERROR);
+
     //resolution
     const int screenWidth = 1920;
     const int screenHeight = 1080;
@@ -39,7 +41,7 @@ void Snake::run_game() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
 
-    //load play again and exit button/image
+    //load images
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
     Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
     Texture2D titleImg = LoadTexture("../src/games/src/snake/include/title.png");
@@ -47,27 +49,19 @@ void Snake::run_game() {
     Texture2D playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
     Texture2D gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
 
-    
-
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
-
-    //choose board size
-    
-    //init grid
-    Board grid;
-    Grid gridSettings;
-
 
 
     //snake variables
     Color snake_color = GREEN;
 
+
     //apple variaables
     Color apple_color = RED;
-    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
-            (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
+    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
+
 
     //play again TEXT
     const char *playAgainText = "PLAY AGAIN?";
@@ -88,12 +82,14 @@ void Snake::run_game() {
     int sWid = MeasureText(scoreText, 100);
     Vector2 mousePoint= {0.0f, 0.0f};
 
+
     //set frames
     SetTargetFPS(60);              
     int per_sec = 7;
 
+
     // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
+    while (!WindowShouldClose())                                                                // Detect window close button or ESC key
     {   
         get_input();
 
@@ -113,7 +109,7 @@ void Snake::run_game() {
             //WIN CONDITION
             //CHANGE MODE / SETTINGS?
 
-            if(out_bounds == true || snake_coll == true){   //end game screen
+            if(out_bounds == true || snake_coll == true){                                           //end game screen
                 
                 draw_endgame_screen(playAgainText, scoreText, score, paWid, sWid);
                 draw_endgame_button(paButton, exitButton, paPos, exitPos, paScale, exitScale);
@@ -135,7 +131,7 @@ void Snake::run_game() {
                     CloseWindow();
                 }
  
-            } else if(out_bounds == false && snake_coll == false && home_screen == false){ //regular game
+            } else if(out_bounds == false && snake_coll == false && home_screen == false){          //regular game
                 ClearBackground(GRAY);
                  //draw grid  
                 gridSettings.draw_grid(0, 0);
@@ -147,9 +143,9 @@ void Snake::run_game() {
                 //draw apple
                 draw_apple(grid, apple_color, apple);
 
-            } else if(home_screen == true){ 
+            } else if(home_screen == true){                                                         //home screen
                 draw_homescreen(titleImg, gridSizes, playButton, exitButton, gplayButton);
-                set_grid(gridSettings);
+                set_grid();
             }
         EndDrawing();
         frames++;
@@ -310,10 +306,15 @@ void Snake::draw_homescreen(Texture2D title,Texture2D gridSizes, Texture2D playB
     //exit button
     DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (title.width*8))/2, 470.0f}, 0, 6, WHITE);
 
+
+    //select grid, hit play. call set_grid(), 
+
+    //hit play w/o selecting grid, greyed out play button.
+
 }
 
 
-void Snake:: set_grid(Grid &gridSettings){
+void Snake:: set_grid(){
 
     if(mode == 1){
         //small board
