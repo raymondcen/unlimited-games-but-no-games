@@ -43,38 +43,23 @@ void Snake::run_game() {
     Texture2D paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
     Texture2D exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
     Texture2D titleImg = LoadTexture("../src/games/src/snake/include/title.png");
+    Texture2D gridSizes = LoadTexture("../src/games/src/snake/include/gridSizes.png");
+    Texture2D playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
+    Texture2D gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
+
+    
 
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
 
     //choose board size
-    mode = 2;
-
+    
     //init grid
     Board grid;
+    Grid gridSettings;
 
-    if(mode == 1){
-        //small board
-        grid.boardTall = 9;
-        grid.boardLong = 16;
-        grid.cell_size = 120;
-    }
-    if(mode == 2){  
-        //med board
-        grid.boardTall = 18;
-        grid.boardLong = 32;
-        grid.cell_size = 60;
-    }
-    if(mode==3){
-        //large board
-        grid.boardTall = 27;
-        grid.boardLong = 48;
-        grid.cell_size = 40;
-    }
 
-    //grid variable
-    Grid small = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
     //snake variables
     Color snake_color = GREEN;
@@ -113,7 +98,7 @@ void Snake::run_game() {
         get_input();
 
         //move every x frames
-        if(frames%per_sec == 0){
+        if(frames%per_sec == 0 && home_screen == false){
             movement = true;
             move_snake();
             out_bounds = check_bounds(grid);
@@ -129,22 +114,10 @@ void Snake::run_game() {
             //CHANGE MODE / SETTINGS?
 
             if(out_bounds == true || snake_coll == true){   //end game screen
-    
-                mousePoint = GetMousePosition();
-
-                //draw base 
-                DrawRectangle(480, 100, 960, 880, DARKGRAY); //border of base
-                DrawRectangle(500, 120, 920, 840, DARKGREEN); //inner base
                 
-                //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
-                //draw play again and score TEXT
-                DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
-                DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
-
-                //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
-                //draw play again and exit BUTTON
-                DrawTextureEx(paButton, paPos, 0.0f, (float)paScale, WHITE);
-                DrawTextureEx(exitButton, exitPos, (float)0, (float)exitScale, WHITE);
+                draw_endgame_screen(playAgainText, scoreText, score, paWid, sWid);
+                draw_endgame_button(paButton, exitButton, paPos, exitPos, paScale, exitScale);
+                mousePoint = GetMousePosition();
 
                 //click play again button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
@@ -165,7 +138,7 @@ void Snake::run_game() {
             } else if(out_bounds == false && snake_coll == false && home_screen == false){ //regular game
                 ClearBackground(GRAY);
                  //draw grid  
-                small.draw_grid(0, 0);
+                gridSettings.draw_grid(0, 0);
                 draw_borders(grid);
 
                 //draw snake
@@ -175,7 +148,8 @@ void Snake::run_game() {
                 draw_apple(grid, apple_color, apple);
 
             } else if(home_screen == true){ 
-                draw_homescreen(titleImg);
+                draw_homescreen(titleImg, gridSizes, playButton, exitButton, gplayButton);
+                set_grid(gridSettings);
             }
         EndDrawing();
         frames++;
@@ -298,11 +272,69 @@ bool Snake::check_snake_coll(){
 }
 
 
+void Snake::draw_endgame_screen(const char* playAgainText, const char* scoreText, int score, int paWid, int sWid){
+    //draw base 
+    DrawRectangle(480, 100, 960, 880, DARKGRAY); //border of base
+    DrawRectangle(500, 120, 920, 840, DARKGREEN); //inner base
+    
+    //DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
+    //draw play again and score TEXT
+    DrawText(playAgainText, (GetScreenWidth() - paWid)/2, 180, 120, BLACK);
+    DrawText(TextFormat(scoreText, score), (GetScreenWidth() - sWid)/2, 420, 100, GREEN);
+}
 
-void Snake::draw_homescreen(Texture2D title){
+void Snake::draw_endgame_button(Texture2D paButton, Texture2D exitButton, Vector2 paPos, Vector2 exitPos, int paScale, int exitScale){
+    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+    //draw play again and exit BUTTON
+    DrawTextureEx(paButton, paPos, 0.0f, (float)paScale, WHITE);
+    DrawTextureEx(exitButton, exitPos, (float)0, (float)exitScale, WHITE);
+
+}
+
+
+void Snake::draw_homescreen(Texture2D title,Texture2D gridSizes, Texture2D playButton,Texture2D exitButton, Texture2D gplayButton){
     ClearBackground(LIME);
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+    //title
     DrawTextureEx(title, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
 
+    //grid sizes
+    DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 180.0f}, 0, 8, WHITE);
+    // DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 270.0f}, 0, 8, WHITE);
+    // DrawTextureEx(gridSizes, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
+
+    //play button
+    DrawTextureEx(playButton, {(float)(GetScreenWidth() - (title.width*8))/2, 270.0f}, 0, 6, WHITE);
+    //greyed out play button
+    DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (title.width*8))/2, 370.0f}, 0, 6, WHITE);
+    //exit button
+    DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (title.width*8))/2, 470.0f}, 0, 6, WHITE);
+
+}
+
+
+void Snake:: set_grid(Grid &gridSettings){
+
+    if(mode == 1){
+        //small board
+        grid.boardTall = 9;
+        grid.boardLong = 16;
+        grid.cell_size = 120;
+    }
+    if(mode == 2){  
+        //med board
+        grid.boardTall = 18;
+        grid.boardLong = 32;
+        grid.cell_size = 60;
+    }
+    if(mode==3){
+        //large board
+        grid.boardTall = 27;
+        grid.boardLong = 48;
+        grid.cell_size = 40;
+    }
+
+    //grid variable
+    gridSettings = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
 
 }
