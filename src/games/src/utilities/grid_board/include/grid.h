@@ -33,8 +33,11 @@ public:
     Grid();
     Grid(int rows, int cols, int cell_size);
     ~Grid();
+    int get_rows() const;
+    int get_columns() const;
     void initialize_grid();
     void update_grid_cell(int x, int y, int value);
+    int get_cell(int row, int column);
     void draw_grid(int start_x, int start_y);
     bool outside_grid(int row, int column) const;
 

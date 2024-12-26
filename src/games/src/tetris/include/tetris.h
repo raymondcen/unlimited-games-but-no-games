@@ -26,6 +26,7 @@
 
 class Tetris : public Game {
 private:
+    // Game variables
     Color background_color;
     Grid grid;
     std::vector<Block> blocks;
@@ -33,17 +34,15 @@ private:
     Block next_block;
     double current_time;
     double last_update_time;
-
     int score;
     int high_score;
 
-public:
-    Tetris();
-    ~Tetris();
+    // Game editing methods
     std::vector<Block> get_all_blocks();
     void setup_game(int rows, int columns);
     Block get_random_block();
     bool block_outside();
+    bool block_fits();
     void get_next_block();
     void draw_game();
     void move_left();
@@ -53,5 +52,14 @@ public:
     void move_to_bottom();
     void handle_input();
     void move_block_down(double interval);
-    void run_game();
+    bool full_row(int row);
+    void move_row_down(int row, int num_rows);
+    void clear_row(int row);
+    int clear_full_rows();
+
+public:
+    Tetris();
+    ~Tetris();
+    void run_game() override;
+
 };

@@ -26,6 +26,12 @@ Grid::Grid(int rows, int cols, int cell_size) {
 Grid::~Grid() {}
 
 
+int Grid::get_rows() const { return this->num_rows; }
+
+
+int Grid::get_columns() const { return this->num_columns; }
+
+
 void Grid::initialize_grid() {
     // Resize vector
     this->grid.resize(this->num_rows);
@@ -44,6 +50,16 @@ void Grid::initialize_grid() {
 
 
 void Grid::update_grid_cell(int x, int y, int value) { grid[x][y] = value; }
+
+
+int Grid::get_cell(int row, int column) {
+    // Check for valid row and column index
+    if (row < 0 || row >= this->num_rows ||
+        column < 0 || column >= this->num_columns)
+        return -1;
+
+    return this->grid[row][column];
+}
 
 
 void Grid::draw_grid(int start_x, int start_y) {
