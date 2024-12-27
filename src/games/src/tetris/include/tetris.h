@@ -46,6 +46,7 @@ private:
     // UI variables
     GameScreen current_screen;
     Texture2D title_image;
+    bool user_exit;
 
     // Game functionality functions
     void setup_game(int rows, int columns);
@@ -69,8 +70,9 @@ private:
     void clear_row(int row);
     int clear_full_rows();
 
-    // Game display functions
+    // Game UI functions
     void draw_title_screen();
+    void draw_exit_screen();
     void get_current_screen();
     void display_current_screen();
 

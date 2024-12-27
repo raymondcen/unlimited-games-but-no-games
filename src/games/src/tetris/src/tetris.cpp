@@ -33,6 +33,7 @@ void Tetris::setup_game(int rows, int columns) {
 
     this->current_screen = TITLE;
     this->title_image = LoadTexture("../src/games/src/tetris/include/title_image.png");
+    this->user_exit = false;
 }
 
 
@@ -135,6 +136,9 @@ void Tetris::get_next_block() {
 void Tetris::draw_game() {
     grid.draw_grid(START_X, START_Y);
     current_block.draw_block();
+    // draw score
+    // draw next block
+    // draw game over is game over
 }
 
 
@@ -305,19 +309,30 @@ void Tetris::draw_title_screen() {
 }
 
 
+void Tetris::draw_exit_screen() {
+    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_WIDTH, background_color);
+    DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
+    DrawText("Are you sure you want to exit? [Y/N]", 60, 300, 30, WHITE);
+}
+
+
 void Tetris::get_current_screen() {
     if (current_screen == TITLE) {
-        // Press space or enter to move onto game
         if (IsKeyPressed(KEY_ENTER))
             current_screen = GAMEPLAY;
+
+        else if (IsKeyPressed(KEY_ESCAPE))
+            current_screen = EXIT;
     }
     else if (current_screen == GAMEPLAY) {
-        // Load 
-       if (IsKeyPressed(KEY_ESCAPE))
-        current_screen = EXIT;
+        if (IsKeyPressed(KEY_ESCAPE))
+            current_screen = EXIT;
     }
     else if (current_screen == EXIT) {
-        std::cout << "NULL" << std::endl;
+        if (IsKeyPressed(KEY_Y))
+            user_exit = true;
+        else if (IsKeyPressed(KEY_N))
+            current_screen = GAMEPLAY;
     }
     else if (current_screen == PLAY_AGAIN) {
         std::cout << "NULL" << std::endl;
@@ -336,7 +351,7 @@ void Tetris::display_current_screen() {
     }
     else if (current_screen == EXIT) {
         // display game play stuff
-        std::cout << "NULL" << std::endl;
+        draw_exit_screen();
     }
     else if (current_screen == PLAY_AGAIN) {
         // display are you sure you want to exit y/n
@@ -359,6 +374,8 @@ void Tetris::run_game() {
     setup_game(rows, columns);
 
     while (!WindowShouldClose()) {
+        if (user_exit) break;
+
         get_current_screen();
 
 //------------------------------------//
