@@ -41,7 +41,7 @@ public:
     void move_block(int rows, int columns);
     std::vector<Position> get_cell_positions();
     void update_rotate_state(int rotates);
-    void draw_block();
+    void draw_block(int x_offset, int y_offset);
 
 };
 

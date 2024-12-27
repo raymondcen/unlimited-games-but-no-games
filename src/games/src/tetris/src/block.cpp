@@ -52,13 +52,13 @@ void Block::update_rotate_state(int rotates) {
 }
 
 
-void Block::draw_block() {
+void Block::draw_block(int x_offset, int y_offset) {
     std::vector<Position> cell_positions = get_cell_positions();
     std::vector<Color> colors = get_colors();
 
     // Draw shape based on grid location
     for (Position square: cell_positions) {
-        DrawRectangle(square.get_column() * cell_size + START_X, square.get_row() * cell_size + START_Y,
+        DrawRectangle(square.get_column() * cell_size + START_X + x_offset, square.get_row() * cell_size + START_Y + y_offset,
                       cell_size - 1, cell_size - 1, colors[this->id]);
     }
 }

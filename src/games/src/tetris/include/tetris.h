@@ -15,6 +15,7 @@
 #include <raylib.h>
 
 // Standard Libraries
+#include <iostream>
 #include <stdlib.h>
 #include <string>
 
@@ -57,7 +58,6 @@ private:
     bool block_fits();
     void calculate_full_row_score(int full_rows);
     void get_next_block();
-    void draw_game();
     void move_left();
     void move_right();
     void move_down();
@@ -71,6 +71,9 @@ private:
     int clear_full_rows();
 
     // Game UI functions
+    void draw_score();
+    void draw_next_block();
+    void draw_game();
     void draw_title_screen();
     void draw_exit_screen();
     void draw_play_again_screen();

@@ -135,15 +135,6 @@ void Tetris::get_next_block() {
 }
 
 
-void Tetris::draw_game() {
-    grid.draw_grid(START_X, START_Y);
-    current_block.draw_block();
-    // draw score
-    // draw next block
-    // draw game over is game over
-}
-
-
 void Tetris::move_left() {
     current_block.move_block(0, -1);
 
@@ -301,25 +292,45 @@ int Tetris::clear_full_rows() {
 /*
  * UI Function definitions
  */
+void Tetris::draw_score() {
+    char score_text[10];
+    Vector2 text_size;
+
+    sprintf(score_text, "%d", score);
+
+    DrawText("Current Score", 475, 70, 30, WHITE);
+    DrawText(score_text, 475, 100, 30, WHITE);
+}
+
+
+void Tetris::draw_next_block() {
+    DrawText("Next Block", 475, 200, 30, WHITE);
+    next_block.draw_block(350, 270);
+}
+
+
+void Tetris::draw_game() {
+    grid.draw_grid(START_X, START_Y);
+    current_block.draw_block(0, 0);
+    draw_score();
+    draw_next_block();
+}
+
+
 void Tetris::draw_title_screen() {
-    std::vector<Color> colors = get_colors();
     Vector2 title_position = {(float)(SCREEN_WIDTH - title_image.width * 7)/2, 200.0f};
 
-    // Draw title image
-    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, background_color);
     DrawTextureEx(title_image, title_position, 0.0f, 7.0f, WHITE);
 }
 
 
 void Tetris::draw_exit_screen() {
-    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_WIDTH, background_color);
     DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
     DrawText("Are you sure you want to exit? [Y/N]", 60, 300, 30, WHITE);
 }
 
 
 void Tetris::draw_play_again_screen() {
-    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, background_color);
     DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
     DrawText("Would you like to play again? [Y/N]", 60, 300, 30, WHITE);
 }
@@ -345,7 +356,7 @@ void Tetris::get_current_screen() {
             user_exit = true;
 
         else if (IsKeyPressed(KEY_N))
-            current_screen = GAMEPLAY;
+            current_screen = TITLE;
     }
     else if (current_screen == PLAY_AGAIN) {
         if (IsKeyPressed(KEY_Y)) {
