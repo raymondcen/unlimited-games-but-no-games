@@ -38,6 +38,7 @@ public:
     Block();
     ~Block();
     int get_id() const;
+    int get_rotate_state() const;
     void move_block(int rows, int columns);
     std::vector<Position> get_cell_positions();
     void update_rotate_state(int rotates);

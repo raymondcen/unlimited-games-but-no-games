@@ -37,7 +37,7 @@ private:
     std::vector<Block> blocks;
     Block current_block;
     Block next_block;
-
+    std::vector<std::vector<std::vector<Position>>> wall_kick_data;
     double current_time;
     double last_update_time;
     bool game_over;
@@ -51,6 +51,7 @@ private:
 
     // Game functionality functions
     void setup_game(int rows, int columns);
+    std::vector<std::vector<std::vector<Position>>> init_wall_kick_data();
     std::vector<Block> get_all_blocks();
     void reset_game();
     Block get_random_block();
@@ -61,6 +62,8 @@ private:
     void move_left();
     void move_right();
     void move_down();
+    Position get_wall_kick_position(int block_id, int rotate_state, int index);
+    bool perform_wall_kick(int rotate_state);
     void rotate_block();
     void move_to_bottom();
     void handle_input();

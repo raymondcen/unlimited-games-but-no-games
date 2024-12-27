@@ -29,6 +29,9 @@ Block::~Block() {}
 int Block::get_id() const { return this->id; }
 
 
+int Block::get_rotate_state() const { return this->rotate_state; }
+
+
 void Block::move_block(int rows, int columns) {
     this->row_offset += rows;
     this->column_offset += columns;

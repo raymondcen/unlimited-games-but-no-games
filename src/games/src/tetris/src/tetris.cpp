@@ -24,6 +24,7 @@ void Tetris::setup_game(int rows, int columns) {
     this->blocks = get_all_blocks();
     this->current_block = get_random_block();
     this->next_block = get_random_block();
+    this->wall_kick_data = init_wall_kick_data();
 
     this->current_time = 0;
     this->last_update_time = 0;
@@ -40,6 +41,29 @@ void Tetris::setup_game(int rows, int columns) {
 /*
  * Game functionality function definitions
  */
+std::vector<std::vector<std::vector<Position>>> Tetris::init_wall_kick_data() {
+    std::vector<std::vector<std::vector<Position>>> wall_kick_data = {
+
+    // J, L, T, S, Z Blocks
+    {
+        {Position(0, 0), Position(-1, 0), Position(-1, -1), Position(0, 2), Position(-1, 2)},   // 0 → 1
+        {Position(0, 0), Position(1, 0), Position(1, 1), Position(0, -2), Position(1, -2)},     // 1 → 2
+        {Position(0, 0), Position(1, 0), Position(1, -1), Position(0, 2), Position(1, 2)},      // 2 → 3
+        {Position(0, 0), Position(-1, 0), Position(-1, 1), Position(0, -2), Position(-1, -2)}   // 3 → 0
+    },
+
+    // I Block
+    {
+        {Position(0, 0), Position(-2, 0), Position(1, 0), Position(-2, -1), Position(1, 2)},    // 0 → 1
+        {Position(0, 0), Position(-1, 0), Position(2, 0), Position(-1, 2), Position(2, -1)},    // 1 → 2
+        {Position(0, 0), Position(2, 0), Position(-1, 0), Position(2, 1), Position(-1, -2)},    // 2 → 3
+        {Position(0, 0), Position(1, 0), Position(-2, 0), Position(1, -2), Position(-2, 1)}     // 3 → 0
+    }
+    };
+    return wall_kick_data;
+}
+
+
 std::vector<Block> Tetris::get_all_blocks() {
     return {L_Block(), J_Block(), I_Block(), T_Block(),
             O_Block(), S_Block(), Z_Block()};
@@ -161,24 +185,61 @@ void Tetris::move_down() {
     if (block_outside() || block_fits() == false) {
         current_block.move_block(-1, 0);
 
-        // Block placed, do these
+        // Block landed
         get_next_block();
     }
 }
 
 
-//
-// EDIT LATER TO SUPPORT WALL KICKS/SUPER ROTATIONS
-//
+Position Tetris::get_wall_kick_position(int block_id, int rotate_state, int index) {
+    if (block_id == 4)
+        return Position(0, 0);
+
+    else if (block_id == 3)
+        return wall_kick_data[1][rotate_state][index];
+
+    else
+        return wall_kick_data[0][rotate_state][index];
+}
+
+
+bool Tetris::perform_wall_kick(int rotate_state) {
+    int block_id = current_block.get_id();
+    Position offset = Position(0, 0);
+    int dx = 0;
+    int dy = 0;
+
+    // Try all positions for current block
+    for (int i = 0; i < 5; i++) {
+        offset = get_wall_kick_position(block_id, rotate_state, i);
+        dx = offset.get_row();
+        dy = offset.get_column();
+
+        current_block.move_block(dx, dy);
+
+        if (block_fits())
+            return true;
+
+        // Block doesn't fit, move back to orignal spot
+        current_block.move_block(-dx, -dy);
+    }
+    return false;
+}
+
+
 void Tetris::rotate_block() {
     // O Block type, no need to rotate
     if (current_block.get_id() == 4)
         return;
 
+    int prev_rotate_state = current_block.get_rotate_state();
+
     current_block.update_rotate_state(1);
 
-    if (block_outside() || block_fits() == false)
-        current_block.update_rotate_state(-1);
+    if (block_outside() || block_fits() == false) {
+        if (perform_wall_kick(prev_rotate_state) == false)
+            current_block.update_rotate_state(-1);
+    }
 }
 
 
@@ -356,7 +417,7 @@ void Tetris::get_current_screen() {
             user_exit = true;
 
         else if (IsKeyPressed(KEY_N))
-            current_screen = TITLE;
+            current_screen = GAMEPLAY;
     }
     else if (current_screen == PLAY_AGAIN) {
         if (IsKeyPressed(KEY_Y)) {
