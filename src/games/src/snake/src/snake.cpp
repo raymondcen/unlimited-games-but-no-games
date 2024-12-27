@@ -26,6 +26,7 @@ Snake::Snake() {
     home_screen = true; 
     home_screen_drawn = false;
     play = false;
+    exit = false;
 
 }
 
@@ -34,7 +35,7 @@ Snake::~Snake() {}
 
 void Snake::run_game() {
     //stop debug terminal
-    SetTraceLogLevel(LOG_ERROR);
+    //SetTraceLogLevel(LOG_ERROR);
     //no esc key to exit
     SetExitKey(KEY_NULL);
 
@@ -96,7 +97,7 @@ void Snake::run_game() {
 
 
     // Main game loop
-    while (!WindowShouldClose())                                                                // Detect window close button or ESC key
+    while (!WindowShouldClose()&& exit==false)                                                                // Detect window close button or ESC key
     {   
         get_input();
 
@@ -129,7 +130,7 @@ void Snake::run_game() {
                
                 //click exit button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)) {
-                    CloseWindow();
+                    exit=true;
                 }
  
             } else if(out_bounds == false && snake_coll == false && home_screen == false){          //regular game
@@ -153,10 +154,19 @@ void Snake::run_game() {
         frames++;
     }
     CloseWindow();
-    UnloadTexture(paButton);
-    UnloadTexture(exitButton);
+   
 }
 
+void Snake::unload_all_textures(){
+     UnloadTexture(paButton);
+     UnloadTexture(exitButton);
+     UnloadTexture(title);
+     UnloadTexture(largeGrid);
+     UnloadTexture(medGrid);
+     UnloadTexture(smallGrid);
+     UnloadTexture(playButton);
+     UnloadTexture(gplayButton);
+}
 
 void Snake::set_variables(){
     out_bounds = false;
@@ -378,7 +388,7 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (exitButton.width*6))/2, 770.0f}, 0, 6, WHITE);
 
     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)){
-        CloseWindow();
+        exit = true;
     }
 }
 

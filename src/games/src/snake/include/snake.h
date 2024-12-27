@@ -49,6 +49,7 @@ private:
     bool home_screen;
     bool home_screen_drawn;
     bool play;
+    bool exit;
     Vector2 apple;
     Board grid;
     Grid gridSettings;
@@ -86,6 +87,7 @@ public:
     void draw_endgame_button(Vector2, Vector2, int, int);
     Vector2 reset_apple(Vector2);
     void set_variables();
+    void unload_all_textures();
 
 
 };
