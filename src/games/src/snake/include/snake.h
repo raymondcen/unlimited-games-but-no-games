@@ -88,6 +88,7 @@ public:
     Vector2 reset_apple(Vector2);
     void set_variables();
     void unload_all_textures();
+    void check_homescreen(Rectangle,Rectangle,Rectangle,Rectangle,Rectangle, Vector2);
 
 
 };
