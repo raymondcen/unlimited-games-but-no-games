@@ -32,17 +32,21 @@ private:
     std::vector<Block> blocks;
     Block current_block;
     Block next_block;
+
     double current_time;
     double last_update_time;
+    bool game_over;
     int score;
     int high_score;
 
     // Game editing methods
     std::vector<Block> get_all_blocks();
     void setup_game(int rows, int columns);
+    void reset_game();
     Block get_random_block();
     bool block_outside();
     bool block_fits();
+    void calculate_full_row_score(int full_rows);
     void get_next_block();
     void draw_game();
     void move_left();

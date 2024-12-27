@@ -25,17 +25,26 @@ std::vector<Block> Tetris::get_all_blocks() {
 
 void Tetris::setup_game(int rows, int columns) {
     // Initialize game data
-    this->current_time = 0;
-    this->last_update_time = 0;
-    this->score = 0;
-    this->high_score = 0;
-
     this->background_color = {44, 44, 127, 255};
     this->grid = Grid(rows, columns, CELL_SIZE);
-
     this->blocks = get_all_blocks();
     this->current_block = get_random_block();
     this->next_block = get_random_block();
+
+    this->current_time = 0;
+    this->last_update_time = 0;
+    this->game_over = false;
+    this->score = 0;
+    this->high_score = 0;
+}
+
+
+void Tetris::reset_game() {
+    this->grid.initialize_grid();
+    this->blocks = get_all_blocks();
+    this->current_block = get_random_block();
+    this->next_block = get_random_block();
+    this->score = 0; 
 }
 
 
@@ -46,7 +55,7 @@ Block Tetris::get_random_block() {
         
     int random_index = rand() % this->blocks.size();
 
-    // Get random block and remove it
+    // Get random block and remove it from vector
     Block random_block = this->blocks[random_index];
     this->blocks.erase(blocks.begin() + random_index);
 
@@ -78,14 +87,40 @@ bool Tetris::block_fits() {
 }
 
 
+void Tetris::calculate_full_row_score(int full_rows) {
+    if (full_rows == 0) {
+        return;
+    }
+    if (full_rows == 1) {
+        this->score += 100; 
+    }
+    else if (full_rows == 2) {
+        this->score += 300;
+    }
+    else if (full_rows == 3) {
+        this->score += 500;
+    }
+    else if (full_rows == 4) {
+        this->score += 750;
+    }
+}
+
+
 void Tetris::get_next_block() {
     std::vector<Position> cell_positions = current_block.get_cell_positions();
+    int full_rows = 0;
 
     // Add block to grid
     for (Position square : cell_positions) {
         grid.update_grid_cell(square.get_row(), square.get_column(), current_block.get_id());
     }
+    full_rows = clear_full_rows();
+    calculate_full_row_score(full_rows);
     current_block = next_block;
+
+    if (block_fits() == false)
+        game_over = true;
+
     next_block = get_random_block();
 }
 
@@ -113,12 +148,16 @@ void Tetris::move_right() {
 
 
 void Tetris::move_down() {
+    if (game_over)
+        return;
+
     current_block.move_block(1, 0);
 
     // Outside grid or collision
     if (block_outside() || block_fits() == false) {
         current_block.move_block(-1, 0);
 
+        // Block placed, do these
         get_next_block();
     }
 }
@@ -140,8 +179,10 @@ void Tetris::rotate_block() {
 
 
 void Tetris::move_to_bottom() {
-    while (!block_outside() && block_fits())
+    while (!block_outside() && block_fits()) {
         current_block.move_block(1, 0);
+        score++;
+    }
 
     if (block_outside() || block_fits() == false)
         current_block.move_block(-1, 0);
@@ -151,7 +192,12 @@ void Tetris::move_to_bottom() {
 void Tetris::handle_input() {
     int key_pressed = GetKeyPressed();
 
-    if (key_pressed == KEY_LEFT) {
+    if (game_over && key_pressed != 0) {
+        reset_game();
+        this->game_over = false;
+        return;
+    }
+    else if (key_pressed == KEY_LEFT) {
         move_left();
     }
     else if (key_pressed == KEY_RIGHT) {
@@ -159,6 +205,7 @@ void Tetris::handle_input() {
     }
     else if (key_pressed == KEY_DOWN) {
         move_down();
+        score++;
     }
     else if (key_pressed == KEY_UP) {
         rotate_block();
@@ -229,9 +276,13 @@ int Tetris::clear_full_rows() {
             clear_row(i);
             full_rows++;
         }
-        else if (full_rows > 0)
+        else if (full_rows > 0) {
             move_row_down(i, full_rows);
+        }
     }
+    std::cout << "Full Rows: " << full_rows << std::endl;
+    std::cout << "Score: " << this->score << std::endl;
+
     return full_rows;
 }
 
@@ -250,10 +301,8 @@ void Tetris::run_game() {
         // Get and handle block movement
         handle_input();
 
-        // Move block down given a time interval
-        move_block_down(0.4);
-
-        clear_full_rows();
+        // Move block down given a time interval in seconds
+        move_block_down(0.2);
 
 //------------------------------------
 

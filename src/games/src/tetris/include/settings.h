@@ -11,7 +11,7 @@
 #pragma once
 
 
-#define SCREEN_WIDTH 700
+#define SCREEN_WIDTH 750
 #define SCREEN_HEIGHT 850
 
 #define START_X 25
