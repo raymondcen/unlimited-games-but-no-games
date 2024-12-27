@@ -5,8 +5,8 @@ This projects aims to create a Game Launcher using Qt and C++ to launch custom g
 
 ## Current Games
   ### - Completed Tasks...
-    - Snake
-    - Tetris
+  - Snake
+  - Tetris
   ### - IN DEVELOPMENT OF...
   - Game launcher UI application
   - Pac-Man
