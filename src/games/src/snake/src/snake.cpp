@@ -123,13 +123,8 @@ void Snake::run_game() {
 
                 //click play again button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
-                    out_bounds = false;
-                    snake_coll = false;
-                    body_pos = {Vector2{1,1}};
-                    direction = {0,0};
-                    score = 0;
-                    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
-                             (float)(rand() % (grid.boardTall - 2)+ 1)};
+                    set_variables();
+                    home_screen = true;
                 }
                
                 //click exit button
@@ -152,6 +147,7 @@ void Snake::run_game() {
             } else if(home_screen == true){                                                         //home screen
                 draw_homescreen(mousePoint);
                 set_grid();
+                set_variables();
             }
         EndDrawing();
         frames++;
@@ -161,6 +157,16 @@ void Snake::run_game() {
     UnloadTexture(exitButton);
 }
 
+
+void Snake::set_variables(){
+    out_bounds = false;
+    snake_coll = false;
+    body_pos = {Vector2{1,1}};
+    direction = {0,0};
+    score = 0;
+    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                (float)(rand() % (grid.boardTall - 2)+ 1)};
+}
 
 void Snake::move_snake() {
     body_pos.pop_back();
