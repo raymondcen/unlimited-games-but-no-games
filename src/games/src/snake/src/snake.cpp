@@ -27,16 +27,6 @@ Snake::Snake() {
     play = false;
     exit = false;
 
-    //load images
-    paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
-    exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
-    title = LoadTexture("../src/games/src/snake/include/title.png");
-    largeGrid = LoadTexture("../src/games/src/snake/include/largeGrid.png");
-    medGrid = LoadTexture("../src/games/src/snake/include/medGrid.png");
-    smallGrid = LoadTexture("../src/games/src/snake/include/smallGrid.png");
-    playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
-    gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
-
 }
 
 Snake::~Snake() {}
@@ -55,6 +45,16 @@ void Snake::run_game() {
     //resize window
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
+    
+     //load images
+    paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
+    exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
+    title = LoadTexture("../src/games/src/snake/include/title.png");
+    largeGrid = LoadTexture("../src/games/src/snake/include/largeGrid.png");
+    medGrid = LoadTexture("../src/games/src/snake/include/medGrid.png");
+    smallGrid = LoadTexture("../src/games/src/snake/include/smallGrid.png");
+    playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
+    gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
