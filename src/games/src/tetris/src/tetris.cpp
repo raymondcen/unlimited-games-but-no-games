@@ -51,7 +51,8 @@ void Tetris::reset_game() {
     this->blocks = get_all_blocks();
     this->current_block = get_random_block();
     this->next_block = get_random_block();
-    this->score = 0; 
+    this->game_over = false;
+    this->score = 0;
 }
 
 
@@ -124,6 +125,7 @@ void Tetris::get_next_block() {
     }
     full_rows = clear_full_rows();
     calculate_full_row_score(full_rows);
+
     current_block = next_block;
 
     if (block_fits() == false)
@@ -316,6 +318,13 @@ void Tetris::draw_exit_screen() {
 }
 
 
+void Tetris::draw_play_again_screen() {
+    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, background_color);
+    DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
+    DrawText("Would you like to play again? [Y/N]", 60, 300, 30, WHITE);
+}
+
+
 void Tetris::get_current_screen() {
     if (current_screen == TITLE) {
         if (IsKeyPressed(KEY_ENTER))
@@ -327,15 +336,24 @@ void Tetris::get_current_screen() {
     else if (current_screen == GAMEPLAY) {
         if (IsKeyPressed(KEY_ESCAPE))
             current_screen = EXIT;
+
+        if (game_over)
+            current_screen = PLAY_AGAIN;
     }
     else if (current_screen == EXIT) {
         if (IsKeyPressed(KEY_Y))
             user_exit = true;
+
         else if (IsKeyPressed(KEY_N))
             current_screen = GAMEPLAY;
     }
     else if (current_screen == PLAY_AGAIN) {
-        std::cout << "NULL" << std::endl;
+        if (IsKeyPressed(KEY_Y)) {
+            reset_game();
+            current_screen = GAMEPLAY;
+        }
+        else if (IsKeyPressed(KEY_N))
+            current_screen = TITLE;
     }
 }
 
@@ -350,12 +368,10 @@ void Tetris::display_current_screen() {
         draw_game();
     }
     else if (current_screen == EXIT) {
-        // display game play stuff
         draw_exit_screen();
     }
     else if (current_screen == PLAY_AGAIN) {
-        // display are you sure you want to exit y/n
-        std::cout << "NULL" << std::endl;
+        draw_play_again_screen();
     }
 }
 
@@ -378,7 +394,6 @@ void Tetris::run_game() {
 
         get_current_screen();
 
-//------------------------------------//
         BeginDrawing();
 
         ClearBackground(background_color);

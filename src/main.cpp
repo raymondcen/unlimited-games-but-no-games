@@ -22,11 +22,11 @@ int main(int argc, char** argv) {
     srand(time(NULL));
 
     // GameLauncher game_launcher;
-    // Snake snake_game;        DONE
+    Snake snake_game;       // DONE
     Tetris tetris_game;
     PacMan pac_man_game;
 
-    // tetris_game.run_game();
+    tetris_game.run_game();
 
     // init launcher
     // add games to launcher

@@ -73,6 +73,7 @@ private:
     // Game UI functions
     void draw_title_screen();
     void draw_exit_screen();
+    void draw_play_again_screen();
     void get_current_screen();
     void display_current_screen();
 
