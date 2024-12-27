@@ -35,8 +35,6 @@ Snake::~Snake() {}
 void Snake::run_game() {
     //stop debug terminal
     //SetTraceLogLevel(LOG_ERROR);
-    //no esc key to exit
-    SetExitKey(KEY_NULL);
 
     //resolution
     const int screenWidth = 1920;
@@ -46,6 +44,9 @@ void Snake::run_game() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Ekans");
     
+    //no esc key to exit
+    SetExitKey(KEY_NULL);
+
      //load images
     paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
     exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
