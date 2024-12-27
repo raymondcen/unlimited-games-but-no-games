@@ -16,7 +16,6 @@ Snake::Snake() {
     direction = {0,0};
     movement = true;
 
-
     frames = 0;
     out_bounds = false;
     snake_coll = false;
@@ -26,25 +25,7 @@ Snake::Snake() {
     home_screen = true; 
     home_screen_drawn = false;
     play = false;
-
-}
-
-Snake::~Snake() {}
-
-
-void Snake::run_game() {
-    //stop debug terminal
-    SetTraceLogLevel(LOG_ERROR);
-    //no esc key to exit
-    SetExitKey(KEY_NULL);
-
-    //resolution
-    const int screenWidth = 1920;
-    const int screenHeight = 1080;
- 
-    //resize window
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "Ekans");
+    exit = false;
 
     //load images
     paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
@@ -56,19 +37,34 @@ void Snake::run_game() {
     playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
     gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
 
+}
+
+Snake::~Snake() {}
+
+
+void Snake::run_game() {
+    //stop debug terminal
+    //SetTraceLogLevel(LOG_ERROR);
+    //no esc key to exit
+    SetExitKey(KEY_NULL);
+
+    //resolution
+    const int screenWidth = 1920;
+    const int screenHeight = 1080;
+ 
+    //resize window
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(screenWidth, screenHeight, "Ekans");
 
     // Comment out for now b/c theres no exit button
     // ToggleFullscreen();
 
-
     //snake variables
     Color snake_color = GREEN;
-
 
     //apple variaables
     Color apple_color = RED;
     apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), (float)(rand() % (grid.boardTall - 2)+ 1)}; //random position of apple
-
 
     //play again TEXT
     const char *playAgainText = "PLAY AGAIN?";
@@ -89,17 +85,14 @@ void Snake::run_game() {
     int sWid = MeasureText(scoreText, 100);
     Vector2 mousePoint= {0.0f, 0.0f};
 
-
     //set frames
     SetTargetFPS(60);              
     int per_sec = 7;
 
-
     // Main game loop
-    while (!WindowShouldClose())                                                                // Detect window close button or ESC key
+    while (!WindowShouldClose()&& exit==false)                                                                // Detect window close button or ESC key
     {   
         get_input();
-
         //move every x frames
         if(frames%per_sec == 0 && home_screen == false){
             movement = true;
@@ -108,33 +101,25 @@ void Snake::run_game() {
             if(snake_coll == false)
                 snake_coll = check_snake_coll();
         }
-
         //Draw everything
         BeginDrawing();
 
-            //WIN CONDITION?
-            //CHANGE MODE / SETTINGS
-
             if(out_bounds == true || snake_coll == true){                                           //end game screen
-                
                 draw_endgame_screen(playAgainText, scoreText, score, paWid, sWid);
                 draw_endgame_button(paPos, exitPos, paScale, exitScale);
                 mousePoint = GetMousePosition();
-
                 //click play again button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
                     set_variables();
                     home_screen = true;
                 }
-               
                 //click exit button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)) {
-                    CloseWindow();
+                    exit=true;
                 }
- 
             } else if(out_bounds == false && snake_coll == false && home_screen == false){          //regular game
                 ClearBackground(GRAY);
-                 //draw grid  
+                //draw grid  
                 gridSettings.draw_grid(0, 0);
                 draw_borders(grid);
 
@@ -143,7 +128,6 @@ void Snake::run_game() {
 
                 //draw apple
                 draw_apple(grid, apple_color, apple);
-
             } else if(home_screen == true){                                                         //home screen
                 draw_homescreen(mousePoint);
                 set_grid();
@@ -153,10 +137,19 @@ void Snake::run_game() {
         frames++;
     }
     CloseWindow();
-    UnloadTexture(paButton);
-    UnloadTexture(exitButton);
+    unload_all_textures(); 
 }
 
+void Snake::unload_all_textures(){
+     UnloadTexture(paButton);
+     UnloadTexture(exitButton);
+     UnloadTexture(title);
+     UnloadTexture(largeGrid);
+     UnloadTexture(medGrid);
+     UnloadTexture(smallGrid);
+     UnloadTexture(playButton);
+     UnloadTexture(gplayButton);
+}
 
 void Snake::set_variables(){
     out_bounds = false;
@@ -305,11 +298,13 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
     //DrawRectangleRec(Rectangle rec, Color color);
 
-    //title
+    //draw title
     DrawTextureEx(title, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
 
+    //get mouse position
     mousePoint = GetMousePosition();
-   
+    
+    //draw "select a grid size"
     const char *sizeText = "SELECT A GRID SIZE";
     int sizeTWid = MeasureText(sizeText, 40);
     DrawText(sizeText, (GetScreenWidth() - sizeTWid)/2, 350, 40, BLACK);
@@ -318,17 +313,43 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     float medy = ((largeGrid.height*10 - medGrid.height*10)/2)+425;
     float smally = ((largeGrid.height*10 - smallGrid.height*10)/2)+425;
 
-
-
+    //init rectangles for mouse interaction
     Rectangle smallRec = {(float)(GetScreenWidth() - (smallGrid.width*10))/3, (float)smally-19, (float)smallGrid.width*10, (float)smallGrid.height*10};
     Rectangle medRec = {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy-19, (float)medGrid.width*10, (float)medGrid.height*10};
     Rectangle largeRec = {(float)x, 425.0f, (float)largeGrid.width*10, (float)largeGrid.height*10};
     Rectangle playRec = {(float)(GetScreenWidth() - (playButton.width*6))/2, (float)670-19, (float)playButton.width*6, (float)playButton.height*6};
     Rectangle exitRec = {(float)(GetScreenWidth() - (exitButton.width*6))/2, (float)770-19, (float)exitButton.width*6, (float)exitButton.height*6};
     
+    //check where user clicked
+    check_homescreen(smallRec ,medRec,largeRec,playRec,exitRec,mousePoint);
 
+    DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
+    DrawTextureEx(medGrid, {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy}, 0, 10, WHITE);
+    DrawTextureEx(largeGrid, {x, 425.0f}, 0, 10, WHITE);
+    //play button
 
-    //grid sizes
+    //greyed out play button
+    if(play == false){
+        DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
+    } else{
+        DrawTextureEx(playButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
+    }
+    
+    if(play == true){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, playRec)){
+            home_screen=false;
+        }
+    }
+
+    //exit button
+    DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (exitButton.width*6))/2, 770.0f}, 0, 6, WHITE);
+
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)){
+        exit = true;
+    }
+}
+
+void Snake::check_homescreen(Rectangle smallRec ,Rectangle medRec,Rectangle largeRec,Rectangle playRec,Rectangle exitRec, Vector2 mousePoint){
     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, smallRec)) {
         gridSize = SMALL;
         mode = 1;
@@ -353,38 +374,10 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     if(gridSize == LARGE){
         DrawRectangle(largeRec.x-10, largeRec.y-10, largeRec.width+20, largeRec.height+20, DARKGREEN);
     }
-
-    
-
-    DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
-    DrawTextureEx(medGrid, {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy}, 0, 10, WHITE);
-    DrawTextureEx(largeGrid, {x, 425.0f}, 0, 10, WHITE);
-    //play button
-
-    //greyed out play button
-    if(play == false){
-        DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
-    } else{
-        DrawTextureEx(playButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
-    }
-    
-    if(play == true){
-        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, playRec)){
-            home_screen=false;
-        }
-    }
-
-    //exit button
-    DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (exitButton.width*6))/2, 770.0f}, 0, 6, WHITE);
-
-    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)){
-        CloseWindow();
-    }
 }
 
 
 void Snake:: set_grid(){
-
     if(mode == 1){
         //small board
         grid.boardTall = 9;
@@ -403,8 +396,6 @@ void Snake:: set_grid(){
         grid.boardLong = 48;
         grid.cell_size = 40;
     }
-
     //grid variable
     gridSettings = Grid(grid.boardTall, grid.boardLong, grid.cell_size);
-
 }
