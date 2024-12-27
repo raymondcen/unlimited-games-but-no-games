@@ -57,8 +57,7 @@ void Snake::run_game() {
     playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
     gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
 
-    // Comment out for now b/c theres no exit button
-    // ToggleFullscreen();
+    ToggleFullscreen();
 
     //snake variables
     Color snake_color = GREEN;

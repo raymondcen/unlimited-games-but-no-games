@@ -37,6 +37,7 @@ add_subdirectory(src/games/src/utilities/grid_board)
 add_subdirectory(src/game_launcher)
 add_subdirectory(src/games/src/snake)
 add_subdirectory(src/games/src/tetris)
+add_subdirectory(src/games/src/pac_man)
 
 
 # Files to be compiled
@@ -51,6 +52,7 @@ target_include_directories(UnlimitedGames
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/game_launcher/include
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/games/src/snake/include
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/games/src/tetris/include
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/games/src/pac_man/include
 )
 
 
@@ -59,5 +61,6 @@ target_link_libraries(UnlimitedGames
     PRIVATE GameLauncher
     PRIVATE Snake
     PRIVATE Tetris
+    PRIVATE PacMan
     PRIVATE raylib
 )
