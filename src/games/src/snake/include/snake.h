@@ -33,6 +33,8 @@ struct Board{
     int border;
 };
 
+enum GridSize{SMALL, MED, LARGE};
+
 
 class Snake : public Game{
 private:
@@ -51,6 +53,7 @@ private:
     Board grid;
     Grid gridSettings;
 
+    GridSize gridSize;
 
     //textures
     Texture2D paButton;
@@ -81,6 +84,8 @@ public:
     void set_grid();
     void draw_endgame_screen(const char*, const char*, int, int, int);
     void draw_endgame_button(Vector2, Vector2, int, int);
-    
+    Vector2 reset_apple(Vector2);
+    void set_variables();
+
 
 };

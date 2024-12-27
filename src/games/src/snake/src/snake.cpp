@@ -26,6 +26,7 @@ Snake::Snake() {
     home_screen = true; 
     home_screen_drawn = false;
     play = false;
+
 }
 
 Snake::~Snake() {}
@@ -34,6 +35,8 @@ Snake::~Snake() {}
 void Snake::run_game() {
     //stop debug terminal
     SetTraceLogLevel(LOG_ERROR);
+    //no esc key to exit
+    SetExitKey(KEY_NULL);
 
     //resolution
     const int screenWidth = 1920;
@@ -109,9 +112,8 @@ void Snake::run_game() {
         //Draw everything
         BeginDrawing();
 
-            //HOME SCREEN?
-            //WIN CONDITION
-            //CHANGE MODE / SETTINGS?
+            //WIN CONDITION?
+            //CHANGE MODE / SETTINGS
 
             if(out_bounds == true || snake_coll == true){                                           //end game screen
                 
@@ -121,13 +123,8 @@ void Snake::run_game() {
 
                 //click play again button
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, paRec)) {
-                    out_bounds = false;
-                    snake_coll = false;
-                    body_pos = {Vector2{1,1}};
-                    direction = {0,0};
-                    score = 0;
-                    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
-                             (float)(rand() % (grid.boardTall - 2)+ 1)};
+                    set_variables();
+                    home_screen = true;
                 }
                
                 //click exit button
@@ -150,6 +147,7 @@ void Snake::run_game() {
             } else if(home_screen == true){                                                         //home screen
                 draw_homescreen(mousePoint);
                 set_grid();
+                set_variables();
             }
         EndDrawing();
         frames++;
@@ -159,6 +157,16 @@ void Snake::run_game() {
     UnloadTexture(exitButton);
 }
 
+
+void Snake::set_variables(){
+    out_bounds = false;
+    snake_coll = false;
+    body_pos = {Vector2{1,1}};
+    direction = {0,0};
+    score = 0;
+    apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
+                (float)(rand() % (grid.boardTall - 2)+ 1)};
+}
 
 void Snake::move_snake() {
     body_pos.pop_back();
@@ -295,10 +303,13 @@ void Snake::draw_endgame_button(Vector2 paPos, Vector2 exitPos, int paScale, int
 void Snake::draw_homescreen(Vector2 mousePoint){ 
     ClearBackground(LIME);
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
+    //DrawRectangleRec(Rectangle rec, Color color);
 
     //title
     DrawTextureEx(title, {(float)(GetScreenWidth() - (title.width*8))/2, 90.0f}, 0, 8, WHITE);
 
+    mousePoint = GetMousePosition();
+   
     const char *sizeText = "SELECT A GRID SIZE";
     int sizeTWid = MeasureText(sizeText, 40);
     DrawText(sizeText, (GetScreenWidth() - sizeTWid)/2, 350, 40, BLACK);
@@ -307,32 +318,68 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     float medy = ((largeGrid.height*10 - medGrid.height*10)/2)+425;
     float smally = ((largeGrid.height*10 - smallGrid.height*10)/2)+425;
 
+
+
+    Rectangle smallRec = {(float)(GetScreenWidth() - (smallGrid.width*10))/3, (float)smally-19, (float)smallGrid.width*10, (float)smallGrid.height*10};
+    Rectangle medRec = {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy-19, (float)medGrid.width*10, (float)medGrid.height*10};
+    Rectangle largeRec = {(float)x, 425.0f, (float)largeGrid.width*10, (float)largeGrid.height*10};
+    Rectangle playRec = {(float)(GetScreenWidth() - (playButton.width*6))/2, (float)670-19, (float)playButton.width*6, (float)playButton.height*6};
+    Rectangle exitRec = {(float)(GetScreenWidth() - (exitButton.width*6))/2, (float)770-19, (float)exitButton.width*6, (float)exitButton.height*6};
+    
+
+
     //grid sizes
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, smallRec)) {
+        gridSize = SMALL;
+        mode = 1;
+        play = true;
+    }
+    if(gridSize == SMALL){
+        DrawRectangle(smallRec.x-10, smallRec.y-10+19, smallRec.width+20, smallRec.height+20, DARKGREEN);\
+    }
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, medRec)) {
+        gridSize = MED;
+        mode = 2;
+        play = true;
+    }
+    if(gridSize == MED){
+        DrawRectangle(medRec.x-10, medRec.y-10+19, medRec.width+20, medRec.height+20, DARKGREEN);
+    }
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, largeRec)) {
+        gridSize = LARGE;
+        mode = 3;
+        play = true;
+    }
+    if(gridSize == LARGE){
+        DrawRectangle(largeRec.x-10, largeRec.y-10, largeRec.width+20, largeRec.height+20, DARKGREEN);
+    }
+
+    
+
     DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
     DrawTextureEx(medGrid, {(float)(GetScreenWidth() - (medGrid.width*10))/2, medy}, 0, 10, WHITE);
     DrawTextureEx(largeGrid, {x, 425.0f}, 0, 10, WHITE);
     //play button
 
     //greyed out play button
-    DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
+    if(play == false){
+        DrawTextureEx(gplayButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
+    } else{
+        DrawTextureEx(playButton, {(float)(GetScreenWidth() - (gplayButton.width*6))/2, 670.0f}, 0, 6, WHITE);
+    }
+    
+    if(play == true){
+        if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, playRec)){
+            home_screen=false;
+        }
+    }
+
     //exit button
     DrawTextureEx(exitButton, {(float)(GetScreenWidth() - (exitButton.width*6))/2, 770.0f}, 0, 6, WHITE);
-    home_screen_drawn = true;
 
-    mousePoint = GetMousePosition();
-    Rectangle smallRec = {(float)(GetScreenWidth() - (smallGrid.width*10))/3, (float)((largeGrid.height*10 - smallGrid.height*10)/2)+425, (float)smallGrid.width*10, (float)smallGrid.height*10};
-
-
-    // if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, smallRec)) {
-
-    //     DrawRectangle(smallRec.x, smallRec.y, smallRec.width, smallRec.height, DARKGREEN);
-    //     DrawTextureEx(smallGrid, {(float)(GetScreenWidth() - (smallGrid.width*10))/3, smally}, 0, 10, WHITE);
-    // }
-    
-    //select grid, hit play. call set_grid(), 
-
-    //hit play w/o selecting grid, greyed out play button.
-
+    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, exitRec)){
+        CloseWindow();
+    }
 }
 
 
