@@ -80,7 +80,7 @@ void Snake::run_game() {
     int exitScale = 4;
     Vector2 exitPos = {(float)(GetScreenWidth() - (exitButton.width*exitScale))/2, (float)740};
     Rectangle exitRec = {exitPos.x, exitPos.y-19, (float)exitButton.width*exitScale, (float)exitButton.height*exitScale}; //why is it offset by 19 pixels?????????
-    
+
     //score TEXT
     const char *scoreText = "SCORE: %04i";
     int sWid = MeasureText(scoreText, 100);

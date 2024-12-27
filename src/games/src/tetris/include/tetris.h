@@ -16,12 +16,16 @@
 
 // Standard Libraries
 #include <stdlib.h>
+#include <string>
 
 // Custom Libraries
 #include "game.h"
 #include "grid.h"
 #include "settings.h"
 #include "block.h"
+
+
+typedef enum GameScreen { TITLE = 0, GAMEPLAY, EXIT, PLAY_AGAIN } GameScreen;
 
 
 class Tetris : public Game {
@@ -39,9 +43,13 @@ private:
     int score;
     int high_score;
 
-    // Game editing methods
-    std::vector<Block> get_all_blocks();
+    // UI variables
+    GameScreen current_screen;
+    Texture2D title_image;
+
+    // Game functionality functions
     void setup_game(int rows, int columns);
+    std::vector<Block> get_all_blocks();
     void reset_game();
     Block get_random_block();
     bool block_outside();
@@ -60,6 +68,11 @@ private:
     void move_row_down(int row, int num_rows);
     void clear_row(int row);
     int clear_full_rows();
+
+    // Game display functions
+    void draw_title_screen();
+    void get_current_screen();
+    void display_current_screen();
 
 public:
     Tetris();

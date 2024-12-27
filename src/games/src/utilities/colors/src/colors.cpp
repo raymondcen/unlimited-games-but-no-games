@@ -22,6 +22,7 @@ const Color blue = {13, 64, 216, 255};
 const Color lightBlue = {59, 85, 162, 255};
 const Color darkBlue = {44, 44, 127, 255};
 
+
 std::vector<Color> get_colors() {
     return {black, green, red, orange, yellow, purple, cyan, blue};
 }

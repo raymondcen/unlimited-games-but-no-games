@@ -17,12 +17,6 @@ Tetris::Tetris() {}
 Tetris::~Tetris() {}
 
 
-std::vector<Block> Tetris::get_all_blocks() {
-    return {L_Block(), J_Block(), I_Block(), T_Block(),
-            O_Block(), S_Block(), Z_Block()};
-}
-
-
 void Tetris::setup_game(int rows, int columns) {
     // Initialize game data
     this->background_color = {44, 44, 127, 255};
@@ -36,6 +30,18 @@ void Tetris::setup_game(int rows, int columns) {
     this->game_over = false;
     this->score = 0;
     this->high_score = 0;
+
+    this->current_screen = TITLE;
+    this->title_image = LoadTexture("../src/games/src/tetris/include/title_image.png");
+}
+
+
+/*
+ * Game functionality function definitions
+ */
+std::vector<Block> Tetris::get_all_blocks() {
+    return {L_Block(), J_Block(), I_Block(), T_Block(),
+            O_Block(), S_Block(), Z_Block()};
 }
 
 
@@ -51,13 +57,13 @@ void Tetris::reset_game() {
 Block Tetris::get_random_block() {
     // Block vector empty, add all blocks again
     if (blocks.empty())
-        this->blocks = get_all_blocks();
+        blocks = get_all_blocks();
         
-    int random_index = rand() % this->blocks.size();
+    int random_index = rand() % blocks.size();
 
     // Get random block and remove it from vector
-    Block random_block = this->blocks[random_index];
-    this->blocks.erase(blocks.begin() + random_index);
+    Block random_block = blocks[random_index];
+    blocks.erase(blocks.begin() + random_index);
 
     return random_block;
 }
@@ -88,21 +94,22 @@ bool Tetris::block_fits() {
 
 
 void Tetris::calculate_full_row_score(int full_rows) {
-    if (full_rows == 0) {
-        return;
-    }
+    // Calculate current game score
     if (full_rows == 1) {
-        this->score += 100; 
+        score += 100; 
     }
     else if (full_rows == 2) {
-        this->score += 300;
+        score += 300;
     }
     else if (full_rows == 3) {
-        this->score += 500;
+        score += 500;
     }
     else if (full_rows == 4) {
-        this->score += 750;
+        score += 750;
     }
+    // Calculate session high score
+    if (score > high_score)
+        high_score = score;
 }
 
 
@@ -126,8 +133,8 @@ void Tetris::get_next_block() {
 
 
 void Tetris::draw_game() {
-    this->grid.draw_grid(START_X, START_Y);
-    this->current_block.draw_block();
+    grid.draw_grid(START_X, START_Y);
+    current_block.draw_block();
 }
 
 
@@ -192,9 +199,7 @@ void Tetris::move_to_bottom() {
 void Tetris::handle_input() {
     int key_pressed = GetKeyPressed();
 
-    if (game_over && key_pressed != 0) {
-        reset_game();
-        this->game_over = false;
+    if (game_over) {
         return;
     }
     else if (key_pressed == KEY_LEFT) {
@@ -217,11 +222,14 @@ void Tetris::handle_input() {
 
 
 void Tetris::move_block_down(double interval) {
-    this->current_time = GetTime();
+    if (current_screen != GAMEPLAY)
+        return;
+
+    current_time = GetTime();
 
     // Check if time is within interval
-    if (this->current_time - this->last_update_time >= interval) {
-        this->last_update_time = this->current_time;
+    if (current_time - last_update_time >= interval) {
+        last_update_time = current_time;
 
         // Move current block down one sqaure
         move_down();
@@ -231,12 +239,12 @@ void Tetris::move_block_down(double interval) {
 
 bool Tetris::full_row(int row) {
     // Check for valid row
-    if (row < 0 || row >= this->grid.get_rows())
+    if (row < 0 || row >= grid.get_rows())
         return false;
 
     // Check values of each column in row
-    for (int i = 0; i < this->grid.get_columns(); i++) {
-        if (this->grid.get_cell(row, i) == 0)
+    for (int i = 0; i < grid.get_columns(); i++) {
+        if (grid.get_cell(row, i) == 0)
             return false;
     }
     return true;
@@ -245,25 +253,25 @@ bool Tetris::full_row(int row) {
 
 void Tetris::move_row_down(int row, int num_rows) {
     // Check for valid row
-    if (row < 0 || row >= this->grid.get_rows())
+    if (row < 0 || row >= grid.get_rows())
         return;
 
     // Shift row down by num_rows and replace old row with zeroes
-    for (int i = 0; i < this->grid.get_columns(); i++) {
-        this->grid.update_grid_cell(row + num_rows, i, this->grid.get_cell(row, i));
-        this->grid.update_grid_cell(row, i, 0);
+    for (int i = 0; i < grid.get_columns(); i++) {
+        grid.update_grid_cell(row + num_rows, i, grid.get_cell(row, i));
+        grid.update_grid_cell(row, i, 0);
     }
 }
 
 
 void Tetris::clear_row(int row) {
     // Check for valid row
-    if (row < 0 || row >= this->grid.get_rows())
+    if (row < 0 || row >= grid.get_rows())
         return;
 
     // Update row with zeros
-    for (int i = 0; i < this->grid.get_columns(); i++)
-        this->grid.update_grid_cell(row, i, 0);
+    for (int i = 0; i < grid.get_columns(); i++)
+        grid.update_grid_cell(row, i, 0);
 }
 
 
@@ -271,7 +279,7 @@ int Tetris::clear_full_rows() {
     int full_rows = 0;
 
     // Clear rows bottom up
-    for (int i = this->grid.get_rows() - 1; i >= 0; i--) {
+    for (int i = grid.get_rows() - 1; i >= 0; i--) {
         if (full_row(i)) {
             clear_row(i);
             full_rows++;
@@ -280,10 +288,60 @@ int Tetris::clear_full_rows() {
             move_row_down(i, full_rows);
         }
     }
-    std::cout << "Full Rows: " << full_rows << std::endl;
-    std::cout << "Score: " << this->score << std::endl;
-
     return full_rows;
+}
+
+
+/*
+ * UI Function definitions
+ */
+void Tetris::draw_title_screen() {
+    std::vector<Color> colors = get_colors();
+    Vector2 title_position = {(float)(SCREEN_WIDTH - title_image.width * 7)/2, 200.0f};
+
+    // Draw title image
+    DrawRectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, background_color);
+    DrawTextureEx(title_image, title_position, 0.0f, 7.0f, WHITE);
+}
+
+
+void Tetris::get_current_screen() {
+    if (current_screen == TITLE) {
+        // Press space or enter to move onto game
+        if (IsKeyPressed(KEY_ENTER))
+            current_screen = GAMEPLAY;
+    }
+    else if (current_screen == GAMEPLAY) {
+        // Load 
+       if (IsKeyPressed(KEY_ESCAPE))
+        current_screen = EXIT;
+    }
+    else if (current_screen == EXIT) {
+        std::cout << "NULL" << std::endl;
+    }
+    else if (current_screen == PLAY_AGAIN) {
+        std::cout << "NULL" << std::endl;
+    }
+}
+
+
+void Tetris::display_current_screen() {
+    if (current_screen == TITLE) {
+        draw_title_screen();
+    }
+    else if (current_screen == GAMEPLAY) {
+        handle_input();
+        move_block_down(0.2);
+        draw_game();
+    }
+    else if (current_screen == EXIT) {
+        // display game play stuff
+        std::cout << "NULL" << std::endl;
+    }
+    else if (current_screen == PLAY_AGAIN) {
+        // display are you sure you want to exit y/n
+        std::cout << "NULL" << std::endl;
+    }
 }
 
 
@@ -295,24 +353,23 @@ void Tetris::run_game() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sirtet");
     SetTargetFPS(60);
 
+    // Unbind ESC key
+    SetExitKey(KEY_NULL);
+
     setup_game(rows, columns);
 
     while (!WindowShouldClose()) {
-        // Get and handle block movement
-        handle_input();
+        get_current_screen();
 
-        // Move block down given a time interval in seconds
-        move_block_down(0.2);
-
-//------------------------------------
-
+//------------------------------------//
         BeginDrawing();
 
-        ClearBackground(this->background_color);
-        draw_game();
+        ClearBackground(background_color);
+        display_current_screen();
 
         EndDrawing();
     }
+    UnloadTexture(title_image);
     CloseWindow();
 
     return;
