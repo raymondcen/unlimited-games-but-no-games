@@ -33,6 +33,8 @@ struct Board{
     int border;
 };
 
+enum GridSize{SMALL, MED, LARGE};
+
 
 class Snake : public Game{
 private:
@@ -51,6 +53,7 @@ private:
     Board grid;
     Grid gridSettings;
 
+    GridSize gridSize;
 
     //textures
     Texture2D paButton;
