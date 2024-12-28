@@ -12,6 +12,11 @@
 
 
 class Game {
+private:
+    // stuff for displaying game?
+    // title
+    // description
+
 public:
     Game();
     ~Game();
