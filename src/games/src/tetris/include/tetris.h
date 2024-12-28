@@ -1,8 +1,9 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: tetris.h
+ * Date: 12/27/2024
+ * Description: Header file for Tetris game class
+ * Dependencies: Raylib, game class, settings file, grid class, block class,
+ *               title image png
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/

@@ -1,8 +1,8 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: block.cpp
+ * Date: 12/27/2024
+ * Description: Function definitions for block class
+ * Dependencies: Block class
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/

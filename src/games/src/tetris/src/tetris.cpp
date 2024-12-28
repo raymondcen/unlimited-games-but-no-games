@@ -1,8 +1,8 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: tetris.cpp
+ * Date: 12/27/2024
+ * Description: Function definitions for Tetris game functionality and UI
+ * Dependencies: Tetris class
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/

@@ -1,8 +1,8 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: block.h
+ * Date: 12/27/2024
+ * Description: Header file for Block Parent class and the derived classes 
+ * Dependencies: Raylib, Position class, Settings file, Colors vector
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/

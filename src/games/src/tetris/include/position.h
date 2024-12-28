@@ -1,8 +1,8 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: position.h
+ * Date: 12/27/2024
+ * Description: Header file for Position class
+ * Dependencies: None
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/

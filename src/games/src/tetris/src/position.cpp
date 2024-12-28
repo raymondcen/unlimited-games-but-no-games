@@ -1,8 +1,8 @@
 /****************************************************************************
- * File Name:
- * Date:
- * Description:
- * Dependencies:
+ * File Name: position.cpp
+ * Date: 12/27/2024
+ * Description: Function definitions for Position class
+ * Dependencies: Position class
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/
