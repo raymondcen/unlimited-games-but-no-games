@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
 
 
     // Option 1, allocate games on stack
+        // Might get stack overflow if games are too big
     Snake snake_game;
     Tetris tetris_game;
     PacMan pac_man_game;
@@ -36,7 +37,8 @@ int main(int argc, char** argv) {
 
 
 
-    // Option 2, allocate games on heap we manually manage, need to find a way to look for memory leaks if we go with this option
+    // Option 2, allocate games on heap we manually manage
+        // Need to find a way to look for memory leaks if we go with this option
     Snake* snake_game_heap = new Snake();
     Tetris* tetris_game_heap = new Tetris();
     PacMan* pac_man_game_heap = new PacMan();
@@ -46,6 +48,7 @@ int main(int argc, char** argv) {
 
 
     // Option 3, games on heap, but use unique ptrs to manage memory itself
+        // Need to learn how this works
     std::unique_ptr<Game> snake_unique = std::make_unique<Snake>();
     std::unique_ptr<Game> tetris_unique = std::make_unique<Tetris>();
     std::unique_ptr<Game> pac_man_unique = std::make_unique<PacMan>();
