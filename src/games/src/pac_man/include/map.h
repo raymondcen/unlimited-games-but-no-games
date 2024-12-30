@@ -10,6 +10,7 @@
 
 #pragma once
 
+
 // Standard Libraries
 #include <iostream>
 #include <cstdlib>
@@ -18,19 +19,3 @@
 // Raylib Libraries
 #include <raylib.h>
 #include <raymath.h>
-
-// Custom Libraries
-#include "game.h"
-
-
-class PacMan : public Game {
-private:
-
-
-public:
-    PacMan();
-    ~PacMan();
-
-    void run_game();
-
-};

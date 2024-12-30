@@ -42,7 +42,7 @@ void Snake::run_game() {
  
     //resize window
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "Ekans");
+    InitWindow(screenWidth, screenHeight, "EKANS");
     
     //no esc key to exit
     SetExitKey(KEY_NULL);
