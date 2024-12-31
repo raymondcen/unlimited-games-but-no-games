@@ -24,8 +24,9 @@
 
 
 class PacMan : public Game {
+    
 private:
-
+    Vector2 position;
 
 public:
     PacMan();

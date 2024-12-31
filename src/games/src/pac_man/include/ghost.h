@@ -21,3 +21,13 @@
 #include <raymath.h>
 
 // Custom Libraries
+
+class Ghost{
+
+private:
+    Color color;
+    Vector2 position;
+    
+public:
+
+};
