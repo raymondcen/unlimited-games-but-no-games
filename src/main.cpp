@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 
     // GameLauncher game_launcher;
 
-    // // Option 1, allocate games on stack
-    //     // Might get stack overflow if games are too big
+    // // Option 1, use vector
+    //     // Data gets allocated memory on the heap, vector itself uses an array that is stored on heap, this is a viable option now
     // Snake snake_game;
     // Tetris tetris_game;
     // PacMan pac_man_game;
