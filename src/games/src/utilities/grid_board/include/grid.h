@@ -41,4 +41,8 @@ public:
     void draw_grid(int start_x, int start_y);
     bool outside_grid(int row, int column) const;
 
+
+
+     void draw_grid2(int start_x, int start_y);
+
 };
