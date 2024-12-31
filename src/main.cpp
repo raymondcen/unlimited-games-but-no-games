@@ -68,6 +68,9 @@ int main(int argc, char** argv) {
     // add games to launcher
         // have an add game function or pass in games vector?
     // game_launcher.run_launcher();
+    // If option 2,
+        // On window closing, deallocate memory on heap
+
 
     return 0;
 }

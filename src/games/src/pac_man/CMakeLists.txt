@@ -4,8 +4,10 @@
 
 
 add_library(PacMan STATIC
+    include/ghost.h
     include/pac_man.h
     src/pac_man.cpp
+    src/ghost.cpp
 )
 
 
