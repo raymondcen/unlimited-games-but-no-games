@@ -50,6 +50,7 @@ private:
     bool home_screen_drawn;
     bool play;
     bool exit;
+    bool grid_setup;
     Vector2 apple;
     Board grid;
     Grid gridSettings;

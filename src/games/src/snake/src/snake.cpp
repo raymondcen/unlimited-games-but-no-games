@@ -27,6 +27,8 @@ Snake::Snake() {
     play = false;
     exit = false;
 
+    grid_setup = false;
+
 }
 
 Snake::~Snake() {}
@@ -130,7 +132,10 @@ void Snake::run_game() {
                 draw_apple(grid, apple_color, apple);
             } else if(home_screen == true){                                                         //home screen
                 draw_homescreen(mousePoint);
-                set_grid();
+                if(grid_setup == true){
+                    set_grid();
+                }
+                
                 set_variables();
             }
         EndDrawing();
@@ -159,6 +164,7 @@ void Snake::set_variables(){
     score = 0;
     apple = {(float) (rand() % (grid.boardLong - 2 )+ 1), 
                 (float)(rand() % (grid.boardTall - 2)+ 1)};
+    grid_setup = false;
 }
 
 void Snake::move_snake() {
@@ -338,6 +344,7 @@ void Snake::draw_homescreen(Vector2 mousePoint){
     if(play == true){
         if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(mousePoint, playRec)){
             home_screen=false;
+            grid_setup = true;
         }
     }
 
