@@ -453,7 +453,7 @@ void Tetris::run_game() {
     const int columns = 10;
 
     // Setup window
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sirtet");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "SIRTET");
     SetTargetFPS(60);
 
     // Unbind ESC key
