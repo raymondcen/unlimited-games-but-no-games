@@ -14,6 +14,7 @@ Unlimited Games but No Games is a small project aimed at recreating classic game
   - Atari Breakout
   - Doodle Jump
   - MineSweeper
+  - Hunter the Wumpus
   - More?
 
 ## Contributers
