@@ -6,8 +6,6 @@
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/
-
-
 #pragma once
 
 // Standard Libraries
@@ -19,25 +17,24 @@
 #include <raylib.h>
 #include <raymath.h>
 
-// Custom Libraries
-#include "game.h"
-#include "grid.h"
-#include "map.h"
 
-typedef enum GameScreen { TITLE = 0, GAMEPLAY, EXIT, PLAY_AGAIN } GameScreen;
+#define sw 1240
+#define sh 980
 
-class PacMan : public Game {
-    
+class Map {
 private:
-    Vector2 position;
+    int map[22][19];
+    int num_columns;
+    int num_rows;
+    int cell_size;
 
-    //map variables
-    Map map;
+    int mid_map_x;
+    int mid_map_y;
+    
 
 public:
-    PacMan();
-    ~PacMan();
-
-    void run_game();
-
+    Map();
+    ~Map();
+    void draw_map(int, int);
+    void initiate_map();
 };
