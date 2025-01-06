@@ -13,7 +13,9 @@
 
 
 PacMan::PacMan() {
-    pac_direction =  {sw/2, sh/2};
+    pac_direction =  {0,0};
+    pac_pos =  {sw/2, sh/2};
+
 
 }
 
@@ -24,7 +26,7 @@ PacMan::~PacMan() {}
 
 void PacMan::draw_pacman(){
     //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
-    DrawTextureEx(pac_man_sprite, pac_direction, 0, 2, WHITE);    
+    DrawTextureEx(pac_man_sprite, pac_pos, 0, 2, WHITE);    
 }
 
 void PacMan::load_sprites(){
@@ -34,17 +36,23 @@ void PacMan::load_sprites(){
 
 void PacMan::get_input(){
     if((IsKeyDown(KEY_RIGHT))){
-        pac_direction = Vector2Add({1,0}, pac_direction);
+        pac_direction = {1,0};
     }
     if((IsKeyDown(KEY_LEFT))){
-        pac_direction = Vector2Add({-1,0}, pac_direction);
+        pac_direction = {-1,0};
     }
     if((IsKeyDown(KEY_UP))){
-        pac_direction = Vector2Add({0,-1}, pac_direction);
+        pac_direction = {0,-1};
     }
     if((IsKeyDown(KEY_DOWN))){
-        pac_direction = Vector2Add({0,1}, pac_direction);
+        pac_direction = {0,1};
     }
+}
+
+
+void PacMan::update_pac(){
+    get_input();
+    pac_pos = Vector2Add(pac_pos, pac_direction); //move pacman
 }
 
 void PacMan::run_game() {
@@ -58,7 +66,8 @@ void PacMan::run_game() {
     load_sprites();
 
     while (!WindowShouldClose()) {
-        get_input();
+        update_pac();
+
         
         BeginDrawing();
             ClearBackground(BLACK);

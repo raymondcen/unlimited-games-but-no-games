@@ -36,7 +36,7 @@ void Map::draw_map(int start_x, int start_y) {
                 DrawRectangle((j * cell_size) + mid_map_x, (i * cell_size)+5, 
                                 cell_size, cell_size, BLACK);
 
-                DrawPixel((j * cell_size) + mid_map_x + cell_size/2, (i * cell_size)+5 + cell_size/2, WHITE);
+                DrawPixel((j * cell_size) + mid_map_x, (i * cell_size)+5, WHITE);
             }
         }
     }

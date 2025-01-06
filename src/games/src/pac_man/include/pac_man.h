@@ -34,7 +34,9 @@ private:
     //map variables
     Map map;
 
+    //pac man variables
     Vector2 pac_direction;
+    Vector2 pac_pos;
 
     //sprites
     Texture2D pac_man_sprite;
@@ -47,5 +49,5 @@ public:
     void draw_pacman();
     void load_sprites();
     void get_input();
-
+    void update_pac();
 };
