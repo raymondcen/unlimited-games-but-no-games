@@ -21,6 +21,11 @@ PacMan::PacMan() {
 PacMan::~PacMan() {}
 
 
+
+void PacMan::draw_pacman(){
+    
+}
+
 void PacMan::run_game() {
 
     InitWindow(sw, sh, "NAM-CAP");
@@ -34,6 +39,7 @@ void PacMan::run_game() {
             ClearBackground(BLACK);
 
             map.draw_map(0,0);
+            draw_pacman();
 
         EndDrawing();
     }

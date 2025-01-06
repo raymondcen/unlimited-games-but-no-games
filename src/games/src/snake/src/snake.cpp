@@ -50,14 +50,14 @@ void Snake::run_game() {
     SetExitKey(KEY_NULL);
 
      //load images
-    paButton = LoadTexture("../src/games/src/snake/include/paButton.png");
-    exitButton = LoadTexture("../src/games/src/snake/include/exitButton.png");
-    title = LoadTexture("../src/games/src/snake/include/title.png");
-    largeGrid = LoadTexture("../src/games/src/snake/include/largeGrid.png");
-    medGrid = LoadTexture("../src/games/src/snake/include/medGrid.png");
-    smallGrid = LoadTexture("../src/games/src/snake/include/smallGrid.png");
-    playButton = LoadTexture("../src/games/src/snake/include/playButton.png");
-    gplayButton = LoadTexture("../src/games/src/snake/include/gplayButton.png");
+    paButton = LoadTexture("../src/games/src/snake/assets/paButton.png");
+    exitButton = LoadTexture("../src/games/src/snake/assets/exitButton.png");
+    title = LoadTexture("../src/games/src/snake/assets/title.png");
+    largeGrid = LoadTexture("../src/games/src/snake/assets/largeGrid.png");
+    medGrid = LoadTexture("../src/games/src/snake/assets/medGrid.png");
+    smallGrid = LoadTexture("../src/games/src/snake/assets/smallGrid.png");
+    playButton = LoadTexture("../src/games/src/snake/assets/playButton.png");
+    gplayButton = LoadTexture("../src/games/src/snake/assets/gplayButton.png");
 
     //ToggleFullscreen();
 

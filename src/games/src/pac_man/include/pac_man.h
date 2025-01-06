@@ -24,7 +24,7 @@
 #include "grid.h"
 #include "map.h"
 
-typedef enum GameScreen { TITLE = 0, GAMEPLAY, EXIT, PLAY_AGAIN } GameScreen;
+typedef enum CurrentScreen { PTITLE = 0, PGAMEPLAY, PEXIT, PPLAY_AGAIN } CurrentScreen;
 
 class PacMan : public Game {
     
@@ -39,5 +39,6 @@ public:
     ~PacMan();
 
     void run_game();
+    void draw_pacman();
 
 };

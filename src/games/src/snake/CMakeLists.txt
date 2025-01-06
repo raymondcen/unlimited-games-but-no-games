@@ -5,6 +5,7 @@
 
 add_library(Snake STATIC
     include/snake.h
+    assets
     src/snake.cpp
 )
 
