@@ -11,6 +11,7 @@
 // Standard Libraries
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 
 
 // Raylib Libraries
@@ -31,7 +32,6 @@ private:
     int mid_map_x;
     int mid_map_y;
     
-
 public:
     Map();
     ~Map();

@@ -15,6 +15,8 @@ Map::Map(){
 
     mid_map_x= (sw - (19*cell_size))/2;
     mid_map_y=(sh - (22*cell_size))/2;
+
+    
 }
 
 Map::~Map(){}
@@ -33,6 +35,8 @@ void Map::draw_map(int start_x, int start_y) {
             if(map[i][j] == 0){
                 DrawRectangle((j * cell_size) + mid_map_x, (i * cell_size)+5, 
                                 cell_size, cell_size, BLACK);
+
+                DrawPixel((j * cell_size) + mid_map_x + cell_size/2, (i * cell_size)+5 + cell_size/2, WHITE);
             }
         }
     }

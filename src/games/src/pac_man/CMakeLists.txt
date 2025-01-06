@@ -7,6 +7,7 @@ add_library(PacMan STATIC
     include/ghost.h
     include/pac_man.h
     include/map.h
+    assets
     src/pac_man.cpp
     src/ghost.cpp
     src/map.cpp

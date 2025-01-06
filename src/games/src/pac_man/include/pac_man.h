@@ -34,11 +34,18 @@ private:
     //map variables
     Map map;
 
+    Vector2 pac_direction;
+
+    //sprites
+    Texture2D pac_man_sprite;
+
 public:
     PacMan();
     ~PacMan();
 
     void run_game();
     void draw_pacman();
+    void load_sprites();
+    void get_input();
 
 };
