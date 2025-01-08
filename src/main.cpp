@@ -25,15 +25,6 @@ int main(int argc, char** argv) {
 
     // GameLauncher game_launcher;
 
-    // // Option 1, use vector
-    //     // Data gets allocated memory on the heap, vector itself uses an array that is stored on heap, this is a viable option now
-    // Snake snake_game;
-    // Tetris tetris_game;
-    // PacMan pac_man_game;
-
-    // std::vector<Game*> games_stack = {&snake_game, &tetris_game, &pac_man_game};
-
-
     // // Option 2, allocate games on heap we manually manage
     //     // Need to find a way to look for memory leaks if we go with this option
     // Snake* snake_game_heap = new Snake();
