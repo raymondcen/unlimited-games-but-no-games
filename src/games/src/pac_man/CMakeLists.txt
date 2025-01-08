@@ -1,5 +1,5 @@
 #-------------------------------------#
-# CMake file for Main Pac-Man Game    #
+# CMake file for Pac-Man Game         #
 #-------------------------------------#
 
 
