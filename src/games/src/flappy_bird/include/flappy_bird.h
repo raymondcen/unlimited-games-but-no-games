@@ -23,8 +23,8 @@ class FlappyBird : public Game {
 private:
 
 public:
-FlappyBird();
-~FlappyBird();
-void run_game() override;
+    FlappyBird();
+    ~FlappyBird();
+    void run_game() override;
 
 };
