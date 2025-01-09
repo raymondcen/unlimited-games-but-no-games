@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
     games_unique_ptr.push_back(std::move(flappy_bird_unique));
 
 // RUN GAME TO TEST HERE
-    games_unique_ptr[2]->run_game();
+    games_unique_ptr[3]->run_game();
 
 
     // For option 2, we have to manually free

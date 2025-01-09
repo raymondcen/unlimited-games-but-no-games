@@ -8,26 +8,8 @@
  ****************************************************************************/
 
 
-// Standard Libraries
+#pragma once
 
 
-// Raylib Libraries
-#include <raylib.h>
-
-
-// Custom Libraries
-#include "game.h"
-#include "settings.h"
-
-
-class FlappyBird : public Game {
-private:
-
-    void setup_game();
-
-public:
-    FlappyBird();
-    ~FlappyBird();
-    void run_game() override;
-
-};
+#define SCREEN_WIDTH_FB 1280
+#define SCREEN_HEIGHT_FB 720
