@@ -14,9 +14,9 @@
 
 PacMan::PacMan() {
     pac_direction =  {0,0};
-    pac_pos =  {sw/2, sh/2};
+    pac_pos =  {pacman_spawn_x, pacman_spawn_y};
 
-
+    sprite_scale = 2;
 }
 
 
@@ -25,12 +25,16 @@ PacMan::~PacMan() {}
 
 
 void PacMan::draw_pacman(){
-    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);    
-    DrawTextureEx(pac_man_sprite, pac_pos, 0, 2, WHITE);    
+    //DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);  
+    DrawRectangle(pac_pos.x, pac_pos.y, pac_man_sprite.width*sprite_scale+3, 
+                    pac_man_sprite.height*sprite_scale+3, GREEN);
+
+    DrawTextureEx(pac_man_sprite, pac_pos, 0, sprite_scale, WHITE);    
 }
 
 void PacMan::load_sprites(){
     pac_man_sprite = LoadTexture("../src/games/src/pac_man/assets/pactest.png");
+
 }
 
 
@@ -70,8 +74,7 @@ void PacMan::run_game() {
 
         
         BeginDrawing();
-            ClearBackground(BLACK);
-            
+            ClearBackground(BLACK);   
             map.draw_map(0,0);
 
             draw_pacman();

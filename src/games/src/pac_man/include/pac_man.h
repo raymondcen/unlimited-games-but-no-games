@@ -41,6 +41,14 @@ private:
     //sprites
     Texture2D pac_man_sprite;
 
+    int sprite_scale;
+
+    //spawnpoint
+    float pacman_spawn_x = 599;
+    float pacman_spawn_y = 497;
+
+
+
 public:
     PacMan();
     ~PacMan();

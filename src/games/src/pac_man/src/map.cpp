@@ -16,7 +16,7 @@ Map::Map(){
     mid_map_x= (sw - (19*cell_size))/2;
     mid_map_y=(sh - (22*cell_size))/2;
 
-    
+    bool mapDrawn = false;
 }
 
 Map::~Map(){}
@@ -75,4 +75,11 @@ void Map::initiate_map(){
             map[i][j] = temp_map[i][j];
         }
     }
+}
+
+void Map::mapDrawn_setter(bool state){
+    mapDrawn = state;
+}
+bool Map::mapDrawn_getter(){
+    return mapDrawn;
 }
