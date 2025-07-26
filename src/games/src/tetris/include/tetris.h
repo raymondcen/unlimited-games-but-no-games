@@ -27,7 +27,12 @@
 #include "block.h"
 
 
-typedef enum GameScreen { TITLE = 0, GAMEPLAY, EXIT, PLAY_AGAIN } GameScreen;
+typedef enum GameScreen { 
+    TITLE = 0,
+    GAMEPLAY,
+    EXIT,
+    PLAY_AGAIN 
+} GameScreen;
 
 
 class Tetris : public Game {

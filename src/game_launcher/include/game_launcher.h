@@ -34,10 +34,10 @@ public:
 GameLauncher();
 ~GameLauncher();
 
-// void initialize_launcher();
-// void add_game(Game* new_game);
+void initialize_launcher();
+void add_game(Game* new_game);
 
-int run_launcher(int argc, char** argv);
+void run_launcher();
 
 
 public slots:

@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Find Qt
-set(CMAKE_PREFIX_PATH "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6")
+set(CMAKE_PREFIX_PATH "C:/Qt/6.8.3/mingw_64/lib/cmake/Qt6")
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core Gui Quick Qml)
 set(CMAKE_AUTOMOC ON)
 
@@ -27,7 +27,6 @@ FetchContent_Declare (
 FetchContent_MakeAvailable(raylib)
 
 qt_standard_project_setup()
-
 
 # Utility libraries
 add_subdirectory(src/games/src/utilities/colors)
