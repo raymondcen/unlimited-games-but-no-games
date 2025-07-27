@@ -20,7 +20,7 @@ Tetris::~Tetris() {}
 void Tetris::setup_game(int rows, int columns) {
     // Initialize game data
     this->background_color = {44, 44, 127, 255};
-    this->grid = Grid(rows, columns, CELL_SIZE);
+    this->grid = Grid(rows, columns, CellSize);
     this->blocks = get_all_blocks();
     this->current_block = get_random_block();
     this->next_block = get_random_block();
@@ -371,7 +371,7 @@ void Tetris::draw_next_block() {
 
 
 void Tetris::draw_game() {
-    grid.draw_grid(START_X, START_Y);
+    grid.draw_grid(StartingXPos, StartingYPos);
     current_block.draw_block(0, 0);
     draw_score();
     draw_next_block();
@@ -379,20 +379,20 @@ void Tetris::draw_game() {
 
 
 void Tetris::draw_title_screen() {
-    Vector2 title_position = {(float)(SCREEN_WIDTH - title_image.width * 7)/2, 200.0f};
+    Vector2 title_position = {(float)(ScreenWidth - title_image.width * 7)/2, 200.0f};
 
     DrawTextureEx(title_image, title_position, 0.0f, 7.0f, WHITE);
 }
 
 
 void Tetris::draw_exit_screen() {
-    DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
+    DrawRectangle(0, 100, ScreenWidth, ScreenHeight / 2, BLACK);
     DrawText("Are you sure you want to exit? [Y/N]", 60, 300, 30, WHITE);
 }
 
 
 void Tetris::draw_play_again_screen() {
-    DrawRectangle(0, 100, SCREEN_WIDTH, SCREEN_HEIGHT / 2, BLACK);
+    DrawRectangle(0, 100, ScreenWidth, ScreenHeight / 2, BLACK);
     DrawText("Would you like to play again? [Y/N]", 60, 300, 30, WHITE);
 }
 
@@ -453,7 +453,7 @@ void Tetris::run_game() {
     const int columns = 10;
 
     // Setup window
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "SIRTET");
+    InitWindow(ScreenWidth, ScreenHeight, "SIRTET");
     SetTargetFPS(60);
 
     // Unbind ESC key

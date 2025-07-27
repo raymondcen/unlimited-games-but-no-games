@@ -10,7 +10,7 @@
 
 // Standard Libraries
 #include <iostream>
-#include <memory>       // For unique ptrs
+#include <memory>
 
 // Custom Libraries
 #include "game_launcher.h"

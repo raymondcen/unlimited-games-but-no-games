@@ -17,22 +17,24 @@
 // Standard Libraries
 #include <vector>
 #include <map>
+#include <stdint.h>
 
 // Custom Libraries
 #include "position.h"
-#include "settings.h"
 #include "colors.h"
-
 
 // Parent class for blocks
 class Block {
 protected:
     int id;
     std::map<int, std::vector<Position>> cells;
-    int cell_size;
     int rotate_state;
     int row_offset;
     int column_offset;
+
+    static const int32_t StartingXPos = 25;
+    static const int32_t StartingYPos = 25;
+    static const int32_t CellSize = 40;
 
 public:
     Block();

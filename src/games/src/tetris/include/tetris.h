@@ -19,13 +19,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string>
+#include <stdint.h>
 
 // Custom Libraries
 #include "game.h"
 #include "grid.h"
-#include "settings.h"
 #include "block.h"
-
 
 typedef enum GameScreen { 
     TITLE = 0,
@@ -88,6 +87,13 @@ private:
     void draw_play_again_screen();
     void get_current_screen();
     void display_current_screen();
+
+protected:
+    static const int32_t ScreenWidth = 1280;
+    static const int32_t ScreenHeight = 720;
+    static const int32_t StartingXPos = 25;
+    static const int32_t StartingYPos = 25;
+    static const int32_t CellSize = 40;
 
 public:
     Tetris();

@@ -16,7 +16,6 @@
  */
 Block::Block() {
     this->id = -1;
-    this->cell_size = CELL_SIZE;
     this->rotate_state = 0;
     this->row_offset = 0;
     this->column_offset = 0;
@@ -61,8 +60,8 @@ void Block::draw_block(int x_offset, int y_offset) {
 
     // Draw shape based on grid location
     for (Position square: cell_positions) {
-        DrawRectangle(square.get_column() * cell_size + START_X + x_offset, square.get_row() * cell_size + START_Y + y_offset,
-                      cell_size - 1, cell_size - 1, colors[this->id]);
+        DrawRectangle(square.get_column() * CellSize + StartingXPos + x_offset, square.get_row() * CellSize + StartingYPos + y_offset,
+                      CellSize - 1, CellSize - 1, colors[this->id]);
     }
 }
 
