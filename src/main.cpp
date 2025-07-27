@@ -19,23 +19,15 @@
 #include "pac_man.h"
 #include "flappy_bird.h"
 
+#define RELEASE
 
 int main(int argc, char** argv) {
     srand(time(NULL));
 
-    // GameLauncher game_launcher;
-
-    // // Option 2, allocate games on heap we manually manage
-    //     // Need to find a way to look for memory leaks if we go with this option
-    // Snake* snake_game_heap = new Snake();
-    // Tetris* tetris_game_heap = new Tetris();
-    // PacMan* pac_man_game_heap = new PacMan();
-
-    // std::vector<Game*> games_heap = {snake_game_heap, tetris_game_heap, pac_man_game_heap};
-
-
-    // Option 3, games on heap, but use unique ptrs to manage memory itself
-        // Need to learn how this works
+    const int32_t ReturnValue = 0;
+    
+#ifndef RELEASE
+    GameLauncher gameLauncher;
     std::unique_ptr<Game> snake_unique = std::make_unique<Snake>();
     std::unique_ptr<Game> tetris_unique = std::make_unique<Tetris>();
     std::unique_ptr<Game> pac_man_unique = std::make_unique<PacMan>();
@@ -47,22 +39,15 @@ int main(int argc, char** argv) {
     games_unique_ptr.push_back(std::move(pac_man_unique));
     games_unique_ptr.push_back(std::move(flappy_bird_unique));
 
-// RUN GAME TO TEST HERE
-    games_unique_ptr[1]->run_game();
+    // games_unique_ptr[0]->run_game();
 
-    // For option 2, we have to manually free
-    // for (Game* game : games_heap) {
-    //     if (game != nullptr)
-    //         free(game);
-    // }
+    QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+    const QString MainWindowPath = gameLauncher.getMainWindowPath();
 
-    // init launcher
-    // add games to launcher
-        // have an add game function or pass in games vector?
-    // game_launcher.run_launcher();
-    // If option 2,
-        // On window closing, deallocate memory on heap
+    engine.load(QUrl::fromLocalFile(MainWindowPath));
 
-
-    return 0;
+    const int32_t ReturnValue = app.exec();
+#endif
+    return ReturnValue;
 }

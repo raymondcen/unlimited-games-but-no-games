@@ -14,7 +14,7 @@ Unlimited Games but No Games is a small project aimed at recreating classic game
 ### - IN DEVELOPMENT OF
 
 * Game launcher UI application
-* Pac*Man
+* Pac-Man
 * Flappy Bird
 * Atari Breakout
 * Doodle Jump

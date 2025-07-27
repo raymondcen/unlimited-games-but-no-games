@@ -15,6 +15,9 @@
 
 // Qt Libraries
 #include <QObject>
+#include <QtQml>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 // Standard Libraries
 
@@ -26,8 +29,10 @@
 
 class GameLauncher : public QObject {
     Q_OBJECT
-
+    QML_ELEMENT
 private:
+
+protected:
 
 public:
 
@@ -37,8 +42,9 @@ GameLauncher();
 void initialize_launcher();
 void add_game(Game* new_game);
 
-void run_launcher();
+int32_t run_launcher(int argc, char **argv);
 
+QString getMainWindowPath() const;
 
 public slots:
 
