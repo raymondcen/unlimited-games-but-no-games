@@ -2,15 +2,15 @@
 # CMake file for game launcher library  #
 #---------------------------------------#
 
-# Set QML path
-set(QML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml")
-add_compile_definitions(QML_DIR="${QML_DIR}")
-
 # Files needed for game launcher
 add_library(GameLauncher STATIC
     include/game_launcher.h
     src/game_launcher.cpp
 )
+
+# Set QML path
+set(QML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources/qml")
+target_compile_definitions(GameLauncher PRIVATE QML_DIR="${QML_DIR}")
 
 # Header files
 target_include_directories(GameLauncher

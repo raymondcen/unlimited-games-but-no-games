@@ -2,15 +2,13 @@
  * File Name: tetris.h
  * Date: 12/27/2024
  * Description: Header file for Tetris game class
- * Dependencies: Raylib, game class, settings file, grid class, block class,
+ * Dependencies: Raylib, game class, grid class, block class,
  *               title image png
  * Author(s): Raymond Cen,
  *            Ivan Wong
  ****************************************************************************/
 
-
 #pragma once
-
 
 // Raylib Libraries
 #include <raylib.h>
@@ -24,6 +22,7 @@
 // Custom Libraries
 #include "game.h"
 #include "grid.h"
+#include "tetrisSettings.h"
 #include "block.h"
 
 typedef enum GameScreen { 
@@ -33,6 +32,7 @@ typedef enum GameScreen {
     PLAY_AGAIN 
 } GameScreen;
 
+using WallKickContainer = std::vector<std::vector<std::vector<Position>>>;
 
 class Tetris : public Game {
 private:
@@ -42,7 +42,7 @@ private:
     std::vector<Block> blocks;
     Block current_block;
     Block next_block;
-    std::vector<std::vector<std::vector<Position>>> wall_kick_data;
+    WallKickContainer wall_kick_data;
     double current_time;
     double last_update_time;
     bool game_over;
@@ -56,7 +56,7 @@ private:
 
     // Game functionality functions
     void setup_game(int rows, int columns);
-    std::vector<std::vector<std::vector<Position>>> init_wall_kick_data();
+    WallKickContainer init_wall_kick_data();
     std::vector<Block> get_all_blocks();
     void reset_game();
     Block get_random_block();
@@ -87,13 +87,6 @@ private:
     void draw_play_again_screen();
     void get_current_screen();
     void display_current_screen();
-
-protected:
-    static const int32_t ScreenWidth = 1280;
-    static const int32_t ScreenHeight = 720;
-    static const int32_t StartingXPos = 25;
-    static const int32_t StartingYPos = 25;
-    static const int32_t CellSize = 40;
 
 public:
     Tetris();

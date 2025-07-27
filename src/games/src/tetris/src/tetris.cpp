@@ -19,8 +19,8 @@ Tetris::~Tetris() {}
 
 void Tetris::setup_game(int rows, int columns) {
     // Initialize game data
-    this->background_color = {44, 44, 127, 255};
-    this->grid = Grid(rows, columns, CellSize);
+    this->background_color = TetrisSettings::BackgroundColor;
+    this->grid = Grid(rows, columns, TetrisSettings::CellSize);
     this->blocks = get_all_blocks();
     this->current_block = get_random_block();
     this->next_block = get_random_block();
@@ -33,7 +33,7 @@ void Tetris::setup_game(int rows, int columns) {
     this->high_score = 0;
 
     this->current_screen = TITLE;
-    this->title_image = LoadTexture("../src/games/src/tetris/include/title_image.png");
+    this->title_image = LoadTexture(TetrisSettings::TitleImagePath);
     this->user_exit = false;
 }
 
@@ -41,8 +41,8 @@ void Tetris::setup_game(int rows, int columns) {
 /*
  * Game functionality function definitions
  */
-std::vector<std::vector<std::vector<Position>>> Tetris::init_wall_kick_data() {
-    std::vector<std::vector<std::vector<Position>>> wall_kick_data = {
+WallKickContainer Tetris::init_wall_kick_data() {
+    WallKickContainer wall_kick_data = {
 
     // J, L, T, S, Z Blocks
     {
@@ -192,14 +192,18 @@ void Tetris::move_down() {
 
 
 Position Tetris::get_wall_kick_position(int block_id, int rotate_state, int index) {
-    if (block_id == 4)
-        return Position(0, 0);
-
-    else if (block_id == 3)
-        return wall_kick_data[1][rotate_state][index];
-
-    else
-        return wall_kick_data[0][rotate_state][index];
+    Position newPosition = Position(0, 0);
+    
+    if (block_id == 4) {
+        // Do nothing, return Position(0,0)
+    }
+    else if (block_id == 3) {
+        newPosition = wall_kick_data[1][rotate_state][index];
+    }
+    else {
+        newPosition = wall_kick_data[0][rotate_state][index];
+    }
+    return newPosition;
 }
 
 
@@ -371,7 +375,7 @@ void Tetris::draw_next_block() {
 
 
 void Tetris::draw_game() {
-    grid.draw_grid(StartingXPos, StartingYPos);
+    grid.draw_grid(TetrisSettings::StartingXPos, TetrisSettings::StartingYPos);
     current_block.draw_block(0, 0);
     draw_score();
     draw_next_block();
@@ -379,20 +383,20 @@ void Tetris::draw_game() {
 
 
 void Tetris::draw_title_screen() {
-    Vector2 title_position = {(float)(ScreenWidth - title_image.width * 7)/2, 200.0f};
+    Vector2 title_position = {(float)(TetrisSettings::ScreenWidth - title_image.width * 7)/2, 200.0f};
 
     DrawTextureEx(title_image, title_position, 0.0f, 7.0f, WHITE);
 }
 
 
 void Tetris::draw_exit_screen() {
-    DrawRectangle(0, 100, ScreenWidth, ScreenHeight / 2, BLACK);
+    DrawRectangle(0, 100, TetrisSettings::ScreenWidth, TetrisSettings::ScreenHeight / 2, BLACK);
     DrawText("Are you sure you want to exit? [Y/N]", 60, 300, 30, WHITE);
 }
 
 
 void Tetris::draw_play_again_screen() {
-    DrawRectangle(0, 100, ScreenWidth, ScreenHeight / 2, BLACK);
+    DrawRectangle(0, 100, TetrisSettings::ScreenWidth, TetrisSettings::ScreenHeight / 2, BLACK);
     DrawText("Would you like to play again? [Y/N]", 60, 300, 30, WHITE);
 }
 
@@ -453,7 +457,7 @@ void Tetris::run_game() {
     const int columns = 10;
 
     // Setup window
-    InitWindow(ScreenWidth, ScreenHeight, "SIRTET");
+    InitWindow(TetrisSettings::ScreenWidth, TetrisSettings::ScreenHeight, "SIRTET");
     SetTargetFPS(60);
 
     // Unbind ESC key

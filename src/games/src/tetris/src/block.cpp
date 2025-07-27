@@ -10,10 +10,6 @@
 
 #include "block.h"
 
-
-/*
- * Parent Block function definitions
- */
 Block::Block() {
     this->id = -1;
     this->rotate_state = 0;
@@ -21,21 +17,16 @@ Block::Block() {
     this->column_offset = 0;
 }
 
-
 Block::~Block() {}
-
 
 int Block::get_id() const { return this->id; }
 
-
 int Block::get_rotate_state() const { return this->rotate_state; }
-
 
 void Block::move_block(int rows, int columns) {
     this->row_offset += rows;
     this->column_offset += columns;
 }
-
 
 std::vector<Position> Block::get_cell_positions() {
     std::vector<Position> new_cells;
@@ -48,11 +39,9 @@ std::vector<Position> Block::get_cell_positions() {
     return new_cells;
 }
 
-
 void Block::update_rotate_state(int rotates) {
     this->rotate_state = (this->rotate_state + rotates + 4) % 4;
 }
-
 
 void Block::draw_block(int x_offset, int y_offset) {
     std::vector<Position> cell_positions = get_cell_positions();
@@ -60,8 +49,13 @@ void Block::draw_block(int x_offset, int y_offset) {
 
     // Draw shape based on grid location
     for (Position square: cell_positions) {
-        DrawRectangle(square.get_column() * CellSize + StartingXPos + x_offset, square.get_row() * CellSize + StartingYPos + y_offset,
-                      CellSize - 1, CellSize - 1, colors[this->id]);
+        const int32_t PositionX = (square.get_column() * TetrisSettings::CellSize) + TetrisSettings::StartingXPos + x_offset;
+        const int32_t PositionY = (square.get_row() * TetrisSettings::CellSize) + TetrisSettings::StartingYPos + y_offset;
+        const int32_t Width = TetrisSettings::CellSize - 1;
+        const int32_t Height = TetrisSettings::CellSize - 1;
+
+        DrawRectangle(PositionX, PositionY,
+                      Width, Height, colors[this->id]);
     }
 }
 
@@ -81,7 +75,6 @@ L_Block::L_Block() {
     move_block(0, 3);
 }
 
-
 /*
  * J Block function definitions
  */
@@ -97,7 +90,6 @@ J_Block::J_Block() {
     // Move block to top center
     move_block(0, 3);
 }
-
 
 /*
  * I Block function definitions
@@ -115,7 +107,6 @@ I_Block::I_Block() {
     move_block(-1, 3);
 }
 
-
 /*
  * O Block function definitions
  */
@@ -128,7 +119,6 @@ O_Block::O_Block() {
     // Move block to top center
     move_block(0, 4);
 }
-
 
 /*
  * S Block function definitions
@@ -146,7 +136,6 @@ S_Block::S_Block() {
     move_block(0, 3);
 }
 
-
 Z_Block::Z_Block() {
     this->id = 6;
 
@@ -159,7 +148,6 @@ Z_Block::Z_Block() {
     // Move block to top center
     move_block(0, 3);
 }
-
 
 /*
  * T Block function definitions

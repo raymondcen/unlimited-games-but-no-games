@@ -20,6 +20,7 @@
 #include <stdint.h>
 
 // Custom Libraries
+#include "tetrisSettings.h"
 #include "position.h"
 #include "colors.h"
 
@@ -31,10 +32,6 @@ protected:
     int rotate_state;
     int row_offset;
     int column_offset;
-
-    static const int32_t StartingXPos = 25;
-    static const int32_t StartingYPos = 25;
-    static const int32_t CellSize = 40;
 
 public:
     Block();

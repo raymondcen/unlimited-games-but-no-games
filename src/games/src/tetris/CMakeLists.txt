@@ -1,10 +1,11 @@
 #-------------------------------------#
-# CMake file for Tetris library        #
+# CMake file for Tetris library       #
 #-------------------------------------#
 
 add_library(Tetris STATIC
     include/position.h
     include/block.h
+    include/tetrisSettings.h
     include/tetris.h
     src/position.cpp
     src/block.cpp

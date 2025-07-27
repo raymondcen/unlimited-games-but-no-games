@@ -7,9 +7,7 @@
  *            Ivan Wong
  ****************************************************************************/
 
-
 #include "position.h"
-
 
 Position::Position(int row, int column) {
     this->row = row;
@@ -18,8 +16,6 @@ Position::Position(int row, int column) {
 
 Position::~Position() {}
 
-
 int Position::get_row() const { return this->row; }
-
 
 int Position::get_column() const { return this->column; }

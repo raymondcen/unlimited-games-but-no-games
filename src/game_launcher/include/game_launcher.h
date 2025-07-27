@@ -7,10 +7,6 @@
  *            Ivan Wong
  ****************************************************************************/
 
-// Has an linked list of games
-// include games header file and game.h
-// Qt object
-
 #pragma once
 
 // Qt Libraries
@@ -26,25 +22,39 @@
 #include "game_launcher.h"
 #include "game.h"
 
+// typedef struct 
 
 class GameLauncher : public QObject {
     Q_OBJECT
     QML_ELEMENT
 private:
+    // Variables
+
+
+    // Methods
 
 protected:
 
 public:
+    //--------------------------------------------
+    // Default Contructor for Game Launcher
+    GameLauncher();
 
-GameLauncher();
-~GameLauncher();
+    //--------------------------------------------
+    // Destructor for Game Launcher
+    ~GameLauncher();
 
-void initialize_launcher();
-void add_game(Game* new_game);
+    //--------------------------------------------
+    // Initialization function for Game Launcher
+    void initializeLauncher();
 
-int32_t run_launcher(int argc, char **argv);
+    //--------------------------------------------
+    // Function to add a game to the Game Launcher list
+    void addGame(Game* new_game);
 
-QString getMainWindowPath() const;
+    //--------------------------------------------
+    // Getter for the main window UI file path
+    QString getMainWindowPath() const;
 
 public slots:
 

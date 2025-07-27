@@ -19,13 +19,13 @@
 #include "pac_man.h"
 #include "flappy_bird.h"
 
-#define RELEASE
+// #define RELEASE
 
 int main(int argc, char** argv) {
     srand(time(NULL));
 
-    const int32_t ReturnValue = 0;
-    
+    int32_t ReturnValue = 0;
+
 #ifndef RELEASE
     GameLauncher gameLauncher;
     std::unique_ptr<Game> snake_unique = std::make_unique<Snake>();
@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     games_unique_ptr.push_back(std::move(flappy_bird_unique));
 
 // RUN GAME TO TEST HERE
-    games_unique_ptr[2]->run_game();
+    games_unique_ptr[1]->run_game();
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
     engine.load(QUrl::fromLocalFile(MainWindowPath));
 
-    const int32_t ReturnValue = app.exec();
+    ReturnValue = app.exec();
 #endif
     return ReturnValue;
 }

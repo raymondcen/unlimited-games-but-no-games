@@ -7,15 +7,14 @@
  *            Ivan Wong
  ****************************************************************************/
 
-
 #pragma once
 
+#include <string>
 
 class Game {
 private:
-    // stuff for displaying game?
-    // title
-    // description
+    std::string title;
+    std::string description;
 
 public:
     Game();
