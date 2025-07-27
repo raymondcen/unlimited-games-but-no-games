@@ -32,9 +32,15 @@ private:
     int mid_map_x;
     int mid_map_y;
     
+    bool mapDrawn = false;
+
 public:
     Map();
     ~Map();
     void draw_map(int, int);
     void initiate_map();
+
+    void mapDrawn_setter(bool);
+    bool mapDrawn_getter();
+
 };

@@ -39,7 +39,8 @@ int main(int argc, char** argv) {
     games_unique_ptr.push_back(std::move(pac_man_unique));
     games_unique_ptr.push_back(std::move(flappy_bird_unique));
 
-    // games_unique_ptr[0]->run_game();
+// RUN GAME TO TEST HERE
+    games_unique_ptr[2]->run_game();
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
