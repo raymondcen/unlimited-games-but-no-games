@@ -57,66 +57,70 @@ void PacMan::get_input(){
 
 void PacMan::update_pac(){
     // TODO: FIND MORE EFFICIENT WAY TO DETECT COLLISION
-    get_input();
-    
-    // Check if the pending direction can be applied.
-    Vector2 potentialPos = Vector2Add(pac_pos, pending_direction);
-    Rectangle potentialHitbox = { potentialPos.x, potentialPos.y, pm_width, pm_height };
-    bool turnPossible = true;
+     get_input();
 
-    // Iterate over the map grid for potential turn collision.
-    for (int i = 0; i < map.numrow_get(); i++){
-        for (int j = 0; j < map.numcol_get(); j++){
-            if(map.get_cell(i, j) == 1){
+    // Candidate positions & corresponding hitboxes.
+    Vector2 pendingPos = Vector2Add(pac_pos, pending_direction);
+    Rectangle pendingHitbox = { pendingPos.x, pendingPos.y, pm_width, pm_height };
+
+    Vector2 forwardPos = Vector2Add(pac_pos, pac_direction);
+    Rectangle forwardHitbox = { forwardPos.x, forwardPos.y, pm_width, pm_height };
+
+    // Determine the union area to check for collisions.
+    float minX = fmin(pendingHitbox.x, forwardHitbox.x);
+    float minY = fmin(pendingHitbox.y, forwardHitbox.y);
+    float maxX = fmax(pendingHitbox.x + pendingHitbox.width, forwardHitbox.x + forwardHitbox.width);
+    float maxY = fmax(pendingHitbox.y + pendingHitbox.height, forwardHitbox.y + forwardHitbox.height);
+    
+    // Compute indices of the grid cells to check.
+    int startCol = (int) ((minX - map.mid_mapx_get())/map.cellsize_get());
+    int endCol   = (int) ((maxX - map.mid_mapx_get())/map.cellsize_get()) + 1;
+    int startRow = (int) ((minY - 5)/map.cellsize_get());
+    int endRow   = (int) ((maxY - 5)/map.cellsize_get()) + 1;
+    
+    // Clamp indices to grid boundaries.
+    startCol = std::max(0, startCol);
+    endCol = std::min(map.numcol_get(), endCol);
+    startRow = std::max(0, startRow);
+    endRow = std::min(map.numrow_get(), endRow);
+    
+    bool pendingCollision = false;
+    bool forwardCollision = false;
+    
+    // Check only the nearby cells.
+    for (int i = startRow; i < endRow; i++){
+        for (int j = startCol; j < endCol; j++){
+            if(map.get_cell(i,j) == 1){
                 Rectangle wallRect = {
                     j * map.cellsize_get() + map.mid_mapx_get(), 
                     i * map.cellsize_get() + 5,
                     map.cellsize_get(),
                     map.cellsize_get()
                 };
-
-                if(CheckCollisionRecs(potentialHitbox, wallRect)){
-                    turnPossible = false;
-                    break;
+                if(CheckCollisionRecs(pendingHitbox, wallRect)){
+                    pendingCollision = true;
                 }
+                if(CheckCollisionRecs(forwardHitbox, wallRect)){
+                    forwardCollision = true;
+                }
+                // Early exit if both collisions have been determined.
+                if(pendingCollision && forwardCollision) break;
             }
         }
-        if(!turnPossible) break;
+        if(pendingCollision && forwardCollision) break;
     }
     
-    // If the turn is available, update the current direction.
-    if(turnPossible){
+    // If no collision for the pending move, update direction.
+    if(!pendingCollision){
         pac_direction = pending_direction;
+        // Update the forward hitbox after applying new direction.
+        forwardPos = Vector2Add(pac_pos, pac_direction);
+        forwardHitbox = { forwardPos.x, forwardPos.y, pm_width, pm_height };
     }
     
-    // Calculate the new position based on the current pac_direction.
-    Vector2 newPos = Vector2Add(pac_pos, pac_direction);
-    Rectangle newHitbox = { newPos.x, newPos.y, pm_width, pm_height };
-    bool collision = false;
-
-    // Check collision for new position.
-    for (int i = 0; i < map.numrow_get(); i++){
-        for (int j = 0; j < map.numcol_get(); j++){
-            if(map.get_cell(i, j) == 1){
-                Rectangle wallRect = {
-                    j * map.cellsize_get() + map.mid_mapx_get(), 
-                    i * map.cellsize_get() + 5,
-                    map.cellsize_get(),
-                    map.cellsize_get()
-                };
-
-                if(CheckCollisionRecs(newHitbox, wallRect)){
-                    collision = true;
-                    break;
-                }
-            }
-        }
-        if(collision) break;
-    }
-
-    // Update pac position only if there's no collision.
-    if(!collision){
-        pac_pos = newPos;
+    // Update pac position only if there's no collision in the forward move.
+    if(!forwardCollision){
+        pac_pos = forwardPos;
     }
 }
 
