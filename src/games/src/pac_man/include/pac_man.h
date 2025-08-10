@@ -37,6 +37,8 @@ private:
     //pac man variables
     Vector2 pac_direction;
     Vector2 pac_pos;
+    Vector2 pending_direction;
+
 
     //sprites
     Texture2D pac_man_sprite;
@@ -46,6 +48,10 @@ private:
     //spawnpoint
     float pacman_spawn_x = 599;
     float pacman_spawn_y = 497;
+
+    //pacman sprite dimensions
+    float pm_width;
+    float pm_height;
 
 
 

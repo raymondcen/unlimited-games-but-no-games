@@ -40,7 +40,12 @@ public:
     void draw_map(int, int);
     void initiate_map();
 
-    void mapDrawn_setter(bool);
-    bool mapDrawn_getter();
+    int mid_mapx_get(){return mid_map_x;};
+    int mid_mapy_get(){return mid_map_y;};
+    int cellsize_get(){return cell_size;};
+    int numcol_get(){return num_columns;};
+    int numrow_get(){return num_rows;};
+    int get_cell(int row, int col) const { return map[row][col]; }
+
 
 };

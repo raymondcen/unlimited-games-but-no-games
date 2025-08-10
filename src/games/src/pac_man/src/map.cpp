@@ -13,8 +13,8 @@ Map::Map(){
     num_rows = 22;
     cell_size = 41;
 
-    mid_map_x= (sw - (19*cell_size))/2;
-    mid_map_y=(sh - (22*cell_size))/2;
+    mid_map_x= (sw - (19*cell_size))/2; //230
+    mid_map_y=(sh - (22*cell_size))/2; //39
 
     bool mapDrawn = false;
 }
@@ -35,8 +35,6 @@ void Map::draw_map(int start_x, int start_y) {
             if(map[i][j] == 0){
                 DrawRectangle((j * cell_size) + mid_map_x, (i * cell_size)+5, 
                                 cell_size, cell_size, BLACK);
-
-                DrawPixel((j * cell_size) + mid_map_x, (i * cell_size)+5, WHITE);
             }
         }
     }
@@ -77,9 +75,3 @@ void Map::initiate_map(){
     }
 }
 
-void Map::mapDrawn_setter(bool state){
-    mapDrawn = state;
-}
-bool Map::mapDrawn_getter(){
-    return mapDrawn;
-}
